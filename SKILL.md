@@ -31,6 +31,21 @@ Read `references/review-checklist.md`. It is the scope of the review.
 
 Do not pattern-match. A cap that made sense on revisions does not belong on analytics requests.
 
+## What a term means, not what it sounds like
+
+A sub-check is answered by what the contract defines, not by what a phrase suggests. The dangerous phrases are the ones that read as plain English and therefore never get looked up: "live post", "goes live", "live post date", "final content is live". They sound like they mean the obvious thing — publication on the creator's own feed. Undefined, they mean whatever the brand argues they mean, and the obvious reading is the creator's to lose.
+
+This is how item 9 gets marked satisfied on a contract that does not satisfy it. A grant running "60 days after each live post" looks like it triggers on the creator's publication, so the trigger box gets ticked — while nothing in the document rules out the brand treating approval, or its own repost, as the trigger. A defined term that is obviously adverse gets caught every time. An undefined term that reads favorably is the one that survives the review.
+
+During the first read, list every clock in the agreement and, for each, the event that starts it and the event that ends it: usage window, exclusivity window, payment clock, feed-retention obligation, the Term itself. Then, for each event, name the clause that defines it. If you cannot name one, the phrase is undefined and every sub-check resting on it is **partial** — not present — however natural the reading.
+
+Two patterns are worth hunting directly:
+
+- **One undefined idea wearing several phrasings across body and exhibits.** "live post" in §3(a), "goes live" in one exhibit, "live post date" in another, "final content is live" in the term clause. The fix is a definition written once plus a sweep for consistency, not a patch to whichever clause you noticed first.
+- **A duration with no trigger at all.** "Content must remain on the Influencer's primary feed for at least (1) year" never says one year from what.
+
+Defining a term the contract already uses is an **edit**, not a flag. It does not create an obligation; it fixes the meaning both sides already assume, and it reads to the brand's reviewer as a clarification rather than an ask. That is a different thing from a clause the contract lacks entirely, which stays a flag.
+
 ## The tracking table
 
 Build this before editing and keep it current. It is the artifact that survives interruption; your memory is not.
@@ -40,11 +55,13 @@ Build this before editing and keep it current. It is the artifact that survives 
 
 One row per **sub-check**, not per item. Status is present / partial / adverse / missing. Action is edit / flag / none. Done stays blank until you have visually confirmed the edit in the document.
 
+Where a status turns on what a word means, the status cell carries the clause that defines the word — `present (§1(c))`, not `present`. If you cannot fill in the reference, the status is partial. This single habit is what catches undefined triggers; without it, "reads as the creator's publication" and "is the creator's publication" are recorded identically.
+
 **Re-output the table after every batch of edits**, not only at the start. If the session is interrupted, the table is what you resume from.
 
 ## Workflow
 
-1. Read the contract end to end, including schedules and exhibits.
+1. Read the contract end to end, including schedules and exhibits. On that pass, list the clocks and the event at each end, and note which of those events the document actually defines.
 2. Read the correspondence. Note what's already agreed and any figure the creator quoted.
 3. Build the tracking table, one row per sub-check.
 4. Report to the creator before editing: the table, anything missing that needs their decision, anything dangerous outside the list, and any drafting errors.
