@@ -57,11 +57,28 @@ One row per **sub-check**, not per item. Status is present / partial / adverse /
 
 ### Pass 1 — completeness (hard gate)
 
-**This is not a re-read of the document.** It is opening `references/review-checklist.md` and walking it item by item, sub-check by sub-check, confirming each one's state in the actual document. Do not rely on the table's Done column or on memory of having made the edit — confirm against the document itself.
+**This is not a re-read of the document.** It is confirming, sub-check by sub-check, what the document actually says now.
 
-The fastest reliable method is to **read the document back through the file API rather than scrolling the browser.** Pending suggestions export as insertion and deletion concatenated, which makes untouched language obvious: adverse original text sitting with no edit around it means nothing was done there. Search the export for the specific phrases the checklist names.
+Do not audit from a plain-text export. Google Docs exports pending suggestions with insertions and deletions run together, so struck language reads identically to untouched language. Auditing that way produces false findings in both directions — it will tell you something is still there when it was struck, and it will hide things that genuinely were missed.
 
-Output the result as a table the creator can read. Every sub-check gets a line.
+Use `scripts/audit_suggestions.py`, which reads the document exported as `.docx` and reconstructs the accept-all and reject-all versions from the tracked changes:
+
+```bash
+# what's in the document and who authored it
+python scripts/audit_suggestions.py contract.docx
+
+# the gate: are the adverse phrases still in the accepted version?
+python scripts/audit_suggestions.py contract.docx --check phrases.txt
+
+# every suggestion as an edit pair
+python scripts/audit_suggestions.py contract.docx --list
+```
+
+Build `phrases.txt` while making the tracking table — one line per sub-check, `label :: exact adverse wording`, copied verbatim from the contract including curly quotes. The script exits non-zero if anything is unresolved, so it can hard-gate the workflow.
+
+Show the output to the creator. Every sub-check gets a line.
+
+**Audit the artifact the brand will open.** If edits were authored offline, run these checks against the document after it has been imported, not against the local file. Package structure differs by toolchain — a Word-produced .docx and a Google export are not comparable part by part — and the imported document is the only one anyone reviews.
 
 ### Pass 2 — diff quality
 
@@ -81,7 +98,9 @@ If any pass turns up a fix, re-run all three afterward. Fixes cause the same dam
 
 ## Browser automation discipline
 
-If applying edits through a browser, these prevent the failures that actually occur:
+Applying many edits through a browser is slow and failure-prone. Before doing it at scale, read `references/docx-round-trip.md` — Google Docs suggestions and Word tracked changes are the same thing on disk, so edits can be authored in XML and imported as native suggestions. That path makes each edit machine-verifiable instead of visually verified.
+
+When editing through the browser, these prevent the failures that actually occur:
 
 - **Never chain select-all-and-type across a tool-call boundary without confirming focus first.** A find-box sequence that lands in the document body selects the entire contract and replaces it. Screenshot to confirm focus before any select-all.
 - **Screenshot or zoom after every destructive keystroke** — delete, replace-all, or a typed string following a selection. Not sometimes; every time.
