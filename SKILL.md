@@ -9,6 +9,8 @@ Brand-drafted influencer agreements are written to protect the brand. Most one-s
 
 Two things follow. The redline must read as targeted edits to the brand's paper rather than a replacement of it. And the creator should never have to open the document to finish the work — every edit gets applied by hand, by you.
 
+**The characteristic failure of this task is not bad editing. It is quietly dropping items.** These reviews run long and get interrupted. Memory of "what I've done and what's left" degrades, and the model reports completion while several must-haves sit untouched. Everything below about tracking and auditing exists because of that specific failure. Treat it as the main risk, not a formality.
+
 ## Before touching the document
 
 **Read the whole contract first, including schedules and exhibits.** Terms defined in Schedule A get used in the main body; exhibits carry obligations the body only gestures at.
@@ -100,6 +102,8 @@ The same check reports **LAYOUT** and **TYPE** separately. LAYOUT counts tab sto
 Build `phrases.txt` while making the tracking table — one line per sub-check, `label :: exact adverse wording`, copied verbatim from the contract including curly quotes. The script exits non-zero if anything is unresolved, so it can hard-gate the workflow.
 
 Show the output to the creator. Every sub-check gets a line.
+
+**Audit the artifact the brand will open — and know which one that is.** A locally authored `.docx` and the same file after import into Docs are not equivalent: Google resolves font and size inheritance on import, so typography failures in the intermediate can disappear in the delivered document, and a file that passes after import can still be wrong if the `.docx` itself is what gets emailed. Ask which one the creator is sending, then check that one.
 
 **Audit the artifact the brand will open.** If edits were authored offline, run these checks against the document after it has been imported, not against the local file. Package structure differs by toolchain — a Word-produced .docx and a Google export are not comparable part by part — and the imported document is the only one anyone reviews.
 
