@@ -248,6 +248,16 @@ If any pass turns up a fix, re-run all three afterward. Fixes cause the same dam
 
 Applying many edits through a browser is slow and failure-prone. Before doing it at scale, read `references/docx-round-trip.md` — Google Docs suggestions and Word tracked changes are the same thing on disk, so edits can be authored in XML and imported as native suggestions. That path makes each edit machine-verifiable instead of visually verified.
 
+**`scripts/apply_tracked_changes.py` already implements it.** Use it rather than
+writing another one: it carries the guards that are expensive to rediscover —
+each anchor must match exactly once, an anchor crossing an element boundary is
+refused instead of silently eating the markup, the XML is parsed before the file
+is written, and whole clauses are cloned from a sibling paragraph so tabs and
+underlined captions survive. Express the redline as a list of edits, keep the
+pristine brand draft as the input, and re-run from it after every change; the
+edit list stays the source of truth and the reject-all view stays byte-identical
+to what the brand sent.
+
 When editing through the browser, these prevent the failures that actually occur:
 
 - **Never chain select-all-and-type across a tool-call boundary without confirming focus first.** A find-box sequence that lands in the document body selects the entire contract and replaces it. Screenshot to confirm focus before any select-all.

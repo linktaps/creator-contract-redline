@@ -10,6 +10,7 @@ references/review-checklist.md    the scope of the review — 20+ compound items
 references/editing-standards.md   what a clean, surgical suggestion looks like
 references/docx-round-trip.md     authoring tracked changes in XML and importing them
 scripts/audit_suggestions.py      the Pass 1 gate: accept-all / reject-all reconstruction
+scripts/apply_tracked_changes.py  author suggestions into a .docx, with the guards
 ```
 
 ## The audit script
