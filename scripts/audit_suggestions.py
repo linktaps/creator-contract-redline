@@ -102,8 +102,39 @@ def render(paragraph: str, mode: str) -> str:
     return unescape("".join(out))
 
 
+PARA_MARK = re.compile(r"<w:pPr>.*?<w:rPr>.*?<w:(?P<kind>ins|del)\b", re.S)
+
+
+def mark_change(paragraph: str):
+    """'ins', 'del' or None — whether the paragraph MARK itself is tracked."""
+    ppr = re.match(r"<w:p(?:\s[^>]*)?>\s*(<w:pPr>.*?</w:pPr>)", paragraph, re.S)
+    if not ppr:
+        return None
+    m = PARA_MARK.match(ppr.group(1))
+    return m.group("kind") if m else None
+
+
 def reconstruct(xml: str, mode: str) -> str:
-    return "\n".join(render(p, mode) for p in PARA.findall(xml))
+    """
+    A paragraph whose MARK is tracked disappears entirely in one of the two
+    versions, rather than collapsing to a blank line.
+
+    Rejecting an inserted paragraph removes it, mark and all; accepting a
+    deleted one does the same. Emitting a line for it regardless makes a clean
+    redline look like it left stray blank lines behind — which sends the
+    reviewer hunting a defect that is not in the document. This is the mirror
+    of the Structure check, which catches the opposite error: runs struck while
+    the mark survives.
+    """
+    out = []
+    for p in PARA.findall(xml):
+        mc = mark_change(p)
+        if mc == "ins" and mode == "original":
+            continue
+        if mc == "del" and mode == "accepted":
+            continue
+        out.append(render(p, mode))
+    return "\n".join(out)
 
 
 def suggestions(xml: str):
