@@ -41,6 +41,18 @@ For each sub-check, record: **present** (acceptable as drafted) / **partial** (e
 - [ ] Cure period stated and reciprocal
 - [ ] Payment on termination covers everything **created and submitted**, whether or not published or approved
 - [ ] Brand's termination-for-cause trigger is limited to uncured material breach, not any failure
+- [ ] **Every termination route has a payment consequence.** A mutual for-cause sentence and a paid
+      for-convenience sentence can sit beside a third route with no payment attached at all —
+      "Company may terminate immediately at any time if instructed to do so by Client" is the
+      common form. Count the routes, then check each one separately; the unpaid route is the one
+      the brand will use
+- [ ] **No sum is payable by the creator on termination.** Watch for a "termination fee" that runs
+      the wrong way — "Influencer agrees to pay a termination fee equal to fifty percent (50%) of
+      the Fee" turns a disputed breach into a five-figure invoice against the creator
+- [ ] **No forfeiture clauses elsewhere in the agreement.** Automatic loss of the whole fee for a
+      procedural slip ("should Influencer contact Client directly, Influencer shall automatically
+      forfeit the Fee") is a penalty, it is rarely in the termination section where it would be
+      noticed, and it survives every edit made to the termination section
 
 ### 5. Brand morals clause
 - [ ] Reciprocal termination right exists for the creator
@@ -162,6 +174,41 @@ The five above are the terms that are usually capitalized and therefore usually 
 
 > Worked example. A contract grants organic usage "during the Term and for a period of 60 days after each live post thereafter" (§3(a)); ends the Term when "final content is live" (§11(a)); sets exclusivity three days before and after "live content" (§10); pays Net 60 "from the live posting date"; and requires a link-in-bio link to survive 30 days "after each live post date". Five clocks, one undefined event, five different phrasings of it. If the brand reads "live" as its own repost or as approval, every one of those windows starts on a date the creator does not control. The edit is one definition plus a conforming sweep — small, uncontroversial, and worth more than most of the rest of the redline.
 
+### Cross-cutting: read the representations block against the rest of the checklist
+
+Almost every item above has a counterpart buried in the representations and warranties — the long
+roman-numeralled paragraph that reviewers skim because it looks like boilerplate. It is not
+boilerplate. It re-legislates the same subjects, usually more broadly, and because the operative
+clause reads acceptably the item gets marked **present** while the rep quietly governs.
+
+The tell is that a rep states a fact rather than an obligation, so it binds on signature and has no
+time limit unless one is written in. "Influencer has not committed and will not commit any act
+which…" is breached by something that happened years before the deal existed.
+
+Work back through the items and find each one's rep:
+
+- [ ] **Exclusivity (#15).** The clause restricts "paid services" for three named competitors; rep
+      (xx) restricts "any sponsorship, endorsement, promotional, marketing or advertising
+      relationship" with any Competitor, and reaches backwards with "has not". The rep is the
+      operative restriction, and the clause everyone negotiated is the decoy
+- [ ] **Non-disparagement (#5).** Bounded "during the Term" in the conduct clause, unbounded in the
+      rep — and the rep often extends to the brand's **competitors**, which no creator would agree
+      to if asked directly
+- [ ] **Content and IP (#6, #7).** Reps that the content is original and non-infringing are fine;
+      reps that no content will contain anything "that can be construed as political" are a
+      standing restriction on the creator's whole feed if the drafting does not confine them to the
+      deliverables
+- [ ] **Anything the rep makes permanent.** A rep with no "during the Term" is forever. Adding
+      those three words is the smallest edit in this file and often the largest one by effect
+- [ ] **Reps that restrict the creator's other work.** Union membership ("Influencer is not and
+      shall not be a member of…"), other client relationships, platform exclusivity. These are
+      career terms wearing a warranty's clothes, and they belong in the report even when the
+      creator decides to accept them
+
+Conform the rep to the clause rather than negotiating the rep on its own terms. "Rep (xx) should
+match the exclusivity you already agreed" is a one-line ask; renegotiating the rep from scratch is
+a fight about a paragraph the brand considers standard.
+
 ---
 
 ## Nice-to-haves
@@ -183,6 +230,20 @@ The five above are the terms that are usually capitalized and therefore usually 
 ### 20. Net 30
 - [ ] Payment term is net 30 or better
 - [ ] **What starts the clock** — "any other documentation required by Company" lets the brand stop it indefinitely, and "net 60 from the live posting date" starts on an undefined event (see #16)
+- [ ] **Pay-when-paid removed.** "Company has no obligation to pay Influencer unless Company
+      receives payment from Client" makes the whole payment term conditional: the agency owes
+      nothing until its own client pays, and nothing in the agreement obliges the client to pay on
+      any schedule. Usually reinforced by a sentence deeming a late payment not late ("such payment
+      will not be considered late"), which removes the breach as well as the deadline
+- [ ] **The creator has a remedy against whoever actually holds the money.** Pay-when-paid is
+      frequently paired with an instruction to look to the client instead ("Influencer may hold
+      Client solely liable"), while the third-party-beneficiary clause runs one way — the client
+      can enforce against the creator but the creator is given no rights against the client. Read
+      the two clauses together: separately each looks survivable, together they point the creator's
+      only remedy at a party the contract gives them no standing to sue
+- [ ] **An outer limit exists.** If the brand will not drop pay-when-paid outright — agencies
+      rarely do — a backstop date ("in any event no later than 90 days after publication") keeps
+      the obligation from being unbounded, and is the fallback worth holding
 - [ ] Any narrowing edit did not leave the original open-ended language in place beside it
 - [ ] **The payment trigger is stated identically in the fee table and in the operative clause.**
       Template contracts state it twice — once in the defined-terms/fee row and once in the
@@ -221,6 +282,21 @@ Flag these to the creator and let them decide.
 - **Production and safety provisions that do not match the facts.** COVID-era assumption-of-risk language and cast-and-crew release requirements in a contract for self-shot content at home. Many such contracts contain their own instruction that these be removed when the work is self-produced — quote it back.
 - **Personal guarantees and inducement riders** making an individual liable for their company's monetary obligations.
 - **Remedies waivers** barring injunctive relief where damages would plainly be inadequate.
+- **Forum and process asymmetry.** A binding-arbitration clause qualified by "unless otherwise
+  indicated by Company" binds only the creator — the brand keeps the courts and the creator does
+  not. Check who may elect, where the seat is (a clause seated in the brand's home city is a real
+  cost on a five-figure deal), and whether prevailing-party fees turn a small dispute into an
+  uninsurable one.
+- **Third-party beneficiary clauses that run one way.** The brand's client gets a direct claim
+  against the creator; the creator gets no rights against the client. Harmless alone, serious
+  beside pay-when-paid (#20).
+- **Obligations on the creator's own account beyond the content.** Keeping comments enabled and
+  unmoderated for months, keeping the account public for the term, or granting advertiser access to
+  an ad account that holds unrelated business. These reach past the deliverable into how the
+  creator runs their account, and a creator who manages ads for other clients may not be able to
+  comply at all.
+- **Insurance and production requirements that do not match self-shot content** — a term-length
+  insurance covenant for a video filmed at home with a phone.
 - **Ambiguous deliverable counts.** "6 videos syndicated across three platforms" reads as 6 or 18.
 - **Schedules incorporated by reference but marked "reserved" or "subject to change"** — terms that do not exist yet but bind on arrival.
 - **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags. Raise as courtesy, not objection. Where a duplicate paragraph exists, fixing one copy and leaving the other is worse than fixing neither.

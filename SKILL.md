@@ -17,14 +17,36 @@ Two things follow. The redline must read as targeted edits to the brand's paper 
 
 **Ask for the correspondence.** Emails, rate cards, the original quote. The commercial deal is usually settled before the paperwork arrives, and the paperwork often drifts from it. Anything already agreed in writing is an error to correct, not a negotiation. Anything the creator priced is the number that goes in the contract — never invent a figure when they have already quoted one.
 
+**Produce a mismatch table and put it at the top of the report**, before any checklist finding:
+what the contract says, what the correspondence says, and where. These are the strongest items in
+the review and the only ones that are not arguable — the brand wrote the email. They also read
+completely differently from the rest of the redline: a correction costs the brand nothing but
+embarrassment, where every checklist item costs them something they drafted on purpose.
+
+Three failure modes to hunt specifically:
+
+- **"Updated" attachments that were not updated.** A brand that agrees a number by email and says
+  it will revise the contract frequently sends the same file back. Check the agreed figure against
+  the fee table every time, however confidently the email describes the attachment.
+- **Requests the creator made that were never answered.** These sit between the parties unresolved
+  and vanish on signature. A creator who asked in writing for a duration, a rate or a limit and
+  got a reply about something else has an open item, not a settled one — list them separately from
+  contradictions, because the fix is an answer rather than a correction.
+- **Concessions already won that the paperwork still contradicts.** Where the brand has agreed in
+  writing to drop a requirement, the clause imposing it is an error to correct. Say so plainly in
+  the cover note and quote their sentence; it is the cheapest edit in the document to land.
+
 **Check for suggestions already in the document.** The brand may have left pending edits, some favorable. Read them, never reject them, and factor them into what still needs asking.
 
-**Work in Suggesting mode — this is a prerequisite, not a preference.** Redlines commonly arrive,
+**Work in tracked changes — this is a prerequisite, not a preference.** Redlines commonly arrive,
 and get sent, as manual strikethrough and coloured text. On screen it looks equivalent. It is not:
 nothing can be accepted or rejected, the other side has to retype rather than click, and every
 check in Pass 1 — fidelity, structure, the completeness gate — needs tracked changes to exist. A
 redline authored as formatting cannot be audited at all, so whatever errors it carries travel into
 the signed agreement.
+
+Google Docs calls this Suggesting mode; Word calls it Track Changes. They are the same thing on
+disk, and everything below works on either.
 
 That is an observed outcome, not a worry. A creator-side redline authored this way changed an
 invoice trigger from "upon completion of all deliverables" to "upon publication of the Content" in
@@ -34,6 +56,22 @@ gate would have caught it in one line, and no gate could run.
 
 If the creator's own earlier redline arrives as formatting, say so and re-author it as suggestions
 before adding to it.
+
+**Establish which document is the live one before editing anything.** The workflow below assumes a
+Google Doc, and much of the time that assumption is wrong. Brands email `.docx` attachments, and a
+creator who has not opened a Doc has no Doc. Three cases, and they are not interchangeable:
+
+- **A Google Doc the creator can edit.** Suggesting mode, browser editing, export for the audit.
+- **A local `.docx` and no Doc.** The default for an emailed contract. Do not upload it to Docs to
+  get Suggesting mode — that adds a conversion the brand never asked for, and the brand's reviewer
+  will open Word. Author tracked changes in the `.docx` directly (`references/docx-round-trip.md`)
+  and audit that same file. It is the artifact that gets emailed back.
+- **A `.docx` that will be imported to Docs before sending.** Author offline if that is easier, but
+  run Pass 1 against the *imported* document, because import resolves font and size inheritance and
+  a typography failure can appear or vanish across it.
+
+Ask which one applies. The answer decides the editing mechanics and which file Pass 1 audits, and
+guessing wrong means auditing a file nobody will open.
 
 ## Scope: the checklist governs
 
@@ -74,6 +112,12 @@ One row per **sub-check**, not per item. Status is present / partial / adverse /
 Where a status turns on what a word means, the status cell carries the clause that defines the word — `present (§1(c))`, not `present`. If you cannot fill in the reference, the status is partial. This single habit is what catches undefined triggers; without it, "reads as the creator's publication" and "is the creator's publication" are recorded identically.
 
 **Re-output the table after every batch of edits**, not only at the start. If the session is interrupted, the table is what you resume from.
+
+**Write the table with a file-writing tool, not a shell heredoc.** Status cells quote the contract,
+so they carry curly quotes, apostrophes, parentheses, backticks and `|`. A `cat <<'EOF'` block of a
+hundred such rows fails on the shell's parsing long before it fails on yours, and the failure
+arrives as an unhelpful line number rather than as the offending row. Pipes inside a Markdown table
+cell need escaping in any case.
 
 ## Workflow
 
@@ -151,9 +195,22 @@ Do not use the suggestion count as a verification metric. Importing a .docx merg
 
 Show the output to the creator. Every sub-check gets a line.
 
-**Audit the artifact the brand will open — and know which one that is.** A locally authored `.docx` and the same file after import into Docs are not equivalent: Google resolves font and size inheritance on import, so typography failures in the intermediate can disappear in the delivered document, and a file that passes after import can still be wrong if the `.docx` itself is what gets emailed. Ask which one the creator is sending, then check that one.
+**Audit the artifact the brand will open — and know which one that is.** A locally authored `.docx`
+and the same file after import into Docs are not equivalent: Google resolves font and size
+inheritance on import, so a typography failure in the local file can vanish on import, and a file
+that passes after import can still be wrong if the `.docx` itself is what gets emailed. Package
+structure also differs by toolchain, so a Word-produced `.docx` and a Google export are not
+comparable part by part.
 
-**Audit the artifact the brand will open.** If edits were authored offline, run these checks against the document after it has been imported, not against the local file. Package structure differs by toolchain — a Word-produced .docx and a Google export are not comparable part by part — and the imported document is the only one anyone reviews.
+So there is no general rule about which file to audit — there is a question to ask. **Which file is
+the creator sending?**
+
+- Sending the `.docx` they were emailed, with tracked changes added → audit that `.docx`.
+- Sending a link to a Doc, or a fresh export of one → import first, then audit the imported
+  document, because that is the one anyone reviews.
+
+Auditing the local file when a Doc gets sent, or the Doc when the `.docx` gets sent, produces a
+clean report about a document nobody opens.
 
 ### Pass 2 — diff quality
 

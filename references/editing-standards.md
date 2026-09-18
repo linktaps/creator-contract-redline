@@ -159,6 +159,20 @@ the inducement rider, and a review read that name four times without questioning
 rule being applied was looking for `_____`. A name that appears consistently throughout is not
 thereby verified; it is consistently wrong.
 
+**The worst placeholder is a real name — someone else's.** A contract assembled from the last deal
+carries the previous creator's name and that deal's effective date in the preamble, and it passes
+every blank-hunting check because it is a perfectly ordinary name in a perfectly ordinary sentence.
+Read the preamble against the correspondence specifically: the parties, the effective date and the
+client. Two things follow when you find one. The creator may be signing an agreement that names
+somebody else as the counterparty, which is worth fixing for its own sake; and the brand has
+disclosed another creator's name and deal date, which is worth mentioning in the cover note
+without making a point of it.
+
+**A wrong product line is the same failure.** "Client grants Influencer a licence to use any Arm &
+Hammer Baking Soda materials" in a contract for a cat-litter campaign is template residue, and it
+means the trademark licence does not cover the product the creator is actually being asked to
+feature. Check that the brand, product and campaign named in the grant are the ones in the brief.
+
 ## 17. Verify each fix by name
 
 When an audit pass turns up a defect and you fix it, confirm that specific fix landed before reporting it fixed. Re-running the passes generally is not the same as checking the one thing you just changed.
@@ -177,6 +191,11 @@ When an edit narrows or conditions a reference to an exhibit, schedule or append
 - **Find-and-replace does not interpret `\n` or `\t`** in the replacement field — they land as literal characters. Paragraph breaks must be placed by cursor.
 - **Find-and-replace cannot match across paragraph breaks.** Multi-paragraph deletions require selecting the range and deleting it: click at the start, shift-click or shift-arrow to the end, delete.
 - **Watch for double spaces and inconsistent spacing** in the source. Template-assembled contracts are full of them and they break exact matches.
+- **Do not build contract text in a shell heredoc.** Quoted contract language carries curly quotes,
+  apostrophes, backticks, parentheses and `|`; a `cat <<'EOF'` block of it fails on the shell's
+  parsing and reports a line number that is not the offending line. This applies to the tracking
+  table, `phrases.txt` and `additions.txt` alike — write them with a file-writing tool. Inside a
+  Markdown table a literal `|` needs escaping regardless.
 
 ## Audit checklist
 
