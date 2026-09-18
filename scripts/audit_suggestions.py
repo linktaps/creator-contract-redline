@@ -328,20 +328,25 @@ def phrase_context(xml: str, phrase: str):
 def parse_phrases(path: Path):
     """One entry per line: "label :: exact adverse wording".
 
-    A line containing "::" is always an entry, even though checklist labels
-    start with "#" (e.g. "#14 unpaid extension :: ..."). Only a "#" line with
-    no "::" is a comment.
+    Checklist labels start with "#" ("#14 unpaid extension :: ..."), so "#"
+    alone cannot mark a comment. The rule is the "# " that no checklist label
+    has: a hash FOLLOWED BY WHITESPACE opens a comment, a hash followed by
+    anything else opens a label.
+
+    Without that distinction a header comment written in the natural form --
+    "# label :: exact wording from the brand's draft" -- parses as a real
+    entry, is absent from both versions, and reports as "not found in either"
+    forever. It costs one phantom on every run, and a gate that always fails by
+    one is a gate people stop reading.
     """
     items = []
     for line in path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
-        if not line:
+        if not line or line == "#" or line[:1] == "#" and line[1:2].isspace():
             continue
         label, sep, phrase = line.partition("::")
         if sep:
             items.append((label.strip(), phrase.strip()))
-        elif line.startswith("#"):
-            continue
         else:
             items.append((line[:48], line))
     return items
