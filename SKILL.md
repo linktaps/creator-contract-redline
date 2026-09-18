@@ -93,6 +93,10 @@ This has happened in practice: a confidentiality clause whose opening words were
 
 A **STRUCTURE** check reports paragraphs whose text is entirely struck while the paragraph mark survives — accepting those leaves an empty line or an empty bullet behind.
 
+A **FORMATTING** check runs alongside, with no baseline needed. It finds the size and typeface the body text uses and flags any inserted run that doesn't declare them — those inherit the document default and render visibly larger and in the wrong face. This catches the defect that no text comparison can see: the words are correct and the document still looks wrong.
+
+The same check reports **LAYOUT** and **TYPE** separately. LAYOUT counts tab stops and page breaks in the reject-all view — comparing raw counts instead would flag tabs inside newly inserted clauses as damage and tabs inside deleted paragraphs as losses. TYPE compares character formatting per character on text present in both documents, so bold, italics, size and typeface cannot drift unnoticed. Tab stops and page breaks are easy to destroy while editing and invisible in any text comparison — losing the tab after a clause caption runs the label into the body ("Use:During the Term…"). A layout failure is cosmetic rather than dangerous, but it is the kind of thing the other side's reviewer notices.
+
 Build `phrases.txt` while making the tracking table — one line per sub-check, `label :: exact adverse wording`, copied verbatim from the contract including curly quotes. The script exits non-zero if anything is unresolved, so it can hard-gate the workflow.
 
 Show the output to the creator. Every sub-check gets a line.
