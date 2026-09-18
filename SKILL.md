@@ -146,7 +146,16 @@ Read every suggestion against the editing standards. Look for anchors struck and
 
 ### Pass 3 — coherence
 
-**Read the document with every suggestion applied**, not the marked-up view.
+**Reconstruct the accept-all text and read that.** Not the marked-up document with the changes
+applied mentally — the actual text, dumped from the file. Reading it in your head reproduces what
+you meant to write, and the point of this pass is to find the places where the file says something
+else.
+
+Nothing earlier in Pass 1 substitutes for this. A tool that mis-places an insertion produces a
+perfect reject-all, a clean structure check, intact layout and type, and a `--check` run in which
+every adverse phrase is correctly resolved — while the version the brand would sign reads
+`re-shouncured material failure on the part ofoting costs`. Every automated gate passed on that
+document.
 
 With the text in front of you, confirm defined terms exist and resolve, cross-references still
 work, no clause contradicts another, and **every edited sentence is still grammatical.** Party

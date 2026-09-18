@@ -112,6 +112,15 @@ with its phrases in scrambled order. `--check` could not see it either, because 
 wording genuinely had been struck. It was caught only by dumping the reconstructed accept-all
 text and reading it.
 
+## Toggle properties are written explicitly when off
+
+`<w:strike w:val="0"/>`, `<w:b w:val="0"/>` and their siblings mean the property is **disabled**,
+and editors emit them constantly. Testing for the presence of the element rather than reading its
+value inverts the result. An analysis that checked for `<w:strike>` alone reported that forty-odd
+paragraphs of a contract had been struck through — including clauses the creator had just added —
+when 399 of the 407 elements carried `w:val="0"` and only 8 runs were genuinely struck. Read the
+value, and treat `"0"`, `"false"` and `"none"` as off.
+
 ## Cautions
 
 - **Text is split across runs.** A sentence you can see in the document may be several `<w:r>` elements with formatting boundaries between them. Match on a single run's `<w:t>` content, or normalise first. A naive string search across the raw XML will miss phrases that span runs.
