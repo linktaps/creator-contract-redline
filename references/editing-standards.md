@@ -105,6 +105,46 @@ A list of permitted metrics goes stale as platforms rename and retire them, and 
 
 Same logic applies to channel lists, deliverable specs, and data definitions.
 
+## 10a. One suggestion per thing the other side can say yes to
+
+A suggestion is the unit of acceptance. Whatever sits inside one `<w:del>` is
+taken or refused together, so bundling several sentences into a single deletion
+means the weakest one governs the fate of the rest.
+
+This costs real ground where a clause has a core the brand will defend and
+satellites it would concede. A payment clause struck as one 65-word block
+contained three separate sentences: the pay-when-paid condition itself, a
+sentence stripping the creator's right to hold the agency liable, and a sentence
+pointing the creator at a party it had no standing to sue. The agency was never
+going to accept losing the first. Bundled, rejecting it silently restored all
+three.
+
+Before writing a deletion that spans more than one sentence, ask whether the
+other side might accept part of it. If so, make it several suggestions. The diff
+looks longer and concedes less.
+
+The corollary: **where the adverse core is certain to survive, edit around it
+rather than at it.** Conditions the brand will not drop are still bounded by
+what the creator adds beside them — an outer date, a diligence obligation, a
+subordinating clause. Those read as making the brand's own sentence work rather
+than as attacking it, which is exactly why they land.
+
+## 10b. Calibrate the ask to what the counterparty can actually give
+
+Some clauses exist because the counterparty has no commercial choice. An agency
+on a pass-through deal cannot take its client's credit risk onto its own balance
+sheet, so pay-when-paid is not a drafting preference it will trade. The same is
+true of usage and exclusivity terms the outreach email already described as
+non-negotiable.
+
+Asking anyway is not free. It spends goodwill on a certain refusal, and it makes
+the adjacent asks — the ones that would have landed — look like part of a pile.
+
+Ask the creator, or ask someone who has negotiated with that counterparty before.
+Where an item is known to be immovable, say so in the report, record the fallback
+in the tracking table, and put the redline's effort into the sub-checks around it.
+An unmade ask is never granted, but an unwinnable one costs the winnable ones.
+
 ## 11. Keep reasoning consistent across related clauses
 
 Where several clauses share a rationale, edit them the same way with the same wording. Three bullets struck on the single ground that paid media is not in this agreement reads as one coherent position. The same three edited three different ways reads as three separate objections to fight about.
@@ -231,3 +271,7 @@ Run against the finished redline:
 - [ ] **No edit spanned an element boundary** — a `<w:hyperlink>`, a table cell, a
       paragraph mark. The flat text hides these, and replacing across one deletes
       the markup in between
+- [ ] **No deletion bundles a sentence the brand would concede with one it will
+      refuse** — the suggestion is the unit of acceptance
+- [ ] **Nothing in the redline asks for something the counterparty structurally
+      cannot give**, unless the creator decided to ask anyway with that understood

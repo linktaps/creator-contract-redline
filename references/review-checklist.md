@@ -230,20 +230,35 @@ a fight about a paragraph the brand considers standard.
 ### 20. Net 30
 - [ ] Payment term is net 30 or better
 - [ ] **What starts the clock** — "any other documentation required by Company" lets the brand stop it indefinitely, and "net 60 from the live posting date" starts on an undefined event (see #16)
-- [ ] **Pay-when-paid removed.** "Company has no obligation to pay Influencer unless Company
-      receives payment from Client" makes the whole payment term conditional: the agency owes
-      nothing until its own client pays, and nothing in the agreement obliges the client to pay on
-      any schedule. Usually reinforced by a sentence deeming a late payment not late ("such payment
-      will not be considered late"), which removes the breach as well as the deadline
+- [ ] **Pay-when-paid: reword it, do not try to delete it.** "Company has no obligation to pay
+      Influencer unless Company receives payment from Client" makes the whole payment term
+      conditional — the agency owes nothing until its own client pays, and nothing obliges the
+      client to pay on any schedule. **Agencies do not give this up**, because they are not willing
+      to carry their client's credit risk on a pass-through deal, and asking them to spends
+      goodwill on the one item certain to be refused. Every sub-check below assumes the clause
+      stays. Treat deletion as a fallback position to mention, not the edit to make
+- [ ] **An outer date.** This is the sub-check that matters and the one most often granted: "in any
+      event no later than ninety (90) days after publication, whether or not Company has received
+      payment from Client." Without it the obligation may never mature at all. It is the difference
+      between *pay-when-paid*, a timing term, and *pay-if-paid*, a condition precedent
+- [ ] **A diligence obligation.** The agency must actually invoice its client within a stated
+      period and pursue collection. Otherwise the condition is entirely within the hands of the
+      party that benefits from it not occurring
+- [ ] **The no-liability sentence is subordinated to the outer date** ("Subject to the foregoing,
+      Influencer may not hold Company liable…"). A backstop the creator cannot enforce once it
+      passes is decoration
+- [ ] **"Will not be considered late" is struck.** A sentence deeming late payment not late removes
+      the breach along with the deadline — no termination right, no interest, nothing to sue on.
+      This one is separable from pay-when-paid itself and is usually conceded
 - [ ] **The creator has a remedy against whoever actually holds the money.** Pay-when-paid is
       frequently paired with an instruction to look to the client instead ("Influencer may hold
       Client solely liable"), while the third-party-beneficiary clause runs one way — the client
       can enforce against the creator but the creator is given no rights against the client. Read
-      the two clauses together: separately each looks survivable, together they point the creator's
-      only remedy at a party the contract gives them no standing to sue
-- [ ] **An outer limit exists.** If the brand will not drop pay-when-paid outright — agencies
-      rarely do — a backstop date ("in any event no later than 90 days after publication") keeps
-      the obligation from being unbounded, and is the fallback worth holding
+      the two together: separately each looks survivable, together they point the creator's only
+      remedy at a party the contract gives them no standing to sue. The fix is to give the existing
+      sentence effect rather than argue with it — an assignment of the agency's claim against its
+      client up to the unpaid fee, plus making the third-party-beneficiary clause reciprocal for
+      payment. Both are hard to refuse, because they only make the brand's own sentence work
 - [ ] Any narrowing edit did not leave the original open-ended language in place beside it
 - [ ] **The payment trigger is stated identically in the fee table and in the operative clause.**
       Template contracts state it twice — once in the defined-terms/fee row and once in the
