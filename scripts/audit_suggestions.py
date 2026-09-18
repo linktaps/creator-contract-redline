@@ -295,14 +295,22 @@ def phrase_context(xml: str, phrase: str):
 
 
 def parse_phrases(path: Path):
+    """One entry per line: "label :: exact adverse wording".
+
+    A line containing "::" is always an entry, even though checklist labels
+    start with "#" (e.g. "#14 unpaid extension :: ..."). Only a "#" line with
+    no "::" is a comment.
+    """
     items = []
     for line in path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
-        if not line or line.startswith("#"):
+        if not line:
             continue
-        label, _, phrase = line.partition("::")
-        if phrase:
+        label, sep, phrase = line.partition("::")
+        if sep:
             items.append((label.strip(), phrase.strip()))
+        elif line.startswith("#"):
+            continue
         else:
             items.append((line[:48], line))
     return items
