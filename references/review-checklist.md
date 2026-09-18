@@ -1,0 +1,226 @@
+# Review Checklist
+
+This list is the scope of the review.
+
+**Every item is broken into atomic sub-checks.** Each box is a separate verification with its own answer. An item is not closed until every box under it is resolved. Contracts routinely handle one sub-check acceptably and the next one adversely inside the same paragraph — fixing the first and moving on is how items get half-done.
+
+For each sub-check, record: **present** (acceptable as drafted) / **partial** (exists but one-sided, undefined, or too narrow) / **adverse** (actively harmful) / **missing** (absent entirely).
+
+**Missing means flag, not draft.** Introducing a clause that was never there is a new ask, and whether to make it is the creator's commercial judgment.
+
+**Undefined means partial.** Where a box turns on a word — a trigger, a category, a scope, a channel — the answer is what the contract defines that word to mean, not what it sounds like in ordinary English. Record the clause that defines it. If there isn't one, the box is partial even when the natural reading favors the creator. Supplying a definition for a term the contract already uses is an edit, not a new ask.
+
+---
+
+## Must-haves
+
+### 1. Mutual indemnity
+- [ ] Brand's obligation includes a duty to **defend**, not only "indemnify and hold harmless"
+- [ ] Covers brand-supplied materials and Brand Marks
+- [ ] Covers product defects
+- [ ] Covers the brand's own negligence and willful misconduct
+- [ ] Covers use of the creator's likeness outside the granted scope
+- [ ] Creator's own indemnity is not broader than the brand's in kind (check for production/personal-injury clauses that don't match the work)
+
+### 2. Mutual confidentiality
+- [ ] Obligation runs both directions, not just against the creator
+- [ ] Consent requirement is reciprocal ("the other party's consent", not "Brand's consent")
+- [ ] Permitted recipients are reciprocal ("its agents", not "Talent's agents")
+- [ ] Creator may identify the brand as a client and show published work in a portfolio
+- [ ] **Grammar check after the party swap** — "Talent shall not disclose" becoming "neither party shall not disclose" is a double negative
+
+### 3. Mutual limitation of liability, with a cap
+- [ ] A limitation-of-liability clause exists at all (frequently absent, leaving exposure uncapped)
+- [ ] Consequential/indirect damages waived mutually
+- [ ] Aggregate cap stated, tied to the fee
+- [ ] Carve-outs present for indemnity, confidentiality, payment obligations, out-of-scope use, gross negligence
+
+### 4. Mutual termination, with payment for work completed
+- [ ] Creator can terminate at all
+- [ ] Creator can terminate for non-payment specifically
+- [ ] Cure period stated and reciprocal
+- [ ] Payment on termination covers everything **created and submitted**, whether or not published or approved
+- [ ] Brand's termination-for-cause trigger is limited to uncured material breach, not any failure
+
+### 5. Brand morals clause
+- [ ] Reciprocal termination right exists for the creator
+- [ ] Creator retains fees already paid
+- [ ] Creator is paid for work created and submitted
+- [ ] Creator may remove or archive posts
+- [ ] Brand must cease use of the materials
+- [ ] Creator is released from exclusivity
+
+The non-disparagement covenant is almost always a separate bullet sitting immediately above the
+morals clause, and it gets skipped because the eye is on the termination language below it. It has
+its own three defects:
+
+- [ ] **Non-disparagement is bounded in time** — watch for a bare "will not make any statements
+      that…" with no "During the Term". Unbounded, it binds the creator for life
+- [ ] **Non-disparagement runs both directions**
+- [ ] **The standard is objective.** "Disparage **or reflect unfavorably on**" is unbounded by
+      construction: an honest negative word about a product the creator has stopped liking
+      breaches it. "Are defamatory of" is the fix, and brands accept it
+
+### 6. Retained ownership
+- [ ] Ownership stated in the creator's favor
+- [ ] Not undercut by an exclusive license elsewhere (see #7)
+- [ ] **New Content / derivative approval gate** — check whether the creator needs brand approval to use their own material
+- [ ] If an approval gate exists, it is limited to content showing Brand Marks or products
+- [ ] If an approval gate exists, it has a deemed-approval window
+- [ ] If an approval gate exists, it sunsets with the license term rather than running forever
+
+### 7. Non-exclusive license
+- [ ] Grant says non-exclusive (search for "exclusive" in the grant)
+- [ ] Grant is not "non-cancellable" / irrevocable
+- [ ] **Sublicense scope** limited to affiliates and agencies acting for the brand
+- [ ] Grant is bounded by a defined license term
+
+### 8. Paid usage as negotiated; brand handle only absent whitelisting
+- [ ] Paid media is not bundled into the base fee (search "support with paid media")
+- [ ] **Channel list** checked for media-buy language — "shopper", "retail media", "new media", "online video" reach far beyond organic reposting
+- [ ] If paid usage is contracted separately, it is struck here rather than drafted
+- [ ] Grant does not extend to placement from the creator's own handle absent a separate allowlisting agreement
+
+### 9. Usage runs from first publication on the creator's feed
+- [ ] A usage term exists at all (absence makes the grant perpetual by omission)
+- [ ] Trigger is first publication on the creator's channels, not the effective date
+- [ ] **The trigger phrase is defined.** "live post", "goes live", "live post date", "content is live" all read as the creator's publication and none of them says so. Name the clause that defines it; if there is none, this is partial and the fix is a definition
+- [ ] Every variant of the trigger phrase, across body and exhibits, resolves to that one defined event
+- [ ] Term applies per asset
+- [ ] Material approved but never published is addressed — payment for it and a license to it are separate questions
+
+> The trigger box and the definition box fail together and look like one item. A clause reading "60 days after each live post" passes the trigger box on its face, which is exactly why the definition box exists underneath it.
+
+### 10. Name and likeness limited to promoting the program
+- [ ] Not "in perpetuity"
+- [ ] Not "for no additional consideration"
+- [ ] Runs with the license term
+- [ ] Limited to use within the approved materials, not standalone use of name or face
+- [ ] AI/digital-replica carve-out present
+
+### 11. Number of revisions
+- [ ] Rounds included in the fee are stated
+- [ ] Turnaround window for brand notes stated
+- [ ] Deemed-approval after that window
+- [ ] Rate stated for additional rounds or post-approval creative changes
+
+### 12. Reshoot fee
+- [ ] A rate is stated
+- [ ] Escape hatches removed — "additional compensation, **if applicable**" lets the brand decide none applies
+- [ ] Creator-caused reshoots limited to uncured material failure, not any failure
+- [ ] **Punctuation check** — rate insertions near an existing comma or period frequently produce malformed sentences
+
+### 13. Archiving provision
+- [ ] **Creator-side**: how long posts must stay live, and measured from what (watch for "one (1) year after the end of the Term", which can mean two years — and for a bare "at least (1) year" with no start at all, see #16)
+- [ ] **Brand-side**: how long the brand may retain and use the material
+- [ ] "Archival" is defined, not left open
+- [ ] Takedown rights do not survive the term indefinitely
+- [ ] **Creator-side retention and takedown obligations are released if the brand is in material
+      breach.** Otherwise the creator keeps hosting the campaign after the brand has stopped
+      performing. A conditional clause appended to the obligation ("unless Agency and/or Client are
+      in material breach of this Agreement") costs nothing to ask for and is rarely refused
+
+### 14. Mutual timing
+- [ ] **Who controls the posting schedule** — watch for "Brand's decision shall be final and controlling" in the schedule
+- [ ] **Extension clause**: term cannot be extended without additional compensation (search "without any additional compensation")
+- [ ] **Extension clause**: payment dates are not pushed back by an extension
+- [ ] Brand-caused delay does not move the creator's payment dates
+- [ ] Material timely submitted but unposted due to brand delay is still paid
+- [ ] **Any option or additional-deliverable right** the brand holds is (a) priced at the creator's
+      rate rather than a figure the brand chose, (b) conditioned on the creator's availability
+      ("subject to Influencer's prior professional commitments"), and (c) bounded by a date. An
+      unconditioned option is a call on the creator's calendar for the length of the term
+
+> Note: this item is the most common false-complete. Appending a sentence about brand-caused delay to the end of the Extension clause does not fix the unpaid-extension language earlier in the same clause. Check every box.
+
+### 15. Explicit non-compete / brand exclusivity
+- [ ] Category definition matches what was agreed in correspondence
+- [ ] Vague expanders removed ("and accessories", "and related products")
+- [ ] Parent-company exclusion stated if that was the deal
+- [ ] **Unpaid activity** carved out — "any services (paid or unpaid)" restricts organic mentions
+- [ ] **Incidental appearance** carved out
+- [ ] No right of first refusal extending the restriction beyond the paid term
+- [ ] Blackout windows run from a defined event — "three (3) days before and after each live post" floats if "live post" floats (see #16)
+
+### 16. Defined terms
+- [ ] **Term** defined
+- [ ] **License Term** defined
+- [ ] **Organic Usage** defined, if the agreement grants it
+- [ ] **Paid Usage** defined, if the agreement grants it
+- [ ] **Allowlisting** defined, if the agreement grants it
+- [ ] Any term the redline introduces (e.g. "Archival Use") is actually defined somewhere
+
+The five above are the terms that are usually capitalized and therefore usually noticed. The rest of this item is the part that gets skipped:
+
+- [ ] **Every event that starts or stops a clock is defined.** List the clocks first — usage window, exclusivity window, payment clock, feed-retention obligation, revision turnaround, the Term itself — then the event at each end, then the clause defining that event. A blank in the third column is a finding
+- [ ] **Lowercase phrases count.** A term does not have to be capitalized to be load-bearing; "live post" carries more weight in most influencer templates than any defined term in them, and gets no scrutiny because it reads like ordinary English
+- [ ] **One idea, one phrase.** Variants scattered across body and exhibits ("live post" / "goes live" / "live post date" / "final content is live") mean a single definition has to cover all of them, or be made to, by conforming the language
+- [ ] **A duration with no stated start.** "must remain on the Influencer's primary feed for at least (1) year" — from when? Deliverable-level and exhibit-level obligations are where this hides, because exhibits are written as scoping notes rather than as contract language
+- [ ] Where a term is defined in the body and used in an exhibit (or the reverse), the exhibit is actually incorporated so the definition reaches it
+
+> Define only what the agreement uses. If paid usage is being contracted separately, defining it here is unnecessary and implies it belongs.
+
+> Worked example. A contract grants organic usage "during the Term and for a period of 60 days after each live post thereafter" (§3(a)); ends the Term when "final content is live" (§11(a)); sets exclusivity three days before and after "live content" (§10); pays Net 60 "from the live posting date"; and requires a link-in-bio link to survive 30 days "after each live post date". Five clocks, one undefined event, five different phrasings of it. If the brand reads "live" as its own repost or as approval, every one of those windows starts on a date the creator does not control. The edit is one definition plus a conforming sweep — small, uncontroversial, and worth more than most of the rest of the redline.
+
+---
+
+## Nice-to-haves
+
+### 17. Raw assets
+- [ ] Deliverables limited to final approved assets (search "native files")
+- [ ] Raw footage, outtakes, and project files remain the creator's property
+- [ ] Separate licence and fee if the brand wants them
+
+### 18. Late payment fees
+- [ ] Interest on undisputed overdue amounts
+- [ ] Right to suspend performance after a defined period
+
+### 19. Up-front partial payment or rolling per-deliverable payment
+- [ ] What triggers the final installment, and what share of the fee it carries
+- [ ] Large analytics-contingent holdbacks restructured or reduced
+- [ ] Any per-deliverable allocation reflects how the fee was actually built, not a flat division
+
+### 20. Net 30
+- [ ] Payment term is net 30 or better
+- [ ] **What starts the clock** — "any other documentation required by Company" lets the brand stop it indefinitely, and "net 60 from the live posting date" starts on an undefined event (see #16)
+- [ ] Any narrowing edit did not leave the original open-ended language in place beside it
+- [ ] **The payment trigger is stated identically in the fee table and in the operative clause.**
+      Template contracts state it twice — once in the defined-terms/fee row and once in the
+      compensation paragraph — and a redline that fixes the paragraph and misses the row leaves the
+      contract with two answers. The row is the one that reads like a settled commercial term, so
+      it is the one the brand will point at
+
+### 21. Whitelisting limits
+
+> If the review resolves this by striking the grant, these sub-checks are **not** n/a — they are the
+> fallback position. The brand may simply refuse to give the grant up, and the review should already
+> know which of them is worth holding. Record it in the report as the fallback. In practice the one
+> that survives is the authentication box: brands keep allowlisting and concede "that does not
+> require Influencer and/or Lender to authenticate to third-party integrations".
+
+- [ ] Allowlisting duration tied to the license term
+- [ ] Targeting restrictions; no political or issue advertising
+- [ ] No indefinite or evergreen advertising permissions
+- [ ] Reporting on spend and placement
+- [ ] **Third-party rights-management authentication** (rights-management platforms and equivalents) — check separately
+- [ ] **Remarketing / custom-audience list handover** — check separately; this reaches the creator's audience data
+
+### 22. Generative AI clause
+- [ ] Creator's likeness cannot be used as training data
+- [ ] No synthetic replicas, voice clones, or digital doubles without separate consent
+- [ ] **Flow-down** to agencies, vendors, and platforms
+- [ ] Brand's permitted AI editing does not extend to materially altering the creator's appearance, voice, or statements
+
+---
+
+## Outside the list — raise, do not add
+
+Flag these to the creator and let them decide.
+
+- **Releases that indemnify the brand for its own negligence.** Look for "regardless of whether caused by the negligence or willful or reckless misconduct" combined with a duty to defend and indemnify for those same claims. Usually paired with a §1542 waiver extending it to unknown claims.
+- **Production and safety provisions that do not match the facts.** COVID-era assumption-of-risk language and cast-and-crew release requirements in a contract for self-shot content at home. Many such contracts contain their own instruction that these be removed when the work is self-produced — quote it back.
+- **Personal guarantees and inducement riders** making an individual liable for their company's monetary obligations.
+- **Remedies waivers** barring injunctive relief where damages would plainly be inadequate.
+- **Ambiguous deliverable counts.** "6 videos syndicated across three platforms" reads as 6 or 18.
+- **Schedules incorporated by reference but marked "reserved" or "subject to change"** — terms that do not exist yet but bind on arrival.
+- **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags. Raise as courtesy, not objection. Where a duplicate paragraph exists, fixing one copy and leaving the other is worse than fixing neither.
