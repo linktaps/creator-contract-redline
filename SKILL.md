@@ -74,6 +74,25 @@ python scripts/audit_suggestions.py contract.docx --check phrases.txt
 python scripts/audit_suggestions.py contract.docx --list
 ```
 
+**Keep a copy of the brand's untouched draft before you start** — a pristine export, before any suggestion was made. It is the baseline for the most important check in the review, and a baseline that already contains damage will report that damage against every redline you compare to it.
+
+```bash
+# fidelity: would rejecting the whole redline restore the brand's draft?
+python scripts/audit_suggestions.py redline.docx --baseline brand-draft.docx
+
+# completeness: are the adverse phrases still in the accepted version?
+python scripts/audit_suggestions.py redline.docx --check phrases.txt
+
+# what's in the document and who authored it
+python scripts/audit_suggestions.py redline.docx --list
+```
+
+**Run the fidelity check first.** It reconstructs the document with every suggestion rejected and compares it word for word against the brand's draft. They should be identical. If they are not, text was changed outside a suggestion — an edit made in Editing mode, or an undo that overshot and got repaired by retyping. That is the worst defect a redline can carry, because the other side's ability to reject cleanly is the thing that makes a redline safe to send, and nothing about the document looks wrong until they try.
+
+This has happened in practice: a confidentiality clause whose opening words were present when suggestions were accepted and absent when they were rejected. Rejecting that suggestion would have left the clause starting mid-sentence.
+
+A **STRUCTURE** check reports paragraphs whose text is entirely struck while the paragraph mark survives — accepting those leaves an empty line or an empty bullet behind.
+
 Build `phrases.txt` while making the tracking table — one line per sub-check, `label :: exact adverse wording`, copied verbatim from the contract including curly quotes. The script exits non-zero if anything is unresolved, so it can hard-gate the workflow.
 
 Show the output to the creator. Every sub-check gets a line.
