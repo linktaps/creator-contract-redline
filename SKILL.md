@@ -19,6 +19,22 @@ Two things follow. The redline must read as targeted edits to the brand's paper 
 
 **Check for suggestions already in the document.** The brand may have left pending edits, some favorable. Read them, never reject them, and factor them into what still needs asking.
 
+**Work in Suggesting mode — this is a prerequisite, not a preference.** Redlines commonly arrive,
+and get sent, as manual strikethrough and coloured text. On screen it looks equivalent. It is not:
+nothing can be accepted or rejected, the other side has to retype rather than click, and every
+check in Pass 1 — fidelity, structure, the completeness gate — needs tracked changes to exist. A
+redline authored as formatting cannot be audited at all, so whatever errors it carries travel into
+the signed agreement.
+
+That is an observed outcome, not a worry. A creator-side redline authored this way changed an
+invoice trigger from "upon completion of all deliverables" to "upon publication of the Content" in
+the compensation clause and missed the identical phrase in the fee table. Both survive in the
+executed contract, which now gives two different answers about when the fee is due. A completeness
+gate would have caught it in one line, and no gate could run.
+
+If the creator's own earlier redline arrives as formatting, say so and re-author it as suggestions
+before adding to it.
+
 ## Scope: the checklist governs
 
 Read `references/review-checklist.md`. It is the scope of the review.
