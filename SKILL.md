@@ -134,6 +134,21 @@ The same check reports **LAYOUT** and **TYPE** separately. LAYOUT counts tab sto
 
 Build `phrases.txt` while making the tracking table — one line per sub-check, `label :: exact adverse wording`, copied verbatim from the contract including curly quotes. The script exits non-zero if anything is unresolved, so it can hard-gate the workflow.
 
+**A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and assert every line is present in the accept-all text. The phrase gate proves the bad language left; only this proves the good language landed.
+
+This also disposes of a state that otherwise eats time. A surviving adverse phrase is expected wherever the fix was an addition placed beside text that should stay: the creator's own indemnity survives a mutuality edit, "worldwide license" survives having "non-exclusive," inserted in front of it. Those are phrase-selection artifacts, not misses — but they are indistinguishable from real misses until the additions check confirms the counterpart exists.
+
+Read the result rather than skimming it. Three states need judgment:
+
+- **PARTIAL (x2 before, x1 still present)** — the phrase occurs in more than one place and only some were handled. Usually the body was edited and an exhibit was not, or the same stock sentence appears in two clauses. Find out which instance survived; sometimes the survivor is legitimately different and should stay.
+- **STILL PRESENT — but this clause WAS edited** — the most dangerous state. Something was changed in that clause while the adverse wording stayed, usually because a protective sentence was added beside the problem instead of replacing it. The clause now contradicts itself and reads as handled. Always read it in full.
+- **STILL PRESENT — clause untouched** — either a genuine miss or a deliberate flag. Check the tracking table for which.
+- **not found in either** — the phrase is wrong, not the item fine. Fix the phrase and re-run.
+
+Then search the accepted text for runs of underscores. Any blank placeholder outside the signature block is a blocking open item, not a completed edit.
+
+Do not use the suggestion count as a verification metric. Importing a .docx merges adjacent tracked changes, so 154 suggestions can arrive as 111 with identical content. Compare the reconstructed text, never the counts.
+
 Show the output to the creator. Every sub-check gets a line.
 
 **Audit the artifact the brand will open — and know which one that is.** A locally authored `.docx` and the same file after import into Docs are not equivalent: Google resolves font and size inheritance on import, so typography failures in the intermediate can disappear in the delivered document, and a file that passes after import can still be wrong if the `.docx` itself is what gets emailed. Ask which one the creator is sending, then check that one.
@@ -179,6 +194,19 @@ When editing through the browser, these prevent the failures that actually occur
 ## Reporting
 
 Tell the creator what changed, what you flagged instead of changing, and what remains open. Where you made a judgment call for them, say so and name the alternative.
+
+**Say which asks are cheap and which are expensive.** Presenting forty items at one volume
+misrepresents what is likely to move. Mutuality items and missing definitions land: they are cheap
+for the brand to grant, they mirror language the brand wrote, and they survive review. Rate
+insertions, payment-term changes and narrowing of the brand's usage rights are commercial asks that
+get traded away first. Both belong in the redline — an unmade ask is never granted — but the
+creator is the one spending the goodwill and should know where it is going.
+
+The same judgment applies inside a clause. A Name and Likeness paragraph that is perpetual, permits
+standalone use of the creator's face, and runs "for trade and archival purposes" can be rewritten
+wholesale, or it can have the two words "and for trade" deleted. The second removes the most
+open-ended permission and leaves a clause the brand will not fight about. Know which one you are
+doing and why.
 
 Be honest about uncertainty. If you cannot verify that an earlier edit survived a later change, say that and say exactly what to check.
 

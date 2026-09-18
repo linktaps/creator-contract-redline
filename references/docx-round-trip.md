@@ -2,7 +2,7 @@
 
 Google Docs suggestions and Word tracked changes are the same thing on disk. That makes a round trip possible: export the doc as `.docx`, edit the XML, upload it back, and the edits arrive as native suggestions attributed to whatever author you name.
 
-**This is verified in both directions.** Exporting a Google Doc with pending suggestions yields `w:ins` and `w:del` blocks with each suggester's name intact, including the brand's own pending edits. Uploading a `.docx` containing hand-authored tracked changes produces real suggestions in the Docs sidebar, labelled "From imported document", accept/reject-able clause by clause.
+**This is verified end to end on a real contract.** A full redline authored offline — 154 tracked changes across a 64,000-character agreement — imported with the accepted text byte-identical to the local version, both authors preserved, and the brand's own 15 pending suggestions intact. Formatting held.
 
 **Verified in both directions.** Exporting a Google Doc with pending suggestions yields `w:ins` and `w:del` blocks with each suggester's name intact, including the brand's own pending edits. Uploading a `.docx` containing hand-authored tracked changes produces real suggestions in the Docs sidebar, labelled "From imported document", accept/reject-able clause by clause.
 
