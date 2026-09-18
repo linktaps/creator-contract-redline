@@ -166,6 +166,13 @@ python scripts/audit_suggestions.py redline.docx --check phrases.txt
 python scripts/audit_suggestions.py redline.docx --list
 ```
 
+**Parse the XML first — before any of the checks below.** Every check in
+`audit_suggestions.py` is a regex over the markup; not one of them parses it. A
+`.docx` whose `document.xml` has an unclosed element passes the whole audit and
+then refuses to open. If edits were authored as XML, run `ET.fromstring()` on
+each part and open the finished file with a document library before showing
+anyone a green report. See `references/docx-round-trip.md`.
+
 **Run the fidelity check first.** It reconstructs the document with every suggestion rejected and compares it word for word against the brand's draft. They should be identical. If they are not, text was changed outside a suggestion — an edit made in Editing mode, or an undo that overshot and got repaired by retyping. That is the worst defect a redline can carry, because the other side's ability to reject cleanly is the thing that makes a redline safe to send, and nothing about the document looks wrong until they try.
 
 This has happened in practice: a confidentiality clause whose opening words were present when suggestions were accepted and absent when they were rejected. Rejecting that suggestion would have left the clause starting mid-sentence.

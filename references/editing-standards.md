@@ -225,3 +225,9 @@ Run against the finished redline:
 - [ ] **Inserted text renders at the document's size and face** — no run inheriting docDefaults, no non-breaking spaces standing in for a tab stop
 - [ ] Marked-up clauses read as coherent prose; defined terms exist and resolve
 - [ ] Where a duplicated paragraph was fixed, both copies were handled
+- [ ] **The file parses.** Every part of the `.docx` is well-formed XML and a
+      document library opens it. No regex check in the audit script can see this,
+      and a corrupt file passes all of them
+- [ ] **No edit spanned an element boundary** — a `<w:hyperlink>`, a table cell, a
+      paragraph mark. The flat text hides these, and replacing across one deletes
+      the markup in between

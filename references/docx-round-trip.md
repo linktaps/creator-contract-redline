@@ -65,6 +65,61 @@ That is correct markup displayed mid-review, not damage: on accept the deleted b
 
 **Match the label-column convention the source paragraph uses, whichever it is.** Contracts assembled from templates are often inconsistent — the same document may indent most captions with a run of non-breaking spaces and a handful with a real `<w:tab/>`. Copy what the paragraph you are editing already does rather than imposing one convention. Replacing a run that contained a `<w:tab/>` silently drops it and runs the caption into the body text; the baseline check counts tabs for exactly this reason.
 
+## Parse the XML before you ship it
+
+**Every check in `audit_suggestions.py` is a regex.** Fidelity, structure,
+formatting, layout, type, the phrase gate and the additions gate all read the
+markup as text. None of them parses it. A `document.xml` with an unclosed element
+therefore passes the entire audit — perfect reject-all, tabs intact, every phrase
+resolved — and then fails the only test that matters, which is a human
+double-clicking the file.
+
+```python
+from xml.etree import ElementTree as ET
+ET.fromstring(xml)          # raises on the damage every other check misses
+```
+
+Do it before writing the zip, not after. If a document library is available,
+opening the finished file with it is a second, independent check worth the two
+seconds it costs.
+
+## Anchors that cross an element boundary
+
+Text runs are not the only thing between two words. A run can sit inside a
+`<w:hyperlink>`, a `<w:smartTag>`, a table cell, or simply a different paragraph,
+and a flat text index built by concatenating `<w:t>` contents shows none of it.
+An anchor can then span a boundary while looking entirely ordinary, and replacing
+the whole span deletes the structural markup in between.
+
+This is not hypothetical. A contract's notices clause read:
+
+> Any notices from Influencer must be sent via email to `_______@agency.__.`
+
+The blank is a mailto hyperlink; the full stop after it is not. Anchoring on
+`_______@agency.__.` — blank plus period, the obvious choice — spanned the
+`</w:hyperlink>` and consumed it. The resulting file passed all eight gates and
+Word would not open it.
+
+Before replacing a span, assert that the gap between consecutive runs in it
+contains no markup at all:
+
+```python
+for k in range(i, j):
+    if "<" in xml[runs[k].end : runs[k+1].start]:
+        raise SystemExit("anchor spans structural markup — re-anchor it")
+```
+
+Then re-anchor inside a single element. Dropping the trailing period was the
+whole fix.
+
+The same trap catches `<w:tab/>`-only runs and bookmarks sitting between two text
+runs: they are invisible in the flat text, and a span replacement drops them.
+
+**One more regex trap, because it costs an afternoon.** `<w:t([^>]*)>` also
+matches `<w:tab/>` — `"<w:t"` + `"ab/"` + `">"` fits the pattern. Indexing with it
+silently captures raw XML into the text stream and mis-places every edit near a
+tab stop. Require the whitespace: `<w:t(\s[^>]*)?>`.
+
 ## Verify every round trip
 
 Two checks, both cheap:
