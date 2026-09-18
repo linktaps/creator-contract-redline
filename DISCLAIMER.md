@@ -2,7 +2,7 @@
 
 **This is not legal advice, and it is not a lawyer.**
 
-`creator-contract-review` is a checklist and a set of editing tools. It helps an
+`creator-contract-redline` is a checklist and a set of editing tools. It helps an
 AI assistant read a contract, compare it against a fixed list of things that are
 commonly one-sided in creator agreements, and write suggested changes into the
 document as tracked changes. That is drafting assistance. It is not a legal

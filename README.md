@@ -1,4 +1,4 @@
-# creator-contract-review
+# creator-contract-redline
 
 A Claude Skill for redlining creator and influencer contracts against a fixed
 mutuality checklist, applying every edit as a tracked change in the document so
@@ -27,29 +27,34 @@ passes and the two gates all exist because of that.
 As a plugin marketplace:
 
 ```
-/plugin marketplace add linktaps/creator-contract-review
-/plugin install creator-contract-review@creator-contract-review
+/plugin marketplace add linktaps/creator-contract-redline
+/plugin install creator-contract-redline@creator-contract-redline
 ```
 
-Or copy the skill directory into your personal skills folder:
+Or clone it straight into your personal skills folder:
 
 ```bash
-cp -r skills/creator-contract-review ~/.claude/skills/
+git clone https://github.com/linktaps/creator-contract-redline.git \
+  ~/.claude/skills/creator-contract-redline
 ```
 
 ## Layout
+
+This is a single-skill plugin, so `SKILL.md` sits at the plugin root rather than
+under `skills/`. That keeps the slash form `/creator-contract-redline` instead of
+the doubled `/creator-contract-redline:creator-contract-redline`, and it means
+the repository root is also a working skill directory you can copy anywhere.
 
 ```
 .claude-plugin/
   marketplace.json                  marketplace definition
   plugin.json                       plugin manifest
-skills/creator-contract-review/
-  SKILL.md                          workflow, tracking, the three audit passes
-  references/review-checklist.md    the scope of the review — 20+ compound items
-  references/editing-standards.md   what a clean, surgical suggestion looks like
-  references/docx-round-trip.md     authoring tracked changes in XML
-  scripts/audit_suggestions.py      the Pass 1 gate
-  scripts/apply_tracked_changes.py  author suggestions into a .docx, with guards
+SKILL.md                            workflow, tracking, the three audit passes
+references/review-checklist.md      the scope of the review — 20+ compound items
+references/editing-standards.md     what a clean, surgical suggestion looks like
+references/docx-round-trip.md       authoring tracked changes in XML
+scripts/audit_suggestions.py        the Pass 1 gate
+scripts/apply_tracked_changes.py    author suggestions into a .docx, with guards
 ```
 
 ## The audit script

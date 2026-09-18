@@ -1,12 +1,12 @@
 {
-  "name": "creator-contract-review",
+  "name": "creator-contract-redline",
   "description": "Redline influencer, creator and talent contracts against a fixed mutuality checklist, applying every edit as a tracked change in the document. Not legal advice — see DISCLAIMER.md.",
   "version": "0.1.0",
   "author": {
     "name": "LinkTaps LLC"
   },
-  "homepage": "https://github.com/linktaps/creator-contract-review",
-  "repository": "https://github.com/linktaps/creator-contract-review",
+  "homepage": "https://github.com/linktaps/creator-contract-redline",
+  "repository": "https://github.com/linktaps/creator-contract-redline",
   "license": "MIT",
   "keywords": [
     "contracts",

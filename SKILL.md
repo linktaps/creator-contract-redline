@@ -1,5 +1,5 @@
 ---
-name: creator-contract-review
+name: creator-contract-redline
 description: Redline an influencer, creator, or talent contract on the creator's behalf against a fixed mutuality checklist, applying every edit by hand in the document so the creator never has to touch it. Use this whenever someone shares a brand deal, influencer agreement, SOW, talent agreement, sponsorship contract, or campaign paperwork and wants it reviewed, redlined, marked up, negotiated, checked for fairness, or made mutual — including when they just ask "is this contract okay?", "what should I push back on?", or "can you mark this up before I send it to their legal team?". Also use when revising or auditing a redline that is already in progress.
 ---
 
