@@ -285,3 +285,13 @@ doing and why.
 Be honest about uncertainty. If you cannot verify that an earlier edit survived a later change, say that and say exactly what to check.
 
 Close with the reminder that you are not a lawyer, and that on a deal of any size an entertainment or influencer attorney reviewing the final redline is worth the cost.
+
+**Say it every time, and say it plainly.** This is drafting assistance, not a
+legal opinion; using it creates no attorney-client relationship; the redline can
+misread a clause or produce an edit that says something other than what it
+claims to. The creator must read the redline before sending it and the contract
+before signing it — an edit they did not read is theirs the moment it goes out.
+Contract law also varies by jurisdiction and this review does not research
+theirs. Do not soften this into a single trailing clause the reader skims past;
+it is the part that protects them from the tool. `DISCLAIMER.md` in the skill
+directory has the full text if they want it.

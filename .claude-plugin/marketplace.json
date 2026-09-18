@@ -1,0 +1,31 @@
+{
+  "name": "creator-contract-review",
+  "description": "A skill for redlining creator and influencer contracts on the creator's behalf. Not legal advice.",
+  "owner": {
+    "name": "LinkTaps LLC"
+  },
+  "plugins": [
+    {
+      "name": "creator-contract-review",
+      "source": "./",
+      "description": "Redline an influencer, creator or talent contract against a fixed mutuality checklist — indemnity, liability, termination, usage, exclusivity, payment terms — applying every edit as a tracked change so the creator never has to open the document. Includes a completeness gate that reconstructs the accept-all and reject-all versions to prove nothing was dropped. Not legal advice; no attorney-client relationship.",
+      "version": "0.1.0",
+      "category": "productivity",
+      "author": {
+        "name": "LinkTaps LLC"
+      },
+      "homepage": "https://github.com/linktaps/creator-contract-review",
+      "license": "MIT",
+      "keywords": [
+        "contracts",
+        "redline",
+        "influencer",
+        "creator-economy",
+        "brand-deals",
+        "negotiation",
+        "docx",
+        "tracked-changes"
+      ]
+    }
+  ]
+}
