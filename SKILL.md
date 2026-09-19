@@ -11,6 +11,49 @@ Two things follow. The redline must read as targeted edits to the brand's paper 
 
 **The characteristic failure of this task is not bad editing. It is quietly dropping items.** These reviews run long and get interrupted. Memory of "what I've done and what's left" degrades, and the model reports completion while several must-haves sit untouched. Everything below about tracking and auditing exists because of that specific failure. Treat it as the main risk, not a formality.
 
+## First: is there anything to negotiate, and how big is the deal?
+
+Two questions before the checklist, because either answer can make the rest of this skill the
+wrong job. Both are cheap to check and expensive to get wrong.
+
+**Is the contract already executed?** Everything below assumes an open negotiation. Check the
+signature blocks, the execution date, and the e-signature audit trail that DocuSign, Dropbox Sign
+and PandaDoc append to the file — a trailing page reading *Status: Completed* with per-party
+timestamps settles it. Creators forward signed contracts constantly, usually because something
+has already started to go wrong, and "can you look at this contract" does not distinguish that
+from a live deal. Redlining a signed agreement is hours of work with no counterparty to send it
+to.
+
+If it is signed, say so plainly and offer the two jobs that are actually available:
+
+- **An exposure read** — in plain language, what they are bound to, what can still cost them,
+  and what to do now. This is the one they usually need.
+- **A markup of the same document as a template** for the next deal with this brand, or for the
+  renewal. Same checklist, different purpose, and it is worth saying that the markup is not
+  something to send.
+
+**Money outstanding under a signed contract takes priority over both.** If they have not been
+paid, the live question is the payment clause and what it conditions payment on, not the other
+nineteen items.
+
+**What is the deal worth?** Find the total fee before opening the checklist — and if the
+contract does not state one, that is itself the first finding (#24). Twenty-plus items, three
+audit passes and a tracked-changes round trip are right for a five-figure deal and wrong for a
+four-figure one. The machinery does not know the difference; you have to.
+
+On a small deal, still run the full list to *find* problems — the finding is free. Cut the
+*redline* to the clauses that can cost more than the fee pays:
+
+- uncapped liability and one-way indemnity
+- penalties, forfeitures, refund obligations and fee reductions
+- obligations with no end date
+- the dispute forum, where arbitration in the brand's home jurisdiction costs multiples of the fee
+
+Everything else gets mentioned in the report and not marked up. A twelve-item redline on a
+$600 deal does not get negotiated, it gets the creator replaced — and the creator, not the
+skill, is the one who decides that trade. Say which items you cut and why, so they can add any
+back.
+
 ## Before touching the document
 
 **Read the whole contract first, including schedules and exhibits.** Terms defined in Schedule A get used in the main body; exhibits carry obligations the body only gestures at.
@@ -76,6 +119,13 @@ creator who has not opened a Doc has no Doc. Three cases, and they are not inter
 - **A `.docx` that will be imported to Docs before sending.** Author offline if that is easier, but
   run Pass 1 against the *imported* document, because import resolves font and size inheritance and
   a typography failure can appear or vanish across it.
+- **A PDF or an e-signature export, and nothing else.** Not an editing case at all: there are no
+  tracked changes to author into and nothing for Pass 1 to audit. Ask for the `.docx` — the
+  brand has one. If it does not arrive, deliver the redline as a clause-by-clause list of
+  requested changes in an email, quoting the existing wording and the replacement, and say
+  explicitly that this is what you are doing and why. **Do not rebuild the contract in Word to
+  get something editable.** A retyped agreement is a new draft: the brand's reviewer cannot see
+  what moved, and every transcription error becomes the creator's proposal.
 
 Ask which one applies. The answer decides the editing mechanics and which file Pass 1 audits, and
 guessing wrong means auditing a file nobody will open.
@@ -144,6 +194,9 @@ cell need escaping in any case.
 
 ## Workflow
 
+0. **Check whether it is already signed, and find the total fee.** If signed, stop and offer an
+   exposure read or a template markup instead of a redline. Let the fee set how much of the
+   redline is worth making.
 1. Read the contract end to end, including schedules and exhibits. On that pass, list the clocks and the event at each end, and note which of those events the document actually defines.
 2. Read the correspondence. Note what's already agreed, any figure the creator quoted, and — if
    the contract has been negotiated before — what the brand has already rejected and what the
@@ -224,7 +277,11 @@ Read the result rather than skimming it. Three states need judgment:
 - **STILL PRESENT — clause untouched** — either a genuine miss or a deliberate flag. Check the tracking table for which.
 - **not found in either** — the phrase is wrong, not the item fine. Fix the phrase and re-run.
 
-Then search the accepted text for runs of underscores. Any blank placeholder outside the signature block is a blocking open item, not a completed edit.
+Then search the accepted text for placeholders. Runs of underscores are the obvious form and the
+least common: **bracketed values are more likely to survive signature**, because they read as
+drafting furniture rather than as a gap — `[3] days prior`, `USD [55.00]`, a bare `[  ]`. Add
+`XX`, `TBD` and `N/A` sitting where a number or a name belongs. Any placeholder outside the
+signature block is a blocking open item, not a completed edit.
 
 Do not use the suggestion count as a verification metric. Importing a .docx merges adjacent tracked changes, so 154 suggestions can arrive as 111 with identical content. Compare the reconstructed text, never the counts.
 
@@ -312,7 +369,15 @@ doing and why.
 
 Be honest about uncertainty. If you cannot verify that an earlier edit survived a later change, say that and say exactly what to check.
 
-Close with the reminder that you are not a lawyer, and that on a deal of any size an entertainment or influencer attorney reviewing the final redline is worth the cost.
+Close with the reminder that you are not a lawyer. **Scale the attorney recommendation to the
+deal** — on a five-figure contract, an entertainment or influencer attorney reviewing the final
+redline is straightforwardly worth the cost and should be recommended without hedging. On a
+few-hundred-dollar deal that same sentence advises spending more on the advice than the contract
+pays, which is bad advice and reads as boilerplate. There, name the specific clauses that would
+justify a consultation if the brand refuses to move — uncapped liability, a penalty, a foreign
+arbitration seat — and say the rest is not worth billable time.
+
+This scales the *recommendation*, not the disclaimer. The paragraph below is unconditional.
 
 **Say it every time, and say it plainly.** This is drafting assistance, not a
 legal opinion; using it creates no attorney-client relationship; the redline can

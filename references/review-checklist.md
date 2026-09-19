@@ -26,6 +26,24 @@ reason, and the creator has it.
 
 **Undefined means partial.** Where a box turns on a word — a trigger, a category, a scope, a channel — the answer is what the contract defines that word to mean, not what it sounds like in ordinary English. Record the clause that defines it. If there isn't one, the box is partial even when the natural reading favors the creator. Supplying a definition for a term the contract already uses is an edit, not a new ask.
 
+**Short-form and non-US contracts: absence is not automatically a finding.** This list is shaped
+by US long-form agreements — it expects a representations block, a release, a §1542 waiver, a
+morals clause, pay-when-paid agency structure, whitelisting terms. A two-page template has none of
+them, and running the list literally returns a dozen **missing** results, which under *missing
+means flag* becomes a dozen non-findings presented as a review. That buries the real ones.
+
+On a short form, these absences are still real exposure and still get reported:
+
+- no limitation of liability or cap (#3)
+- no brand-side indemnity (#1)
+- no creator termination right (#4)
+- no defined total fee or bounded scope (#24)
+
+The rest are recorded as normal at that length and not reported as gaps. **Short does not mean
+benign.** A short template carries its danger in penalty, forfeiture and refund clauses rather
+than in buried breadth — there is no room to hide anything, so what is there is the whole deal.
+Read #4, #20 and #24 hardest on these.
+
 ---
 
 ## Must-haves
@@ -88,6 +106,16 @@ reason, and the creator has it.
 - [ ] **No sum is payable by the creator on termination.** Watch for a "termination fee" that runs
       the wrong way — "Influencer agrees to pay a termination fee equal to fifty percent (50%) of
       the Fee" turns a disputed breach into a five-figure invoice against the creator
+- [ ] **No performance-linked reduction of the *whole* fee.** The forfeiture box below looks for
+      total loss; this one looks for the commoner small-deal version, a settlement rule paying
+      **all** deliverables at a reduced rate because some were late or short — "if Party B fails
+      to publish the required number of videos, all videos under this cooperation shall be
+      settled at 50% of the agreed fee". It sits in the deliverables or settlement section, not
+      in termination, so neither box around it looks there. Ask that any reduction be pro-rated
+      to the affected deliverables. Two tells: a recital characterising the reduction as "a
+      reasonable commercial adjustment mutually agreed by the parties", which is drafted to
+      survive challenge rather than to describe anything, and a matching asymmetry in the same
+      clause — under-delivery penalised, over-delivery unpaid
 - [ ] **No forfeiture clauses elsewhere in the agreement.** Automatic loss of the whole fee for a
       procedural slip ("should Influencer contact Client directly, Influencer shall automatically
       forfeit the Fee") is a penalty, it is rarely in the termination section where it would be
@@ -217,6 +245,13 @@ its own three defects:
       Agency and/or Client are in material breach of this Agreement") costs nothing to ask for
       and is rarely refused
 
+- [ ] **No creator-side obligation with no end date.** #16 hunts durations with no stated
+      *start*; this is the mirror, and it passes every other box in this item because a
+      permanent obligation is not a mis-measured one. "Unless otherwise agreed by Party A, the
+      video shall not be removed from the platform after the release" has no end, and where it
+      is backed by a refund clause the creator owes money for taking down their own post years
+      later. Every retention obligation needs a date or a duration, not only a carve-out
+
 > **One sentence closes the last three boxes, in both directions.** *Except in the event of
 > uncured breach of this Agreement, Brand shall have no obligation to remove the Content.* It
 > concedes the market-normal position the brand wants, and by making the exception mutual it
@@ -251,6 +286,11 @@ its own three defects:
 - [ ] **Unpaid activity** carved out — "any services (paid or unpaid)" restricts organic mentions
 - [ ] **Incidental appearance** carved out
 - [ ] No right of first refusal extending the restriction beyond the paid term
+- [ ] **Exclusivity drawn by time window rather than by category.** Every box above assumes a
+      category definition exists to narrow. "No other sponsor videos on the promotion date"
+      defines no category at all — it restricts *every* advertiser rather than competitors, which
+      is broader than the category exclusivity the rest of this item is written to cut down, and
+      it reads as a scheduling note. Bound it to the brand's own category, or price the blackout
 - [ ] Blackout windows run from a defined event — "three (3) days before and after each live post" floats if "live post" floats (see #16)
 
 ### 16. Defined terms
@@ -265,7 +305,15 @@ its own three defects:
       after signature
 - [ ] Any term the redline introduces (e.g. "Archival Use") is actually defined somewhere
 
-The first five are the terms that are usually capitalized and therefore usually noticed; "live" is on the list precisely because it is not one of them. The rest of this item is the part that gets skipped:
+The first five are the terms that are usually capitalized, and "live" is on the list precisely because it is not one of them. But do not read that as *capitalized terms get noticed* — the rest of this item is the part that gets skipped:
+
+- [ ] **Capitalized terms with no definition anywhere.** List every capitalized term, match each
+      against the definitions, and report the orphans. An undefined **"Total Fee"** is worse
+      than an undefined "live post", not better: both sides read a capital letter as a
+      cross-reference to a definition, so neither goes looking, and drafters capitalize
+      precisely where a payment or a penalty is calculated from the term. The orphans are
+      load-bearing by selection. "Total Fee", "Promotion Date", "the Brief" — a contract can
+      withhold and refund percentages of a Total Fee it never states
 
 - [ ] **Every event that starts or stops a clock is defined.** List the clocks first — usage window, exclusivity window, payment clock, feed-retention obligation, revision turnaround, the Term itself — then the event at each end, then the clause defining that event. A blank in the third column is a finding
 - [ ] **Lowercase phrases count.** A term does not have to be capitalized to be load-bearing; "live post" carries more weight in most influencer templates than any defined term in them, and gets no scrutiny because it reads like ordinary English
@@ -332,6 +380,15 @@ a fight about a paragraph the brand considers standard.
 
 ### 20. Net 30
 - [ ] Payment term is net 30 or better
+- [ ] **What survives the payment.** This item checks *when* the creator is paid and never *how
+      much arrives*. Each of these discounts an already-agreed rate and belongs in the report as
+      what it is — a reduction in the fee, quantified: a processing or handling fee deducted at
+      source ("2% of total payments shall be deducted in advance"), charges for a returned
+      transfer borne by the creator, currency converted at the brand's own rate, and tax
+      liability shifted wholesale ("the price includes all taxes", VAT registration and
+      penalties passed down). **Self-billing is the one to flag hardest**: where the creator
+      irrevocably authorises the brand to issue invoices on their behalf, the creator no longer
+      holds the document they would use to dispute the amount
 - [ ] **What starts the clock** — "any other documentation required by Company" lets the brand stop it indefinitely, and "net 60 from the live posting date" starts on an undefined event (see #16)
 - [ ] **Pay-when-paid: reword it, do not try to delete it.** "Company has no obligation to pay
       Influencer unless Company receives payment from Client" makes the whole payment term
@@ -415,6 +472,35 @@ a fight about a paragraph the brand considers standard.
 - [ ] Any §1542-style waiver of unknown claims is checked against all of the above — it extends
       each one to claims that do not exist yet
 
+### 24. Fee and scope certainty
+
+> Also numbered out of order to keep existing references stable, and also a must-have. **Check
+> it first, before anything above it.** Every other item on this list assumes the size of the
+> deal is settled and asks what happens around it. None of them asks whether it is settled, so a
+> contract can pass the entire checklist without ever stating what the creator is owed or how
+> much work they are committing to.
+
+- [ ] **A total fee appears somewhere.** A per-unit rate against an unbounded or
+      brand-determined count is not a total. "Fee per dedicated video: USD 55.00" against
+      "1-10 dedicated video(s)" is a contract whose value the creator cannot state
+- [ ] **Terms that penalties are calculated from are defined.** Where a clause withholds,
+      refunds or reduces a percentage of "the Total Fee", that term is doing arithmetic and has
+      to have a value (see #16's orphan box)
+- [ ] **The deliverable count is bounded by a stated maximum.** A range is a maximum; "as
+      specified by Party A" is not
+- [ ] **Quantity and scheduling are not set unilaterally after signature.** "The posting
+      requirements and corresponding fees are solely determined by Party A's written
+      instructions" is an open call on the creator's output, and pairing it with a penalty for
+      missing those instructions makes the brand both the source of the obligation and the
+      judge of the breach
+- [ ] **One mechanism governs the schedule.** A campaign period, a set of mandatory windows and
+      a flexible-adjustment clause that overrides both are three answers to the same question;
+      the brand will rely on whichever the creator missed
+- [ ] **The fee table and the operative clause agree** on the number and on the trigger (see #20)
+- [ ] **Deliverable counts are unambiguous.** "6 videos syndicated across three platforms"
+      reads as 6 or as 18, and the count multiplies the rate — this is the largest commercial
+      term in the document, not a drafting nit
+
 ---
 
 ## Outside the list — raise, do not add
@@ -440,6 +526,5 @@ Flag these to the creator and let them decide.
   comply at all.
 - **Insurance and production requirements that do not match self-shot content** — a term-length
   insurance covenant for a video filmed at home with a phone.
-- **Ambiguous deliverable counts.** "6 videos syndicated across three platforms" reads as 6 or 18.
 - **Schedules incorporated by reference but marked "reserved" or "subject to change"** — terms that do not exist yet but bind on arrival.
 - **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags. Raise as courtesy, not objection. Where a duplicate paragraph exists, fixing one copy and leaving the other is worse than fixing neither.
