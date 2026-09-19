@@ -36,6 +36,13 @@ Three failure modes to hunt specifically:
   writing to drop a requirement, the clause imposing it is an error to correct. Say so plainly in
   the cover note and quote their sentence; it is the cheapest edit in the document to land.
 
+**Ask for the negotiation history too, not only the correspondence.** Two questions: has this
+contract been through a round already, and what did the brand refuse? A redline that re-asks for
+something the brand rejected last week is not neutral — it spends goodwill on a closed point and
+tells their counsel the creator is not tracking the conversation. It may still be right to
+re-open one, but that is the creator's call with a reason attached. Equally, a point the creator
+already conceded by email is settled; do not hand it back to them as a finding.
+
 **Check for suggestions already in the document.** The brand may have left pending edits, some favorable. Read them, never reject them, and factor them into what still needs asking.
 
 **Work in tracked changes — this is a prerequisite, not a preference.** Redlines commonly arrive,
@@ -79,11 +86,27 @@ Read `references/review-checklist.md`. It is the scope of the review.
 
 **If an item is missing from the contract entirely, flag it — do not silently draft it in.** Filling a gap is a new ask and a commercial judgment that belongs to the creator. Present what's missing, say what leaving it out costs, let them decide.
 
+**Some one-sided-looking clauses are market-normal, and redlining them costs more than they
+cost.** Mutuality is the method, not the goal. A brand having no obligation to delete an organic
+post once it is up, and a brand keeping the right to demand a takedown on a recall or an IP
+problem, are both how this market works; stripping either reads to the brand's counsel as not
+having done this before, and that judgment is then applied to every other item in the redline.
+The checklist marks these where they arise and gives the conditioning edit instead — bound the
+right, do not remove it. Credibility with the other side's reviewer is a resource the redline
+spends, and there is no way to earn it back inside one document.
+
 **Do not add things that are not on the list.** Each additional ask is a line the brand's reviewer stops at, and asks that protect nothing real make the ones that matter look like part of a pile. Genuinely dangerous things outside the list get raised with the creator as separate flagged items, not added unilaterally.
 
 **Checklist items are compound.** Almost every one contains two or more distinct sub-checks, and the checklist file writes them out as separate boxes. Fixing the first thing mentioned does not close the item. This is the most common way items get half-done and marked complete — a sentence gets appended to a clause while the clause's actual problem sits untouched three lines earlier.
 
 Do not pattern-match. A cap that made sense on revisions does not belong on analytics requests.
+
+**Check the direction of every numeric edit before making it, including one the creator asked
+for.** Most numbers on the checklist are protections to secure, and the instinct generalises
+wrongly: included revision rounds are unpaid labour, so raising the count — one to two, because
+more sounds like more — is a concession written in the creator's own voice. Where an instruction
+would move a number against the creator, say so and confirm before editing rather than executing
+it faithfully. Faithful execution of a backwards instruction is still a backwards redline.
 
 ## What a term means, not what it sounds like
 
@@ -122,9 +145,14 @@ cell need escaping in any case.
 ## Workflow
 
 1. Read the contract end to end, including schedules and exhibits. On that pass, list the clocks and the event at each end, and note which of those events the document actually defines.
-2. Read the correspondence. Note what's already agreed and any figure the creator quoted.
-3. Build the tracking table, one row per sub-check.
-4. Report to the creator before editing: the table, anything missing that needs their decision, anything dangerous outside the list, and any drafting errors.
+2. Read the correspondence. Note what's already agreed, any figure the creator quoted, and — if
+   the contract has been negotiated before — what the brand has already rejected and what the
+   creator has already conceded.
+3. Build the tracking table, one row per sub-check. Mark each action **core** (edit) or
+   **elective** (ask first); the checklist defines the two tiers and marks the standing electives.
+4. Report to the creator before editing: the table, anything missing that needs their decision,
+   **every elective item, as a yes/no decision in the same list**, anything dangerous outside the
+   list, and any drafting errors.
 5. Get their decisions on open items.
 6. Apply edits by hand in Suggesting mode, following `references/editing-standards.md`. Update the table as you go.
 7. **Run the three audit passes.** See below. This is a gate, not a formality.

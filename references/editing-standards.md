@@ -85,6 +85,14 @@ Where a figure is genuinely needed and none exists, flag it for the creator rath
 
 Be careful with derived figures. A total fee divided by deliverable count is not a per-deliverable rate if the fee was built from a per-asset base plus bundled syndication and exclusivity. A wrong derived number in a contract becomes the number the other side reaches for at termination.
 
+The rule against guessing is the floor. Where the creator supplies a figure, it is still worth
+saying what the figure is *for*, because the wrong basis produces a defensible-looking number
+that does not survive contact with the other side. **A reshoot fee is a production rate, not the
+deal.** The base fee bought production plus usage, exclusivity and the creator's audience; a
+reshoot buys production again and nothing else, so a reshoot fee equal to the base fee invites
+the brand to reject the whole clause rather than negotiate the number — and the clause is worth
+more than the rate. Say this once, then use whatever the creator decides.
+
 ## 9. Fix the right axis
 
 When a clause is objectionable, identify precisely what makes it objectionable before editing.
