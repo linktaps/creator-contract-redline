@@ -24,37 +24,52 @@ passes and the two gates all exist because of that.
 
 ## Install
 
-As a plugin marketplace:
+**Claude Code**, as a plugin marketplace:
 
 ```
 /plugin marketplace add linktaps/creator-contract-redline
 /plugin install creator-contract-redline@creator-contract-redline
 ```
 
-Or clone it straight into your personal skills folder:
+**Codex CLI**, from the same repository. Codex reads Claude-style marketplaces
+directly:
 
 ```bash
-git clone https://github.com/linktaps/creator-contract-redline.git \
-  ~/.claude/skills/creator-contract-redline
+codex plugin marketplace add https://github.com/linktaps/creator-contract-redline.git
+codex plugin add creator-contract-redline@creator-contract-redline
+```
+
+Then invoke it as `$creator-contract-redline` in a new thread.
+
+**As a standalone skill**, for either tool: clone anywhere and link the skill
+directory into the folder the tool scans. Claude Code scans `~/.claude/skills`,
+Codex scans `~/.agents/skills`.
+
+```bash
+git clone https://github.com/linktaps/creator-contract-redline.git
+ln -s "$PWD/creator-contract-redline/skills/creator-contract-redline" ~/.agents/skills/
 ```
 
 ## Layout
 
-This is a single-skill plugin, so `SKILL.md` sits at the plugin root rather than
-under `skills/`. That keeps the slash form `/creator-contract-redline` instead of
-the doubled `/creator-contract-redline:creator-contract-redline`, and it means
-the repository root is also a working skill directory you can copy anywhere.
+The skill lives under `skills/creator-contract-redline/` because that is the
+one shape every host discovers: Claude Code and Codex both look for
+`skills/<name>/SKILL.md` inside a plugin, and for `<name>/SKILL.md` inside a
+personal skills folder. Everything the skill needs at run time — the checklist,
+the editing standards and the two scripts — sits inside that directory, so it
+can be copied or linked anywhere as a unit.
 
 ```
 .claude-plugin/
   marketplace.json                  marketplace definition
   plugin.json                       plugin manifest
-SKILL.md                            workflow, tracking, the three audit passes
-references/review-checklist.md      the scope of the review — 20+ compound items
-references/editing-standards.md     what a clean, surgical suggestion looks like
-references/docx-round-trip.md       authoring tracked changes in XML
-scripts/audit_suggestions.py        the Pass 1 gate
-scripts/apply_tracked_changes.py    author suggestions into a .docx, with guards
+skills/creator-contract-redline/
+  SKILL.md                          workflow, tracking, the three audit passes
+  references/review-checklist.md    the scope of the review — 20+ compound items
+  references/editing-standards.md   what a clean, surgical suggestion looks like
+  references/docx-round-trip.md     authoring tracked changes in XML
+  scripts/audit_suggestions.py      the Pass 1 gate
+  scripts/apply_tracked_changes.py  author suggestions into a .docx, with guards
 ```
 
 ## The audit script
@@ -67,13 +82,13 @@ untouched language.
 
 ```bash
 # fidelity: would rejecting the whole redline restore the brand's draft?
-python scripts/audit_suggestions.py redline.docx --baseline brand-draft.docx
+python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --baseline brand-draft.docx
 
 # completeness: are the adverse phrases still in the accepted version?
-python scripts/audit_suggestions.py redline.docx --check phrases.txt
+python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --check phrases.txt
 
 # what's in the document and who authored it
-python scripts/audit_suggestions.py redline.docx --list
+python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --list
 ```
 
 Exits non-zero when anything is unresolved, so it can hard-gate the workflow.
@@ -84,7 +99,7 @@ wording separately.
 
 ## The applier
 
-`scripts/apply_tracked_changes.py` writes suggestions into a `.docx` directly.
+`skills/creator-contract-redline/scripts/apply_tracked_changes.py` writes suggestions into a `.docx` directly.
 Express the redline as a list of edits and re-run it from the pristine brand
 draft each time; the edit list stays the source of truth.
 
