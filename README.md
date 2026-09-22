@@ -1,12 +1,45 @@
 # creator-contract-redline
 
-A Claude Skill for redlining creator and influencer contracts against a fixed
-mutuality checklist, applying every edit as a tracked change in the document so
-the creator never has to touch it.
+A Claude Skill for redlining creator/influencer contracts against a fixed
+mutuality checklist, applying every edit as a tracked (Suggested) change in the
+document so the creator never has to touch it.
+
+The result is a redlined `.docx` file that works fully in Google Docs and Word. The
+skill only adds tracked suggestions and never silently rewrites the brand's
+text, so every change shows up as a suggestion to accept or reject.
+
+The cheapest way is to upload a `.docx`. If the contract is a Google Doc, choose
+**File → Download → Microsoft Word (.docx)** and upload that file. Claude can
+also type the edits straight into a Google Doc in Suggesting mode during a
+Claude in Chrome session, but that takes much longer and uses more of your
+Claude usage.
 
 > **Not legal advice.** This is a checklist and a set of editing tools, not a
 > lawyer. It will be wrong sometimes. Read the redline before you send it and
 > the contract before you sign it. See [DISCLAIMER.md](DISCLAIMER.md).
+
+## Quick start: add it to the Claude desktop app
+
+No coding needed. Takes about a minute.
+
+1. Open the Claude desktop app and go to **Settings → Plugins**.
+2. Choose to add a marketplace, and paste this:
+   ```
+   linktaps/creator-contract-redline
+   ```
+3. Find **creator-contract-redline** in the list and click **Install**.
+4. Start a new chat, attach the contract as a `.docx` (for a Google Doc, use
+   **File → Download → Microsoft Word**), and ask
+   something like *"Can you redline this brand deal for me?"*
+   Optional but helpful: also paste anything you've already agreed with the
+   brand, such as the brief, the deliverables or rate, or emails and DMs about
+   the deal.
+
+Claude sends back a marked-up copy with every change as a suggestion the brand
+can accept or reject. To get newer versions later, click **Update** on the same
+Settings → Plugins screen.
+
+Using the command line or Codex instead? See [Install](#install) below.
 
 ## What it does
 
