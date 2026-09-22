@@ -66,7 +66,7 @@ the review and the only ones that are not arguable — the brand wrote the email
 completely differently from the rest of the redline: a correction costs the brand nothing but
 embarrassment, where every checklist item costs them something they drafted on purpose.
 
-Three failure modes to hunt specifically:
+Failure modes to hunt specifically:
 
 - **"Updated" attachments that were not updated.** A brand that agrees a number by email and says
   it will revise the contract frequently sends the same file back. Check the agreed figure against
@@ -85,6 +85,10 @@ Three failure modes to hunt specifically:
   the call-to-action sentence and the branded-content-tool sentence of one schedule and survived an
   initial mismatch table that compared fee, exclusivity and platforms and nothing else. Every
   requirement sentence in Schedule A/B either traces to the correspondence or goes in the table.
+  **An untraced deliverable is a correction, not a flag.** The scope email is what the fee was
+  quoted against, so an obligation it never mentions is work the fee does not cover: strike it
+  and cite the scope email, the same as any other mismatch. A report that lists "requirements
+  not in the scope email" under *flagged, your call* has found the item and then dropped it.
 
 **Ask for the negotiation history too, not only the correspondence.** Two questions: has this
 contract been through a round already, and what did the brand refuse? A redline that re-asks for
@@ -140,6 +144,25 @@ guessing wrong means auditing a file nobody will open.
 ## Scope: the checklist governs
 
 Read `references/review-checklist.md`. It is the scope of the review.
+
+**The creator's instructions add to the checklist; they never replace it.** Creators hand over a
+contract with a short brief — "add missing items", "paid media is separate", "the shoot is
+self-produced". That reads like a complete work order, and it is not one. It is the creator's
+decisions on the items they happened to think of. Apply them *and* run the whole checklist. The
+scope narrows in exactly two ways: the deal-size rule under *First*, or the creator saying "only
+do X" **after** being told what that leaves out.
+
+**Silence in the correspondence is not agreement.** The correspondence sorts findings into
+corrections (the brand already agreed) and asks (it did not). It does not sort them into "in
+scope" and "out of scope". A one-way indemnity nobody emailed about is still a core edit.
+
+Observed, on a $110k SOW, with the brief above: the review conformed the contract to the emails
+and stopped. Paid media, the usage period, exclusivity and the release block were all handled
+correctly. The one-way indemnity, the one-way confidentiality clause, the missing liability cap
+and the morals trigger were neither edited nor mentioned. Everything else was sorted by a single
+test, "was it in your agreed terms?", and listed as *your call*. That is the checklist inverted.
+The creator was never asked a scoping question, because the review never noticed it had chosen
+a scope.
 
 **If an item is missing from the contract entirely, flag it — do not silently draft it in.** Filling a gap is a new ask and a commercial judgment that belongs to the creator. Present what's missing, say what leaving it out costs, let them decide.
 
@@ -228,10 +251,19 @@ cell need escaping in any case.
    schedule line by line against the scope email.
 3. Build the tracking table, one row per sub-check. Mark each action **core** (edit) or
    **elective** (ask first); the checklist defines the two tiers and marks the standing electives.
-4. Report to the creator before editing: the table, anything missing that needs their decision,
-   **every elective item, as a yes/no decision in the same list**, anything dangerous outside the
-   list, and any drafting errors.
-5. Get their decisions on open items.
+   **Every must-have item gets its rows** (#1–#16, #23, #24, and the representations sweep), each
+   with a status, even where the status is *present*. A must-have with no row is how a whole
+   item goes missing without anyone deciding to drop it. The creator's instructions become rows
+   too, marked as their decisions.
+4. Report to the creator before editing: the table, **the core edits you are about to make**,
+   anything missing that needs their decision, **every elective item, as a yes/no decision in the
+   same list**, anything dangerous outside the list, and any drafting errors.
+5. **Stop and get their decisions.** Your first reply is the report, not a redline, even when
+   the creator's message came with instructions and even on a surface that runs to completion
+   without prompting (Cowork, a background agent). Asking afterwards under *decisions for you*
+   is not the same step: by then the creator is reviewing a finished file instead of choosing
+   its scope. Skip this only if the creator has said to proceed without it, and then say in the
+   report which electives you decided and which way.
 6. Apply edits by hand in Suggesting mode, following `references/editing-standards.md`. Update the table as you go.
 7. **Run the three audit passes.** See below. This is a gate, not a formality.
    - **7½. Re-sync from any returned document.** Whenever a file comes back — from the creator,
@@ -371,6 +403,13 @@ A **FORMATTING** check runs alongside, with no baseline needed. It resolves each
 The same check reports **LAYOUT** and **TYPE** separately. LAYOUT counts tab stops and page breaks in the reject-all view — comparing raw counts instead would flag tabs inside newly inserted clauses as damage and tabs inside deleted paragraphs as losses. TYPE compares character formatting per character on text present in both documents, so bold, italics, size and typeface cannot drift unnoticed. Tab stops and page breaks are easy to destroy while editing and invisible in any text comparison — losing the tab after a clause caption runs the label into the body ("Use:During the Term…"). A layout failure is cosmetic rather than dangerous, but it is the kind of thing the other side's reviewer notices.
 
 Build `phrases.txt` while making the tracking table — one line per sub-check, `label :: exact adverse wording`, copied verbatim from the contract including curly quotes. The script exits non-zero if anything is unresolved, so it can hard-gate the workflow.
+
+**The gate only checks what you gave it.** A review that never looked at the indemnity writes no
+indemnity line, and `--check` passes. So, before trusting a green result, count by label:
+every must-have item number (#1–#16, #23, #24) appears in `phrases.txt`, `additions.txt` or
+`declined.md`, or has a tracking-table row marked *present* with the clause that makes it so.
+An item number that appears nowhere was never reviewed. Report it as a gap in the review, not as
+a pass.
 
 **A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and pass it with `--additions`. Each line must occur **exactly once** in the accept-all text: zero means the edit did not land, and more than one usually means an edit was applied twice or a clause duplicated — that check caught an accidental duplicate once. The phrase gate proves the bad language left; only this proves the good language landed.
 
