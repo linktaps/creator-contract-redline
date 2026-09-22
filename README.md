@@ -70,6 +70,8 @@ skills/creator-contract-redline/
   references/docx-round-trip.md     authoring tracked changes in XML
   scripts/audit_suggestions.py      the Pass 1 gate
   scripts/apply_tracked_changes.py  author suggestions into a .docx, with guards
+  scripts/accept_all.py             clean copy (every suggestion accepted), self-verified
+  scripts/reject_all.py             the mirror: every suggestion rejected
 ```
 
 ## The audit script
@@ -82,10 +84,10 @@ untouched language.
 
 ```bash
 # fidelity: would rejecting the whole redline restore the brand's draft?
-python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --baseline brand-draft.docx
+python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --baseline brand-draft.docx --author "Creator Name"
 
-# completeness: are the adverse phrases still in the accepted version?
-python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --check phrases.txt
+# completeness: are the adverse phrases gone, and did the new wording land?
+python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --check phrases.txt --additions additions.txt
 
 # what's in the document and who authored it
 python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --list
@@ -94,8 +96,11 @@ python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx
 Exits non-zero when anything is unresolved, so it can hard-gate the workflow.
 
 The phrase gate proves the bad language left. It cannot see additions, and
-roughly half a mutuality redline is additions — so assert the expected new
-wording separately.
+roughly half a mutuality redline is additions — so `--additions` asserts each
+expected new clause appears exactly once. `--baseline` also checks that every
+other part of the package is byte-identical to the brand's draft, and with
+`--author` that the other side's pending suggestions are exactly as they left
+them.
 
 ## The applier
 

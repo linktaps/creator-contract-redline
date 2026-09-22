@@ -88,10 +88,16 @@ Read #4, #20 and #24 hardest on these.
 - [ ] Creator can terminate at all
 - [ ] Creator can terminate for non-payment specifically
 - [ ] Cure period stated and reciprocal
-- [ ] Payment on termination covers **all work performed, including concept and pre-production,
-      whether or not delivered**, published or approved. "Content created and submitted" is the
-      narrower formulation and it is usually the creator's own redline that introduces it — a deal
-      killed after the concept is approved and before the shoot has produced no Content at all
+- [ ] Payment on termination covers **all work performed on an approved concept, whether or not
+      delivered**, published or approved. "Content created and submitted" is the narrower
+      formulation and it is usually the creator's own redline that introduces it — a deal killed
+      after the concept is approved and before the shoot has produced no Content at all. **Word
+      it as "pre-production and production work performed on a Brand-approved concept, whether or
+      not the resulting Post has been delivered, published or approved."** Do not write "concept
+      development… whether or not approved": it reads as billing for rejected pitches, and it is
+      circular — the approval it disclaims is the thing that made the work billable. Use the same
+      phrase in every termination route that pays for work performed, so no route pays on a
+      different basis
 - [ ] **Content handover on termination is conditioned on payment**, and is not required at all
       where the creator terminates for the brand's cause. An unconditional "deliver all Content
       within forty-eight (48) hours of termination" hands over the work in the one situation
@@ -128,7 +134,7 @@ Read #4, #20 and #24 hardest on these.
       brand. "Materially injures" is the ask, and it is a single word
 - [ ] Reciprocal termination right exists for the creator
 - [ ] Creator retains fees already paid
-- [ ] Creator is paid for all work performed, including concept and pre-production (same standard as #4)
+- [ ] Creator is paid for all work performed on an approved concept, in the same words as #4
 - [ ] Creator may remove or archive posts
 - [ ] Brand must cease use of the materials
 - [ ] Creator is released from exclusivity
@@ -143,6 +149,12 @@ its own three defects:
 - [ ] **The standard is objective.** "Disparage **or reflect unfavorably on**" is unbounded by
       construction: an honest negative word about a product the creator has stopped liking
       breaches it. "Are defamatory of" is the fix, and brands accept it
+
+> **Do not self-extend the duration.** Creators sometimes ask whether non-disparagement should
+> run for the usage period rather than the Term, because the posts are still up. No: it is the
+> creator's obligation, and every month added is a concession written in the creator's voice.
+> "During the Term and any Usage Period" is a fair thing to *concede if the brand asks for it*.
+> Record it as the fallback; never volunteer it.
 
 ### 6. Retained ownership
 - [ ] Ownership stated in the creator's favor
@@ -159,6 +171,15 @@ its own three defects:
       overrides it. The two boxes are checked together or not at all. Bound the restriction to
       use that implies a continuing endorsement or a live campaign, and carve out factual
       reference to past work
+- [ ] **The creator's own marks are reserved as the brand's are.** Where the brand reserves its
+      Brand Marks, mirror it: the creator (and any loan-out company or agent) retains all names,
+      marks, handles and channel names **owned or controlled by** them; the brand's use is limited
+      to their appearance within the Materials; no use on packaging, standalone, or as an
+      endorsement outside the Materials; no registration or challenge by the brand. Draw it by
+      ownership, not by listing handles — an enumeration of what the creator owns is out of date
+      the day they open a new channel. Then sweep the schedules: a "Materials will contain no
+      trademarks owned by others" requirement needs the same carve-out, or the creator's own
+      handle on screen breaches it
 
 ### 7. Non-exclusive license
 - [ ] Grant says non-exclusive (search for "exclusive" in the grant)
@@ -184,6 +205,11 @@ its own three defects:
 - [ ] Material approved but never published is addressed — payment for it and a license to it are separate questions
 
 > The trigger box and the definition box fail together and look like one item. A clause reading "60 days after each live post" passes the trigger box on its face, which is exactly why the definition box exists underneath it.
+
+> **Leave a per-Post usage grant alone even where it looks like a gap.** Where the Use grant
+> covers "results and proceeds" but the Usage Period is defined per Post, material never embodied
+> in a Post has no Usage Period start and therefore no usage right at all. That cuts for the
+> creator. Do not "fix" it by giving unpublished material a clock.
 
 ### 10. Name and likeness limited to promoting the program
 - [ ] Not "in perpetuity"
@@ -276,6 +302,12 @@ its own three defects:
       rate rather than a figure the brand chose, (b) conditioned on the creator's availability
       ("subject to Influencer's prior professional commitments"), and (c) bounded by a date. An
       unconditioned option is a call on the creator's calendar for the length of the term
+- [ ] **Deliverable specs can move by email in both directions.** Where the entire-agreement clause
+      lets the brand issue instructions by email but requires a signed writing for everything else,
+      the brand can adjust a spec informally and the creator cannot. Add to each deliverable spec
+      paragraph: "The specifications in this paragraph may be adjusted by mutual written agreement
+      (which may be via email)." It costs the brand nothing and saves an amendment for a changed
+      runtime or posting day
 
 > Note: this item is the most common false-complete. Appending a sentence about brand-caused delay to the end of the Extension clause does not fix the unpaid-extension language earlier in the same clause. Check every box.
 
@@ -318,6 +350,19 @@ The first five are the terms that are usually capitalized, and "live" is on the 
 - [ ] **Every event that starts or stops a clock is defined.** List the clocks first — usage window, exclusivity window, payment clock, feed-retention obligation, revision turnaround, the Term itself — then the event at each end, then the clause defining that event. A blank in the third column is a finding
 - [ ] **Lowercase phrases count.** A term does not have to be capitalized to be load-bearing; "live post" carries more weight in most influencer templates than any defined term in them, and gets no scrutiny because it reads like ordinary English
 - [ ] **One idea, one phrase.** Variants scattered across body and exhibits ("live post" / "goes live" / "live post date" / "final content is live") mean a single definition has to cover all of them, or be made to, by conforming the language
+- [ ] **Two clocks with one meaning are one clock.** If the creator's keep-up obligation and the
+      brand's usage period are meant to be the same length, define one and reference it from the
+      other ("for the Usage Period"). Two identically measured clocks written in different words
+      invite an argument about whether they differ
+- [ ] **Syndication is not a new publication.** Where a usage period or a fee installment is
+      triggered by "publication" of an asset that is syndicated to several platforms, say that
+      initial publication is the first channel, and that later syndication of the same asset
+      neither restarts the clock nor triggers another installment. A payment restructure the
+      creator asked for can create this ambiguity on its own — check it after changing #19
+- [ ] **Disclosure hashtags agree everywhere.** Schedules commonly disagree (#ad in one, #BrandPartner
+      in another). Harmonise on "#ad and #[Brand]Partner (or such other FTC-compliant disclosure as
+      Brand may request)" in every place. A bare partner tag is not FTC-sufficient on its own, so
+      "both" is the compliant answer, not a concession — and it is a pure consistency fix
 - [ ] **A duration with no stated start.** "must remain on the Influencer's primary feed for at least (1) year" — from when? Deliverable-level and exhibit-level obligations are where this hides, because exhibits are written as scoping notes rather than as contract language
 - [ ] Where a term is defined in the body and used in an exhibit (or the reverse), the exhibit is actually incorporated so the definition reaches it
 
@@ -355,6 +400,12 @@ Work back through the items and find each one's rep:
       shall not be a member of…"), other client relationships, platform exclusivity. These are
       career terms wearing a warranty's clothes, and they belong in the report even when the
       creator decides to accept them
+- [ ] **Schedule reps with no clock.** The schedules carry reps too, and they escape this sweep
+      because they read as brief notes. "Talent will promptly notify Brand if Talent's opinion of
+      the products changes" is perpetual as drafted. Bound it to "during the Term and any Usage
+      Period" — the one place the usage period rather than the Term is the right clock, because
+      the rep exists for the FTC's live-endorsement purpose, and the endorsement stays live as long
+      as the brand may run it
 
 Conform the rep to the clause rather than negotiating the rep on its own terms. "Rep (xx) should
 match the exclusivity you already agreed" is a one-line ask; renegotiating the rep from scratch is
@@ -377,6 +428,8 @@ a fight about a paragraph the brand considers standard.
 - [ ] What triggers the final installment, and what share of the fee it carries
 - [ ] Large analytics-contingent holdbacks restructured or reduced
 - [ ] Any per-deliverable allocation reflects how the fee was actually built, not a flat division
+- [ ] An installment triggered by publication says which publication — see #16 on syndication. A
+      restructure to per-deliverable payment is where this ambiguity usually gets introduced
 
 ### 20. Net 30
 - [ ] Payment term is net 30 or better
@@ -420,6 +473,11 @@ a fight about a paragraph the brand considers standard.
       client up to the unpaid fee, plus making the third-party-beneficiary clause reciprocal for
       payment. Both are hard to refuse, because they only make the brand's own sentence work
 - [ ] Any narrowing edit did not leave the original open-ended language in place beside it
+- [ ] **Conditions that never fire or always fire.** "Subject to payment of amounts then due" on a
+      delivery or handover obligation, in a net-30 structure, either blocks every routine request
+      (something is always invoiced and not yet paid) or means nothing. Write delivery and
+      handover conditions as "provided no undisputed amount is then **past due**" — including the
+      one the creator's own redline adds to #4's handover box
 - [ ] **The payment trigger is stated identically in the fee table and in the operative clause.**
       Template contracts state it twice — once in the defined-terms/fee row and once in the
       compensation paragraph — and a redline that fixes the paragraph and misses the row leaves the
@@ -472,6 +530,13 @@ a fight about a paragraph the brand considers standard.
 - [ ] Any §1542-style waiver of unknown claims is checked against all of the above — it extends
       each one to claims that do not exist yet
 
+> **Where the contract's own drafter's note says release, COVID or assumption-of-risk provisions
+> "should be removed" for self-produced content, strike the whole block and cite the note** in the
+> cover note — it is the brand's instruction, not the creator's ask. Record the fallback (a release
+> narrowed to exclude the released parties' negligence, with no §1542 waiver) in the tracking
+> table, but do not draft it unless asked. No release beats a narrowed one, and drafting the
+> fallback hands the brand a starting position.
+
 ### 24. Fee and scope certainty
 
 > Also numbered out of order to keep existing references stable, and also a must-have. **Check
@@ -500,6 +565,11 @@ a fight about a paragraph the brand considers standard.
 - [ ] **Deliverable counts are unambiguous.** "6 videos syndicated across three platforms"
       reads as 6 or as 18, and the count multiplies the rate — this is the largest commercial
       term in the document, not a drafting nit
+- [ ] **Every requirement sentence in the deliverables spec traces to the correspondence.**
+      Compare the schedule against the scope email line by line, not term by term. Extra
+      deliverables hide inside spec paragraphs — "link in bio for 72 hours" sat between the CTA
+      and branded-content-tool sentences of one schedule and passed a mismatch table that compared
+      only fee, exclusivity and platforms. Each untraced requirement goes in the mismatch table
 
 ---
 

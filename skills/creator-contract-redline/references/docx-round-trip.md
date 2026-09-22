@@ -12,7 +12,7 @@ The audit script (`scripts/audit_suggestions.py`) uses the export leg and should
 
 The import leg is optional and worth it when there are many edits to make. Its real advantage is not speed but verifiability: if edits are a list of find/replace pairs applied by script, you can assert each one matched exactly once and fail loudly otherwise. Whole categories of browser-editing failure — dropped items, off-by-one selections, insertions landing mid-word, a phrase surviving a replacement that was supposed to remove it — become impossible or immediately visible.
 
-Browser editing remains the right tool for multi-paragraph deletions and anything awkward to express as a string replacement.
+Whole-paragraph and multi-paragraph deletions no longer need the browser: `apply_tracked_changes.py` strikes paragraphs with their marks (below). Browser editing remains the fallback for anything genuinely awkward to express as an anchored edit.
 
 ## Mechanics
 
@@ -36,7 +36,7 @@ A deletion uses `w:delText`, not `w:t`.
 
 ## Formatting: the failure that is invisible until someone opens the document
 
-**Every inserted run must carry an explicit `<w:sz>` and `<w:rFonts>`.** A run authored with a bare `<w:rPr><w:rtl w:val="0"/></w:rPr>` inherits `docDefaults` — typically 12pt in the default face. In a contract typeset at 8.5pt Arial, that clause renders roughly 40% larger than everything around it and in the wrong typeface. Nothing in the text comparison catches it; the words are right and the document looks wrong.
+**Every inserted run must resolve to the same size and face as the text beside it.** Usually that means an explicit `<w:sz>` and `<w:rFonts>` copied from the neighbouring run — but not always: where the paragraph style supplies the font (a bulleted `ListParagraph` commonly does), the brand's own runs declare only size and colour, and an inserted run copying them exactly is correct. What goes wrong is a run whose properties were written from scratch. A run authored with a bare `<w:rPr><w:rtl w:val="0"/></w:rPr>` inherits `docDefaults` — typically 12pt in the default face. In a contract typeset at 8.5pt Arial, that clause renders roughly 40% larger than everything around it and in the wrong typeface. Nothing in the text comparison catches it; the words are right and the document looks wrong.
 
 This bites hardest on **whole new clauses** — a Limitation of Liability or a definitions block — because there is no run being edited to copy from. Copy the `<w:rPr>` from the nearest body run anyway:
 
@@ -47,7 +47,9 @@ This bites hardest on **whole new clauses** — a Limitation of Liability or a d
 </w:rPr>
 ```
 
-`audit_suggestions.py` checks this on every run, with no baseline needed: it finds the document's dominant size and face and reports any inserted run that doesn't declare them.
+`audit_suggestions.py` checks this on every run, with no baseline needed: it resolves each inserted run's size and face through run properties, paragraph style and docDefaults, and reports any that differ from the surviving run beside it.
+
+**Tabs in new clauses are real tabs.** Caption columns in these templates are usually a `<w:tab/>` against a tab stop (2269 twips in one SOW). Non-breaking spaces standing in for one render misaligned. `para_after` turns `\t` in its text into a `<w:tab/>`; `clone_para_after` copies the sibling's tabs by construction, and takes substitutions keyed by run index where a sibling's run texts are not unique.
 
 ## Deleting a whole paragraph or bullet
 
@@ -58,6 +60,20 @@ Striking every run in a paragraph is only half of it. The paragraph mark has to 
 ```
 
 Without it, accepting the suggestion removes the words and leaves the empty paragraph — a blank line, or a bullet glyph with nothing after it. `audit_suggestions.py` reports these under **Structure**.
+
+`apply_tracked_changes.py` does all of this in one call:
+
+- `del_para(unique_text)` strikes the paragraph containing that text, runs and mark. Runs already
+  inside someone else's `<w:del>` are left alone; runs inside someone else's `<w:ins>` get our
+  `<w:del>` *inside* their insertion, so the file records "they inserted it, we deleted it" and
+  their suggestion survives intact.
+- `del_blank_para_after(unique_text)` strikes the blank spacer paragraph after it — deleting a run
+  of bullets means deleting the spacers between them, and a spacer has no text to anchor on.
+- `del_para_offset(unique_text, k, expect_prefix)` strikes the k-th paragraph after an anchor,
+  asserting its text starts as expected. This is how the second copy of a **duplicated
+  paragraph** is reached: once one copy is struck its text leaves the flat index, and the survivor
+  is no longer distinguishable by content. **Delete by offset first, then delete the anchor
+  paragraph** — the other order removes the anchor you are counting from.
 
 **Expect a rendering artifact, and know where it appears.** A deleted paragraph mark is drawn as a strikethrough at the junction between that paragraph and the next — so the line shows up at the left edge of the *following* paragraph, running across its indent, not on the deleted one. In a bullet list it looks as though an untouched bullet has a stray line beside it; the line belongs to the deleted bullet above.
 
@@ -115,6 +131,25 @@ whole fix.
 The same trap catches `<w:tab/>`-only runs and bookmarks sitting between two text
 runs: they are invisible in the flat text, and a span replacement drops them.
 
+**When the span is a deletion, split it instead of re-anchoring.** The common cause is not a
+hyperlink but `<w:bookmarkStart>`/`<w:bookmarkEnd>` pairs left by comments (`_cp_text_*`) and
+`<w:proofErr>` markers from the spell checker, scattered through an otherwise ordinary sentence.
+One payment-freeze sentence was split across nine runs this way; a forty-word deletion cannot be
+re-anchored inside one element. `del_multi(anchor, after)` emits one `<w:del>` per run, leaving
+the markup between them in place, each located by its position immediately before the unique
+`after` string — which is the stable reference, because every deletion shifts the flat text
+before it. Adjacent deletions render as one strike in Word.
+
+**A deletion at the very start of a run must not take the run's tab with it.** A caption row is
+typically `Use:` `<w:tab/>` `During the Term…`, and the tab often sits at the head of the body
+run. Striking from offset 0 of that run used to fold the tab into the deleted fragment, so
+accepting the change deleted the caption column and ran "Use:" into the body. The script now emits
+the tab as its own untouched run before the `<w:del>`.
+
+**Never nest an insertion in an insertion.** Inserting next to another author's pending insertion
+— "be " before their "up to", " two" after it — cannot go inside their `<w:ins>`; Word rejects
+`<w:ins><w:ins>`. The script places ours as a sibling immediately before or after theirs.
+
 **One more regex trap, because it costs an afternoon.** `<w:t([^>]*)>` also
 matches `<w:tab/>` — `"<w:t"` + `"ab/"` + `">"` fits the pattern. Indexing with it
 silently captures raw XML into the text stream and mis-places every edit near a
@@ -125,7 +160,7 @@ tab stop. Require the whitespace: `<w:t(\s[^>]*)?>`.
 Two checks, both cheap:
 
 1. `audit_suggestions.py redline.docx --baseline brand-draft.docx` — reject-all must reproduce the brand's draft exactly.
-2. Export the imported doc and diff its reconstructed accepted text against the local version. They should match.
+2. Export the imported doc and diff its reconstructed accepted text against the local version. They should match. The audit's text reconstructions render tabs as `\t`; normalise whitespace before diffing against anything else, or every caption column reports as a difference.
 
 **Watch the layout elements.** Authoring XML by hand destroys `<w:tab/>` separators easily — replacing a run that contained one, or rebuilding a paragraph without it. The result is a caption running into its body text. The baseline check counts them; compare before shipping.
 
@@ -179,7 +214,8 @@ value, and treat `"0"`, `"false"` and `"none"` as off.
 ## Cautions
 
 - **Text is split across runs.** A sentence you can see in the document may be several `<w:r>` elements with formatting boundaries between them. Match on a single run's `<w:t>` content, or normalise first. A naive string search across the raw XML will miss phrases that span runs.
-- **`w:id` collisions** with existing suggestions cause unpredictable merging. Start your ids well above anything already in the file.
+- **`w:id` collisions** with existing suggestions cause unpredictable merging. Start your ids well above anything already in the file. `apply_tracked_changes.py` starts above the highest existing id plus a random offset.
+- **Uniform metadata is a tell.** Two hundred changes sharing one timestamp to the minute, ids in a contiguous block from 9001, no `w16du:dateUtc` in a document that uses it elsewhere: nothing names a tool, but it does not look typed. The script spreads timestamps across edits and writes `w16du:dateUtc` where the document already uses that namespace. See *Provenance* in SKILL.md for what it cannot fix.
 - **Escape XML entities** in text you insert — `&`, `<`, `>`.
 - **Round-trip the original first and diff it** against the source before trusting the import on a real contract. Confirm the brand's existing suggestions survived, the label-column layout and tab stops held, and headers and footers are intact. Drift reads as carelessness to the other side's reviewer.
 - **Comments probably do not survive.** Check whether any matter before relying on this.

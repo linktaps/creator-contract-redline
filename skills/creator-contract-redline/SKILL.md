@@ -78,6 +78,13 @@ Three failure modes to hunt specifically:
 - **Concessions already won that the paperwork still contradicts.** Where the brand has agreed in
   writing to drop a requirement, the clause imposing it is an error to correct. Say so plainly in
   the cover note and quote their sentence; it is the cheapest edit in the document to land.
+- **Deliverables the correspondence never mentioned.** Compare the deliverables schedule against
+  the scope email **sentence by sentence**, not headline by headline. Fee, exclusivity and platform
+  lists get compared because they are the terms everyone discussed; extra obligations hide inside
+  spec paragraphs between requirements that were agreed. A "link in bio for 72 hours" sat between
+  the call-to-action sentence and the branded-content-tool sentence of one schedule and survived an
+  initial mismatch table that compared fee, exclusivity and platforms and nothing else. Every
+  requirement sentence in Schedule A/B either traces to the correspondence or goes in the table.
 
 **Ask for the negotiation history too, not only the correspondence.** Two questions: has this
 contract been through a round already, and what did the brand refuse? A redline that re-asks for
@@ -182,6 +189,20 @@ Build this before editing and keep it current. It is the artifact that survives 
 
 One row per **sub-check**, not per item. Status is present / partial / adverse / missing. Action is edit / flag / none. Done stays blank until you have visually confirmed the edit in the document.
 
+Two further statuses record decisions rather than drafting, and both are terminal:
+
+- **`rejected (brand, <date>)`** — the brand refused it in a previous round.
+- **`conceded (creator, <date>)`** — the creator chose to give it up, whether in chat, by email, or
+  by editing it out of a returned file themselves.
+
+Never re-propose either without an explicit instruction from the creator. A conceded row is the
+one that gets lost: it looks exactly like an unfixed adverse clause, and two rounds later a fresh
+reviewer — or an adversarial model — proposes the fix again. On one review the creator removed a
+takedown trigger list, a notes-turnaround window and a deemed-approval clause themselves; two
+rounds later all three came back as recommendations. Keep a `declined.md` beside the table
+listing every rejected and conceded row with its date and a one-line reason, so a re-ask is
+recognised by lookup rather than by memory.
+
 Where a status turns on what a word means, the status cell carries the clause that defines the word — `present (§1(c))`, not `present`. If you cannot fill in the reference, the status is partial. This single habit is what catches undefined triggers; without it, "reads as the creator's publication" and "is the creator's publication" are recorded identically.
 
 **Re-output the table after every batch of edits**, not only at the start. If the session is interrupted, the table is what you resume from.
@@ -196,11 +217,15 @@ cell need escaping in any case.
 
 0. **Check whether it is already signed, and find the total fee.** If signed, stop and offer an
    exposure read or a template markup instead of a redline. Let the fee set how much of the
-   redline is worth making.
+   redline is worth making. **Copy `scripts/` into the working directory** before starting: a
+   plugin can be updated or uninstalled mid-session — it has happened, with the skill directory
+   moved to the trash between rounds — and the audit has to survive that.
 1. Read the contract end to end, including schedules and exhibits. On that pass, list the clocks and the event at each end, and note which of those events the document actually defines.
 2. Read the correspondence. Note what's already agreed, any figure the creator quoted, and — if
    the contract has been negotiated before — what the brand has already rejected and what the
-   creator has already conceded.
+   creator has already conceded. Then ask the question the mismatch table misses: **is there
+   anything in the schedules that was not in the correspondence scope?** Walk the deliverables
+   schedule line by line against the scope email.
 3. Build the tracking table, one row per sub-check. Mark each action **core** (edit) or
    **elective** (ask first); the checklist defines the two tiers and marks the standing electives.
 4. Report to the creator before editing: the table, anything missing that needs their decision,
@@ -209,7 +234,79 @@ cell need escaping in any case.
 5. Get their decisions on open items.
 6. Apply edits by hand in Suggesting mode, following `references/editing-standards.md`. Update the table as you go.
 7. **Run the three audit passes.** See below. This is a gate, not a formality.
+   - **7½. Re-sync from any returned document.** Whenever a file comes back — from the creator,
+     from a Google Docs round trip, from another model — do not edit it. Fold it into the edit
+     list and rebuild. See *When a file comes back*.
 8. Only after Pass 1 is complete and shown to the creator, draft the cover note.
+9. Answer the walk-through questions that follow. See *The walk-through*.
+
+## When a file comes back
+
+**The edit list is the source of truth, not whichever `.docx` is newest.** The live document
+changes hands mid-negotiation: the creator uploads it to Google Docs and edits there, an
+adversarial model marks up the clean copy, a colleague adds a comment round. Layering new edits
+onto any of those files inherits whatever the other tool did to it, and some of what they do is
+unrecoverable by editing.
+
+Observed: a creator rewrote one bullet in Google Docs on top of the redline. Docs captured it as
+a *single deletion containing both the creator's new wording and the brand's original* — accept
+removed the bullet entirely, reject produced a garble of the two. No edit to that file could
+repair it. The same thing happened again with two adversarial-model files layered on a clean copy.
+
+So, every time a file comes back:
+
+1. Build its accept-all text and diff it against your last accept-all.
+2. Express every difference as an edit in the master list — the creator's wording, not the
+   returned file's markup.
+3. Rebuild from the pristine brand draft.
+4. Run all three audit passes.
+
+**Re-check the direction of every creator-authored numeric change in the returned file**, not only
+instructions given in chat. A creator who picked one included revision round in conversation
+changed it to two in their own edit two rounds later. The direction warning under *Scope* applies
+to a number typed into the document exactly as it does to one typed into chat: say which way it
+cuts, and confirm.
+
+## Adversarial-model rounds
+
+Creators increasingly run the redline past a second model. The first round is usually worth it —
+one session's first adversarial pass returned 28 proposals, about 22 of them useful. The second
+returned 25, of which 9 were useful, 15 re-asked items declined in the first round, and 3
+reopened concessions the creator had made personally. The creator suspected churn and was right.
+
+Classify every proposal before acting on any of them:
+
+| Class | Meaning | Action |
+|---|---|---|
+| (a) new and correct | Not previously considered, and right on the checklist | Add to the edit list |
+| (b) already declined | Matches a `rejected` row in `declined.md` | Skip, and say so by name |
+| (c) reverses a creator concession | Matches a `conceded` row | Skip, and say so by name |
+| (d) overreach | Right direction, but broader than the checklist position | Trim to the checklist form, then treat as (a) |
+
+Report the classification to the creator as a table, not a narrative. **If a round's useful yield
+— (a) plus trimmed (d) — is below about a third, recommend stopping.** Further rounds are churn,
+and each one costs another rebuild and audit.
+
+## The walk-through
+
+The review does not end at the cover note. After the redline the creator usually asks
+clause-level questions — "is this overreach?", "what does (iii) actually entail?", "should this run
+for the usage period too?", "can I reuse this footage?". On one review that was fifteen questions,
+and several produced the best edits of the session.
+
+Answer each in three parts:
+
+1. **What the clause does** — in plain language, with the defined terms resolved.
+2. **Whether the current wording is the checklist position** — and if not, what the checklist
+   position is.
+3. **What the brand's counsel will push on** — so the creator knows which edits are cheap to hold
+   and which will be traded.
+
+**Offer to apply; do not apply unasked.** A question is not an instruction, and an edit the
+creator did not request is one they may not have read. The exception is a pure consistency fix —
+a hashtag that disagrees across schedules, a term used in two phrasings — which can be made and
+reported. Every edit that comes out of this phase goes through the edit list, the rebuild and the
+audit like any other.
 
 ## Auditing
 
@@ -238,14 +335,23 @@ python scripts/audit_suggestions.py contract.docx --list
 
 ```bash
 # fidelity: would rejecting the whole redline restore the brand's draft?
-python scripts/audit_suggestions.py redline.docx --baseline brand-draft.docx
+# With --author, also proves every other author's pending suggestion is exactly as they left it.
+python scripts/audit_suggestions.py redline.docx --baseline brand-draft.docx --author "Creator Name"
 
-# completeness: are the adverse phrases still in the accepted version?
-python scripts/audit_suggestions.py redline.docx --check phrases.txt
+# completeness: are the adverse phrases gone, and did the new language land?
+python scripts/audit_suggestions.py redline.docx --check phrases.txt --additions additions.txt
 
 # what's in the document and who authored it
 python scripts/audit_suggestions.py redline.docx --list
 ```
+
+With `--baseline` the script also checks **package fidelity**: every part of the `.docx` other
+than `word/document.xml` — styles, numbering, headers, `docProps/core.xml` and `app.xml` — must
+be byte-identical to the brand's draft. Together with the per-author check, that is the claim the
+creator most wants to be able to make: *only my suggested edits changed, nothing else, and your
+own pending suggestions are untouched.* A foreign suggestion reported as *wrapped by our deletion*
+is acceptable — it happens when a paragraph the brand had edited is struck whole — and worth
+naming in the cover note if the brand will notice it.
 
 **Parse the XML first — before any of the checks below.** Every check in
 `audit_suggestions.py` is a regex over the markup; not one of them parses it. A
@@ -260,13 +366,13 @@ This has happened in practice: a confidentiality clause whose opening words were
 
 A **STRUCTURE** check reports paragraphs whose text is entirely struck while the paragraph mark survives — accepting those leaves an empty line or an empty bullet behind.
 
-A **FORMATTING** check runs alongside, with no baseline needed. It finds the size and typeface the body text uses and flags any inserted run that doesn't declare them — those inherit the document default and render visibly larger and in the wrong face. This catches the defect that no text comparison can see: the words are correct and the document still looks wrong.
+A **FORMATTING** check runs alongside, with no baseline needed. It resolves each inserted run's effective size and typeface — through the run's own properties, then the paragraph style, then the document defaults — and flags it only where that differs from the surviving text beside it. Such runs inherit the wrong default and render visibly larger and in the wrong face. (Resolving through the style is what stops a bulleted `ListParagraph` whose style supplies Arial from failing on every run, the brand's own Word-authored edits included.) This catches the defect that no text comparison can see: the words are correct and the document still looks wrong.
 
 The same check reports **LAYOUT** and **TYPE** separately. LAYOUT counts tab stops and page breaks in the reject-all view — comparing raw counts instead would flag tabs inside newly inserted clauses as damage and tabs inside deleted paragraphs as losses. TYPE compares character formatting per character on text present in both documents, so bold, italics, size and typeface cannot drift unnoticed. Tab stops and page breaks are easy to destroy while editing and invisible in any text comparison — losing the tab after a clause caption runs the label into the body ("Use:During the Term…"). A layout failure is cosmetic rather than dangerous, but it is the kind of thing the other side's reviewer notices.
 
 Build `phrases.txt` while making the tracking table — one line per sub-check, `label :: exact adverse wording`, copied verbatim from the contract including curly quotes. The script exits non-zero if anything is unresolved, so it can hard-gate the workflow.
 
-**A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and assert every line is present in the accept-all text. The phrase gate proves the bad language left; only this proves the good language landed.
+**A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and pass it with `--additions`. Each line must occur **exactly once** in the accept-all text: zero means the edit did not land, and more than one usually means an edit was applied twice or a clause duplicated — that check caught an accidental duplicate once. The phrase gate proves the bad language left; only this proves the good language landed.
 
 This also disposes of a state that otherwise eats time. A surviving adverse phrase is expected wherever the fix was an addition placed beside text that should stay: the creator's own indemnity survives a mutuality edit, "worldwide license" survives having "non-exclusive," inserted in front of it. Those are phrase-selection artifacts, not misses — but they are indistinguishable from real misses until the additions check confirms the counterpart exists.
 
@@ -275,13 +381,26 @@ Read the result rather than skimming it. Three states need judgment:
 - **PARTIAL (x2 before, x1 still present)** — the phrase occurs in more than one place and only some were handled. Usually the body was edited and an exhibit was not, or the same stock sentence appears in two clauses. Find out which instance survived; sometimes the survivor is legitimately different and should stay.
 - **STILL PRESENT — but this clause WAS edited** — the most dangerous state. Something was changed in that clause while the adverse wording stayed, usually because a protective sentence was added beside the problem instead of replacing it. The clause now contradicts itself and reads as handled. Always read it in full.
 - **STILL PRESENT — clause untouched** — either a genuine miss or a deliberate flag. Check the tracking table for which.
-- **not found in either** — the phrase is wrong, not the item fine. Fix the phrase and re-run.
+- **absent from both — not gating** — the phrase is in neither the accepted nor the original
+  text. Usually the phrase is wrong, not the item fine: fix it and re-run. It does not fail the
+  gate, because some phrases never existed in either — wording that lives only in the brand's own
+  *pending* edits ("must up to (2) frames" was the brand's mid-edit grammar). Pass `--author` with
+  your author name to test against the counterparty's view, which applies their pending changes
+  and rejects yours; phrases found only there are reported as such.
 
 Then search the accepted text for placeholders. Runs of underscores are the obvious form and the
 least common: **bracketed values are more likely to survive signature**, because they read as
 drafting furniture rather than as a gap — `[3] days prior`, `USD [55.00]`, a bare `[  ]`. Add
 `XX`, `TBD` and `N/A` sitting where a number or a name belongs. Any placeholder outside the
 signature block is a blocking open item, not a completed edit.
+
+**A clean copy is a normal deliverable, not only an audit artefact.** Creators need one — to hand
+to a second model, to read without markup, to pass between rounds. Build it with
+`scripts/accept_all.py redline.docx clean.docx` (and `reject_all.py` for the mirror); each verifies
+its own output against the audit's reconstruction before writing. Do not verify a clean copy with
+`python-docx`'s `paragraph.text`: it silently skips content inside `<w:sdt>` content controls,
+which produced a false "text differs" alarm in practice. Use the audit reconstruction or a raw
+`<w:t>` walk.
 
 Do not use the suggestion count as a verification metric. Importing a .docx merges adjacent tracked changes, so 154 suggestions can arrive as 111 with identical content. Compare the reconstructed text, never the counts.
 
@@ -343,6 +462,12 @@ pristine brand draft as the input, and re-run from it after every change; the
 edit list stays the source of truth and the reject-all view stays byte-identical
 to what the brand sent.
 
+It also covers the cases that otherwise tempt you to widen an edit or hand-splice
+XML: `within=` to anchor a non-unique word inside a unique wider context,
+`del_para` and its relatives to strike whole paragraphs with their marks,
+`del_multi` for a deletion broken up by bookmarks or proofing marks, and safe
+insertion beside another author's pending suggestion. The docstring lists them.
+
 When editing through the browser, these prevent the failures that actually occur:
 
 - **Never chain select-all-and-type across a tool-call boundary without confirming focus first.** A find-box sequence that lands in the document body selects the entire contract and replaces it. Screenshot to confirm focus before any select-all.
@@ -368,6 +493,39 @@ open-ended permission and leaves a clause the brand will not fight about. Know w
 doing and why.
 
 Be honest about uncertainty. If you cannot verify that an earlier edit survived a later change, say that and say exactly what to check.
+
+### The cover note
+
+**The email that goes to the brand is short — about 120 words at most.** One line that the
+corrections conform the document to what was already agreed in writing; one line that the rest is
+mutuality, mirroring language the brand drafted; an offer to walk their counsel through any of it.
+The redline carries the substance and their reviewer will read the redline, not the email.
+
+A first draft on one review ran to about 900 words; the creator sent about 80, and the creator was
+right. A long note reads as arguing every point in advance and hands the brand a list of things to
+refuse. Write the long version anyway if it helps, as an **internal explainer for the creator** —
+what each edit does and why — and keep it out of the send.
+
+### Provenance
+
+Creators ask whether the file shows it was made with AI. Answer factually, from the file:
+
+- **Tool strings.** Scan every part of the package for the name of a tool, a script, or a model.
+  The scripts write none, and the author on each change is whatever name was passed.
+- **Package metadata.** With `--baseline`, the audit confirms `docProps/core.xml` and `app.xml`
+  are byte-identical to the brand's draft, so `lastModifiedBy` and the application name are still
+  whatever they were when the brand sent it.
+- **What a forensic reader could still notice.** Changes written by a script lack the revision
+  session ids (`rsid`) Word stamps on everything it touches, and their ids and timestamps are
+  more regular than typing produces. `apply_tracked_changes.py` spreads timestamps and starts ids
+  above the document's existing ones, which removes the most obvious regularity, but it cannot make
+  the file indistinguishable from one edited by hand.
+
+If the creator wants the file to carry their own editing history, the step is theirs: open it in
+Word and **Save As**, which stamps their name as last modifier and adds rsids. Timestamps already
+on the changes stay as they are. Do not describe any of this as concealment — the redline is the
+creator's, sent under their name, and they are responsible for every edit in it whatever tool
+typed it.
 
 Close with the reminder that you are not a lawyer. **Scale the attorney recommendation to the
 deal** — on a five-figure contract, an entertainment or influencer attorney reviewing the final

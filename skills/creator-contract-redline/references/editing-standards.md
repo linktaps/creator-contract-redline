@@ -30,6 +30,15 @@ Before running a replacement, ask: what is the narrowest string that contains th
 
 **Example.** To add "uncured material" to "make-good Posts required due to Talent's failure to comply with this Agreement": matching the whole phrase strikes thirteen words. Placing the cursor after "Talent's" and typing the two words strikes nothing.
 
+**When the narrow string is not unique, locate it inside a unique context — never widen the
+strike.** "the Term" occurs twenty times in a typical SOW; striking it in "During the Term, the
+Brand shall have the right…" does not justify striking the whole sentence. Find a wider string
+that is unique, then anchor the edit on the narrow string inside it. In
+`apply_tracked_changes.py` that is `within=`: the context locates, the anchor is what changes.
+The context may include text inserted by an earlier edit in the same run — anchoring an
+insertion on a lone "." inside "…as published by Talent." works even though ", as published by
+Talent" is itself a suggestion.
+
 ## 3. Never anchor by replacing text with itself plus an addition
 
 The most common way to add a sentence is to find an existing sentence and replace it with itself plus the new text. This strikes the anchor and re-adds it, making it look like you rewrote a sentence you left alone.
@@ -113,6 +122,14 @@ A list of permitted metrics goes stale as platforms rename and retire them, and 
 
 Same logic applies to channel lists, deliverable specs, and data definitions.
 
+**Enumeration is still right in two places:** exclusion lists (the named competitor brands in an
+exclusivity clause, the metrics carved out of an analytics request, the carve-outs from a liability
+cap), where the list is the limit and a boundary would be broader; and lists the counterparty
+wrote, where replacing their enumeration with your boundary reads as a rewrite. It is wrong when
+defining what the **creator owns** — handles, channels, marks — because the list goes stale the day
+the creator opens a new account, and whatever is missing from it is presumptively not theirs. Draw
+those by ownership: "owned or controlled by Talent".
+
 ## 10a. One suggestion per thing the other side can say yes to
 
 A suggestion is the unit of acceptance. Whatever sits inside one `<w:del>` is
@@ -156,6 +173,10 @@ An unmade ask is never granted, but an unwinnable one costs the winnable ones.
 ## 11. Keep reasoning consistent across related clauses
 
 Where several clauses share a rationale, edit them the same way with the same wording. Three bullets struck on the single ground that paid media is not in this agreement reads as one coherent position. The same three edited three different ways reads as three separate objections to fight about.
+
+Each struck bullet is still its own suggestion (§10a), and **each one deletes its paragraph mark**
+as well as its text — otherwise accepting leaves an empty bullet behind. A block of struck bullets
+usually has blank spacer paragraphs between them; those go too, or the list closes up with a gap.
 
 ## 12. Verify after every reject-and-reapply
 
@@ -225,6 +246,12 @@ feature. Check that the brand, product and campaign named in the grant are the o
 
 When an audit pass turns up a defect and you fix it, confirm that specific fix landed before reporting it fixed. Re-running the passes generally is not the same as checking the one thing you just changed.
 
+**Verify with an extractor that sees the whole document.** `python-docx`'s `paragraph.text`
+silently skips text inside `<w:sdt>` content controls, which contracts use for fill-in fields and
+signature blocks. A check built on it reports text as missing that is present — it produced a false
+"text differs" alarm on a clean copy in practice. Use the audit script's reconstruction or a raw
+walk over `<w:t>` elements.
+
 This is not hypothetical: a review reported finding and repairing a stray character in a clause, and the stray character was still there in the delivered document. The fix was asserted, not verified.
 
 ## 18. Narrowing a requirement does not remove what it points at
@@ -267,6 +294,7 @@ Run against the finished redline:
 - [ ] **Every defect found in an earlier pass verified fixed by name**, not assumed
 - [ ] Exhibits and schedules referenced by an edited sentence checked in their own right
 - [ ] **Deleting a whole paragraph or bullet also deletes its paragraph mark** — otherwise an empty line or bullet survives acceptance
+- [ ] **No strike widened to make an anchor unique** — a non-unique word was located inside a unique context instead
 - [ ] **No clause left contradicting itself** — adverse wording removed, not merely carved out beside
 - [ ] **No run had its `<w:rPr>` rebuilt from scratch** — copy and modify, never reconstruct, or the run silently inherits a different default
 - [ ] **Character formatting on surviving text is unchanged** — check per character, not per run, since editing one word splits the run around it

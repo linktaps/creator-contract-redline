@@ -14,29 +14,51 @@ untouched language. Auditing from the text export produces false "still
 there" findings and false "resolved" findings in both directions. Auditing
 from the tracked changes cannot.
 
+With --author NAME (the author of OUR suggestions) there is a third:
+
+  counterparty — the other side's pending changes applied, ours rejected
+                 (the text they think they are proposing)
+
 Usage
 -----
   # summary: how many suggestions, by whom
   python audit_suggestions.py contract.docx
 
-  # write both reconstructions for reading or diffing
+  # write the reconstructions for reading or diffing
   python audit_suggestions.py contract.docx --write-dir ./out
 
   # the completeness gate: are these phrases still in the accepted version?
   python audit_suggestions.py contract.docx --check phrases.txt
 
+  # ...and tell "never existed" apart from "only in the counterparty's
+  # pending text" for phrases found in neither version
+  python audit_suggestions.py contract.docx --check phrases.txt --author "Creator Name"
+
+  # the additions gate: is every clause we added there exactly once?
+  python audit_suggestions.py contract.docx --additions additions.txt
+
+  # fidelity against the brand's draft: reject-all text and paragraph count,
+  # every other zip part byte-identical, and (with --author) every other
+  # author's pending change exactly as they left it
+  python audit_suggestions.py redline.docx --baseline brand-draft.docx --author "Creator Name"
+
   # list every suggestion as an edit pair
   python audit_suggestions.py contract.docx --list
 
-phrases.txt holds one phrase per line, optionally "label :: phrase".
-Blank lines and lines starting with # are ignored. Use the exact adverse
-wording from the contract — curly quotes and all.
+phrases.txt and additions.txt hold one entry per line, optionally
+"label :: text". Blank lines and lines starting with "# " are ignored. Use
+the exact wording from the contract — curly quotes and all. Tabs are compared
+as spaces.
 
-Exit code is 1 if any checked phrase is still present, so this can gate a
-workflow.
+--write-dir renders tabs as literal \\t characters (a caption column is
+usually a real tab), so any external diff of those files must normalise
+whitespace first or it reports false differences in every captioned paragraph.
+
+Exit code is 1 if any gating check fails, 2 if an input file is missing.
 """
 
 import argparse
+import bisect
 import collections
 import difflib
 import re
@@ -55,7 +77,10 @@ TEXT_RUN = re.compile(
 FLOW = re.compile(
     r"<w:(?:t|delText)(?:\s[^>]*)?>(.*?)</w:(?:t|delText)>|<w:tab\s*/>", re.S
 )
-PARA = re.compile(r"<w:p[ >].*?</w:p>", re.S)
+# A self-closing <w:p/> is a real (empty) paragraph and must be counted; and
+# "<w:p[ >]" alone would read <w:p w:rsidR="..."/> as an open tag and run on to
+# the next paragraph's </w:p>, swallowing it.
+PARA = re.compile(r"<w:p(?:\s[^>]*?)?/>|<w:p(?:\s[^>]*?)?(?<!/)>.*?</w:p>", re.S)
 AUTHOR = re.compile(r'w:author="([^"]*)"')
 
 UNESCAPE = [("&lt;", "<"), ("&gt;", ">"), ("&quot;", '"'), ("&apos;", "'"), ("&amp;", "&")]
@@ -67,9 +92,28 @@ def unescape(s: str) -> str:
     return s
 
 
+def tabs_to_spaces(s: str) -> str:
+    """Phrase and addition matching treats a tab as a space.
+
+    Reconstructions keep tabs where they sit, but nobody types a tab into a
+    phrase list: a phrase that runs across a caption column would otherwise
+    never match.
+    """
+    return s.replace("\t", " ")
+
+
 def load_document_xml(docx_path: Path) -> str:
     with zipfile.ZipFile(docx_path) as z:
         return z.read("word/document.xml").decode("utf-8")
+
+
+def load_part(docx_path: Path, name: str):
+    """A zip part as text, or None if the package does not have it."""
+    with zipfile.ZipFile(docx_path) as z:
+        try:
+            return z.read(name).decode("utf-8")
+        except KeyError:
+            return None
 
 
 def segment(paragraph: str):
@@ -90,31 +134,119 @@ def flow_text(chunk: str) -> str:
     return "".join(out)
 
 
-def render(paragraph: str, mode: str) -> str:
-    """mode='accepted' applies suggestions; mode='original' rejects them."""
+# Tracked changes nest. Striking text inside another author's pending insertion
+# is written <w:ins them><w:del us>…</w:del></w:ins> — "X deleted text Y
+# inserted" — and a flat ins-or-del split of the paragraph would credit that
+# struck text to the insertion and show it in accept-all. Walking the open and
+# close tags with a stack ties every piece of text to every change around it.
+# Self-closing <w:ins/> and <w:del/> mark a paragraph mark or a property as
+# changed; they contain nothing and never enter the stack.
+CHANGE_TAG = (
+    r"<w:(?P<open>ins|del)\b(?P<attrs>[^>]*?)(?P<selfclose>/?)>"
+    r"|</w:(?P<close>ins|del)>"
+)
+CHANGE_TAG_RE = re.compile(CHANGE_TAG, re.S)
+TEXT_SCAN = re.compile(
+    CHANGE_TAG
+    + r"|<w:(?:t|delText)(?:\s[^>]*)?>(?P<text>.*?)</w:(?:t|delText)>"
+    + r"|(?P<tab><w:tab\s*/>)",
+    re.S,
+)
+RUN_SCAN = re.compile(CHANGE_TAG + r"|(?P<run><w:r\b[^>]*(?<!/)>.*?</w:r>)", re.S)
+
+
+def scan(fragment: str, pattern):
+    """Yield (match, enclosing) for each non-change match of `pattern`.
+
+    `enclosing` is a tuple of (kind, author) for every open <w:ins>/<w:del>
+    around the match, outermost first.
+    """
+    stack = []
+    for m in pattern.finditer(fragment):
+        if m.group("open"):
+            if not m.group("selfclose"):
+                a = AUTHOR.search(m.group("attrs"))
+                stack.append((m.group("open"), a.group(1) if a else ""))
+        elif m.group("close"):
+            if stack:
+                stack.pop()
+        else:
+            yield m, tuple(stack)
+
+
+def acceptor(mode: str, author=None):
+    """Which authors' changes a view accepts.
+
+    Without an author, `mode` applies to every change. With one, it applies
+    to that author's changes only and everyone else's are resolved the other
+    way: ("original", us) is the counterparty's view — their pending changes
+    accepted, ours rejected.
+    """
+    if mode not in ("accepted", "original"):
+        raise ValueError(f"mode must be 'accepted' or 'original', not {mode!r}")
+    base = mode == "accepted"
+    if author is None:
+        return lambda who: base
+    return lambda who: base if who == author else not base
+
+
+def kept(enclosing, accepts) -> bool:
+    """Inserted content survives if accepted; deleted content if rejected."""
+    return all((kind == "ins") == accepts(who) for kind, who in enclosing)
+
+
+def render(paragraph: str, mode: str, author=None) -> str:
+    """mode='accepted' applies suggestions; mode='original' rejects them.
+
+    `author` narrows the mode to one author's changes; see acceptor().
+    """
+    accepts = acceptor(mode, author)
     out = []
-    for kind, chunk in segment(paragraph):
-        if kind == "ins" and mode == "original":
-            continue
-        if kind == "del" and mode == "accepted":
-            continue
-        out.append(flow_text(chunk))
+    for m, enclosing in scan(paragraph, TEXT_SCAN):
+        if kept(enclosing, accepts):
+            out.append("\t" if m.group("tab") else m.group("text"))
     return unescape("".join(out))
 
 
-PARA_MARK = re.compile(r"<w:pPr>.*?<w:rPr>.*?<w:(?P<kind>ins|del)\b", re.S)
+def mark_changes(paragraph: str):
+    """[(kind, author)] for every tracked change on the paragraph MARK itself.
+
+    A mark can carry two: another author's insertion and our deletion of the
+    paragraph they inserted. Only the pPr's own <w:rPr> counts — a pPrChange
+    records former properties, not a pending change to the mark.
+    """
+    ppr = re.match(r"<w:p(?:\s[^>]*)?>\s*(<w:pPr>.*?</w:pPr>)", paragraph, re.S)
+    if not ppr:
+        return []
+    body = ppr.group(1).split("<w:pPrChange")[0]
+    rpr = re.search(r"<w:rPr>(.*?)</w:rPr>", body, re.S)
+    if not rpr:
+        return []
+    out = []
+    for m in re.finditer(r"<w:(ins|del)\b[^>]*>", rpr.group(1).split("<w:rPrChange")[0]):
+        a = AUTHOR.search(m.group(0))
+        out.append((m.group(1), a.group(1) if a else ""))
+    return out
 
 
 def mark_change(paragraph: str):
     """'ins', 'del' or None — whether the paragraph MARK itself is tracked."""
-    ppr = re.match(r"<w:p(?:\s[^>]*)?>\s*(<w:pPr>.*?</w:pPr>)", paragraph, re.S)
-    if not ppr:
-        return None
-    m = PARA_MARK.match(ppr.group(1))
-    return m.group("kind") if m else None
+    marks = mark_changes(paragraph)
+    return marks[0][0] if marks else None
 
 
-def reconstruct(xml: str, mode: str) -> str:
+def reconstruct_paragraphs(xml: str, mode: str, author=None):
+    """The paragraphs of a view, as a list; see reconstruct()."""
+    accepts = acceptor(mode, author)
+    out = []
+    for p in PARA.findall(xml):
+        if not all((kind == "ins") == accepts(who) for kind, who in mark_changes(p)):
+            continue
+        out.append(render(p, mode, author))
+    return out
+
+
+def reconstruct(xml: str, mode: str, author=None) -> str:
     """
     A paragraph whose MARK is tracked disappears entirely in one of the two
     versions, rather than collapsing to a blank line.
@@ -125,16 +257,11 @@ def reconstruct(xml: str, mode: str) -> str:
     reviewer hunting a defect that is not in the document. This is the mirror
     of the Structure check, which catches the opposite error: runs struck while
     the mark survives.
+
+    `author` is optional: without it `mode` applies to every change; with it,
+    to that author's changes only (see acceptor()).
     """
-    out = []
-    for p in PARA.findall(xml):
-        mc = mark_change(p)
-        if mc == "ins" and mode == "original":
-            continue
-        if mc == "del" and mode == "accepted":
-            continue
-        out.append(render(p, mode))
-    return "\n".join(out)
+    return "\n".join(reconstruct_paragraphs(xml, mode, author))
 
 
 def suggestions(xml: str):
@@ -145,64 +272,171 @@ def suggestions(xml: str):
             yield m.group(2), m.group(1), text
 
 
-def dominant_run_props(xml: str):
-    """The size and font the body text actually uses."""
-    sizes = collections.Counter(re.findall(r'<w:sz w:val="(\d+)"/>', xml))
-    fonts = collections.Counter(re.findall(r'<w:rFonts\b[^>]*?w:ascii="([^"]+)"', xml))
-    return (sizes.most_common(1)[0][0] if sizes else None,
-            fonts.most_common(1)[0][0] if fonts else None)
+# ---------------------------------------------------------------------------
+# Effective font face and size
+# ---------------------------------------------------------------------------
 
+def rpr_body(fragment: str) -> str:
+    """The first <w:rPr> in a run or style, without its tracked former state.
 
-def check_inserted_formatting(xml: str):
-    """Inserted runs that don't carry the document's size/font.
-
-    A run authored without <w:sz> or <w:rFonts> inherits docDefaults, which in a
-    contract typeset at 8.5pt is usually 12pt in a different face. The result is
-    a clause that is visibly larger than everything around it.
-
-    Only the properties the body text actually declares are required. Plenty of
-    contracts set no <w:rFonts> on any run at all and take their typeface from
-    styles.xml; in such a document an inserted run without <w:rFonts> matches its
-    surroundings exactly, and adding one would make it the anomaly. Demanding a
-    property the document never sets reports every insertion as broken — verified
-    against two independently authored professional redlines of the same
-    agreement, both of which failed this check on every inserted run while
-    rendering correctly.
+    An <w:rPrChange> holds the formatting *before* a tracked format change,
+    inside its own nested <w:rPr>. Reading through it reports the old size as
+    the current one.
     """
-    want_sz, want_font = dominant_run_props(xml)
-    problems = []
-    for ins in re.finditer(r"<w:ins\b[^>]*>(.*?)</w:ins>", xml, re.S):
-        for run in re.finditer(r"<w:r\b[^>]*>(.*?)</w:r>", ins.group(1), re.S):
-            body = run.group(1)
-            if "<w:t" not in body:
+    m = re.search(r"<w:rPr>(.*?)</w:rPr>", fragment, re.S)
+    return m.group(1).split("<w:rPrChange")[0] if m else ""
+
+
+def rpr_face_size(rpr: str):
+    """(face, half-point size) declared by an rPr body; None where unset.
+
+    A theme font reference beats an explicit w:ascii in Word, so it wins here.
+    """
+    face = size = None
+    f = re.search(r"<w:rFonts\b[^>]*>", rpr)
+    if f:
+        t = re.search(r'w:asciiTheme="([^"]+)"', f.group(0))
+        a = re.search(r'w:ascii="([^"]+)"', f.group(0))
+        face = f"theme:{t.group(1)}" if t else (a.group(1) if a else None)
+    z = re.search(r'<w:sz w:val="(\d+)"', rpr)
+    if z:
+        size = z.group(1)
+    return face, size
+
+
+class Styles:
+    """Just enough of styles.xml to resolve a run's face and size.
+
+    Word resolves character formatting in layers: docDefaults, then the
+    paragraph style (and everything it is basedOn), then the character style,
+    then the run's own rPr. The nearest layer that declares a property wins.
+    """
+
+    def __init__(self, styles_xml):
+        self.defaults = (None, None)
+        self.styles = {}
+        self.default_para = None
+        if not styles_xml:
+            return
+        d = re.search(r"<w:rPrDefault>(.*?)</w:rPrDefault>", styles_xml, re.S)
+        if d:
+            self.defaults = rpr_face_size(rpr_body(d.group(1)))
+        for m in re.finditer(r"<w:style\b([^>]*)>(.*?)</w:style>", styles_xml, re.S):
+            attrs, body = m.group(1), m.group(2)
+            sid = re.search(r'w:styleId="([^"]+)"', attrs)
+            typ = re.search(r'w:type="([^"]+)"', attrs)
+            if not sid or not typ:
                 continue
-            rpr = re.search(r"<w:rPr>(.*?)</w:rPr>", body, re.S)
-            rpr_text = rpr.group(1) if rpr else ""
-            missing = []
-            if want_sz and not re.search(r"<w:sz ", rpr_text):
-                missing.append("size")
-            if want_font and not re.search(r"w:ascii=", rpr_text):
-                missing.append("font")
-            if missing:
-                text = unescape("".join(re.findall(r"<w:t[^>]*>(.*?)</w:t>", body, re.S)))
-                if text.strip():
-                    problems.append((missing, " ".join(text.split())))
-    return want_sz, want_font, problems
-    items = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        label, sep, phrase = line.partition("::")
-        if sep:
-            # A line with "::" is always an entry, even though checklist
-            # labels start with "#" (e.g. "#14 unpaid extension :: ...").
-            items.append((label.strip(), phrase.strip()))
-        elif line.startswith("#"):
-            continue  # comment
-        else:
-            items.append((line[:48], line))
-    return items
+            based = re.search(r'<w:basedOn w:val="([^"]+)"', body)
+            self.styles[(typ.group(1), sid.group(1))] = (
+                based.group(1) if based else None,
+                rpr_face_size(rpr_body(body)),
+            )
+            if typ.group(1) == "paragraph" and re.search(r'w:default="(?:1|true|on)"', attrs):
+                self.default_para = sid.group(1)
+
+    def chain(self, typ, sid):
+        face = size = None
+        seen = set()
+        while sid and (typ, sid) in self.styles and sid not in seen:
+            seen.add(sid)
+            based, (f, s) = self.styles[(typ, sid)]
+            face, size = face or f, size or s
+            sid = based
+        return face, size
+
+    def resolve(self, run_rpr: str, pstyle, rstyle):
+        if (pstyle is None or ("paragraph", pstyle) not in self.styles):
+            pstyle = self.default_para
+        layers = [
+            rpr_face_size(run_rpr),
+            self.chain("character", rstyle),
+            self.chain("paragraph", pstyle),
+            self.defaults,
+        ]
+        face = next((f for f, _ in layers if f), None)
+        size = next((s for _, s in layers if s), None)
+        return face, size
+
+
+def paragraph_style(paragraph: str):
+    ppr = re.match(r"<w:p(?:\s[^>]*)?>\s*(<w:pPr>.*?</w:pPr>)", paragraph, re.S)
+    if not ppr:
+        return None
+    m = re.search(r'<w:pStyle w:val="([^"]+)"', ppr.group(1).split("<w:pPrChange")[0])
+    return m.group(1) if m else None
+
+
+def describe_font(pair) -> str:
+    face, size = pair
+    return f"{face or '(no face)'} {int(size) / 2:g}pt" if size else f"{face or '(no face)'} ?pt"
+
+
+def check_inserted_formatting(xml: str, styles_xml=None):
+    """Inserted runs whose effective face or size differs from the text beside them.
+
+    A run authored without <w:sz> or <w:rFonts> inherits — but from where
+    depends on the paragraph. In a bulleted list the ListParagraph style
+    commonly supplies the face, and every run in the paragraph, the brand's
+    own included, declares only <w:sz> and <w:color>. An inserted run that
+    copies that rPr exactly renders identically. Comparing raw rPr against the
+    document's most common declarations flagged every such run as "inherits
+    docDefaults", including edits the counterparty made in Word, and the FAIL
+    had to be explained away on every round.
+
+    So both sides are resolved the way Word resolves them — run rPr, then the
+    character style, then the paragraph style and its basedOn chain, then
+    docDefaults — and an inserted run is compared with the nearest surviving
+    (neither inserted nor deleted) run in its own paragraph. Only a paragraph
+    with no surviving run (a wholly new clause) is compared with the
+    dominant resolved formatting of paragraphs in the same style, and failing
+    that of the whole document.
+
+    Returns (dominant, problems): dominant is the (face, size) most body text
+    resolves to; problems is [(text, got, expected, where)].
+    """
+    styles = Styles(styles_xml)
+    paras = []
+    by_style = collections.defaultdict(collections.Counter)
+    overall = collections.Counter()
+    for p in PARA.findall(xml):
+        pstyle = paragraph_style(p)
+        runs = []
+        for m, enclosing in scan(p, RUN_SCAN):
+            run = m.group("run")
+            text = unescape(flow_text(run))
+            if not text.strip():
+                continue  # tabs, breaks, field codes: nothing to size
+            rpr = rpr_body(run)
+            rs = re.search(r'<w:rStyle w:val="([^"]+)"', rpr)
+            resolved = styles.resolve(rpr, pstyle, rs.group(1) if rs else None)
+            kinds = {k for k, _ in enclosing}
+            state = "del" if "del" in kinds else "ins" if "ins" in kinds else "plain"
+            runs.append((state, resolved, text))
+            if state == "plain":
+                by_style[pstyle][resolved] += len(text)
+                overall[resolved] += len(text)
+        paras.append((pstyle, runs))
+
+    dominant = overall.most_common(1)[0][0] if overall else None
+    problems = []
+    for pstyle, runs in paras:
+        plain = [i for i, r in enumerate(runs) if r[0] == "plain"]
+        for i, (state, resolved, text) in enumerate(runs):
+            if state != "ins":
+                continue
+            if plain:
+                # Nearest by run distance; the preceding run wins a tie, since
+                # an insertion normally continues the text before it.
+                j = min(plain, key=lambda k: (abs(k - i), k > i))
+                expected, where = runs[j][1], "beside it"
+            elif by_style.get(pstyle):
+                expected, where = by_style[pstyle].most_common(1)[0][0], "in this paragraph style"
+            else:
+                expected, where = dominant, "in the document"
+            if expected is not None and resolved != expected:
+                problems.append((" ".join(text.split()), resolved, expected, where))
+    return dominant, problems
 
 
 def check_paragraph_structure(xml: str):
@@ -214,7 +448,7 @@ def check_paragraph_structure(xml: str):
     deleted, which in OOXML is a <w:del> inside <w:pPr><w:rPr>.
     """
     orphans = []
-    for p in re.findall(r"<w:p[ >].*?</w:p>", xml, re.S):
+    for p in PARA.findall(xml):
         ppr = re.search(r"<w:pPr>(.*?)</w:pPr>", p, re.S)
         ppr_text = ppr.group(1) if ppr else ""
         mark_deleted = bool(
@@ -309,6 +543,146 @@ def compare_formatting(base_xml: str, xml: str):
     return runs
 
 
+def paragraph_divergence(base_paras, red_paras):
+    """(index, baseline window, redline window) of the first differing paragraph.
+
+    A leaked empty paragraph passes a whitespace-blind text comparison and
+    shows up in Word as a blank line, so the count is compared separately and
+    this locates where the two lists part company. Whitespace (tabs included)
+    is normalised so only a real difference is reported.
+    """
+    norm = lambda s: " ".join(tabs_to_spaces(s).split())
+    b, r = [norm(p) for p in base_paras], [norm(p) for p in red_paras]
+    i = next((k for k, (x, y) in enumerate(zip(b, r)) if x != y), min(len(b), len(r)))
+
+    def window(paras):
+        joined = " ¶ ".join(paras)
+        off = sum(len(p) + 3 for p in paras[:i])
+        return joined[max(0, off - 60) : off + 60]
+
+    return i, window(b), window(r)
+
+
+# ---------------------------------------------------------------------------
+# Other authors' changes, and the rest of the package
+# ---------------------------------------------------------------------------
+
+def change_elements(xml: str):
+    """{w:id: [element]} for every <w:ins>/<w:del>, containers and marks alike."""
+    para_spans = [(m.start(), m.end(), m.group(0)) for m in PARA.finditer(xml)]
+    starts = [s for s, _, _ in para_spans]
+
+    def paragraph_at(pos):
+        k = bisect.bisect_right(starts, pos) - 1
+        if k >= 0 and para_spans[k][0] <= pos < para_spans[k][1]:
+            return para_spans[k][2]
+        return ""
+
+    out = collections.defaultdict(list)
+    stack = []
+    for m in CHANGE_TAG_RE.finditer(xml):
+        if m.group("open"):
+            attrs = m.group("attrs")
+            a = AUTHOR.search(attrs)
+            i = re.search(r'w:id="([^"]*)"', attrs)
+            el = {
+                "kind": m.group("open"),
+                "tag": m.group(0),
+                "author": a.group(1) if a else "",
+                "id": i.group(1) if i else "",
+                "mark": bool(m.group("selfclose")),
+                "ancestors": tuple((e["kind"], e["author"]) for e in stack),
+                "paragraph": paragraph_at(m.start()),
+                "content": "",
+                "open_end": m.end(),
+            }
+            if el["mark"]:
+                out[el["id"]].append(el)
+            else:
+                stack.append(el)
+        elif m.group("close") and stack:
+            el = stack.pop()
+            el["content"] = xml[el["open_end"] : m.start()]
+            out[el["id"]].append(el)
+    return out
+
+
+def content_signature(content: str, ours: str):
+    """Per-character (text, formatting, other changes) with OUR changes ignored.
+
+    Striking part of another author's insertion splits their run and wraps the
+    struck piece in our <w:del>; rejecting our change restores their text
+    exactly. So our deletions are looked through, and anything else — a
+    changed word, a changed rPr, an insertion of ours nested inside theirs —
+    still shows as a difference.
+    """
+    sig = []
+    for m, enclosing in scan(content, RUN_SCAN):
+        run = m.group("run")
+        foreign = tuple(e for e in enclosing if not (e[0] == "del" and e[1] == ours))
+        rpr = " ".join(rpr_body(run).split())
+        for ch in unescape(flow_text(run)):
+            sig.append((ch, rpr, foreign))
+    return sig
+
+
+def classify_change(base_el, red_el, ours: str) -> str:
+    if red_el["tag"] != base_el["tag"]:
+        return "changed"
+    wrapped = any(k == "del" and a == ours for k, a in red_el["ancestors"]) or any(
+        k == "del" and a == ours for k, a in mark_changes(red_el["paragraph"])
+    )
+    if red_el["content"] == base_el["content"]:
+        return "wrapped" if wrapped else "identical"
+    if content_signature(red_el["content"], ours) == content_signature(base_el["content"], ours):
+        # Only differs by our deletions inside it: acceptable by construction.
+        return "wrapped"
+    return "changed"
+
+
+def compare_foreign_changes(base_xml: str, xml: str, ours: str):
+    """Every baseline change by someone other than `ours`, located by w:id.
+
+    Returns {author: Counter(status)} and [(author, id, kind, status, text)]
+    for the defects. Statuses: identical; wrapped (present unchanged, but now
+    inside our deletion or in a paragraph whose mark we deleted — what striking
+    a paragraph that holds their suggestion looks like); changed; missing.
+    """
+    base, red = change_elements(base_xml), change_elements(xml)
+    rank = {"identical": 0, "wrapped": 1, "changed": 2}
+    counts = collections.defaultdict(collections.Counter)
+    defects = []
+    for cid, items in base.items():
+        for b in items:
+            if b["author"] == ours:
+                continue
+            cands = [r for r in red.get(cid, []) if r["kind"] == b["kind"] and r["author"] == b["author"]]
+            if not cands:
+                status = "missing"
+            else:
+                status = min((classify_change(b, r, ours) for r in cands), key=rank.get)
+            counts[b["author"]][status] += 1
+            if status in ("changed", "missing"):
+                text = "paragraph mark" if b["mark"] else " ".join(unescape(flow_text(b["content"])).split())
+                defects.append((b["author"], cid, b["kind"], status, text))
+    return counts, defects
+
+
+PROPERTY_PARTS = {
+    "docProps/core.xml": "document properties: author, last modified by, dates",
+    "docProps/app.xml": "application properties: generating app, counts",
+}
+
+
+def compare_package(base_path: Path, path: Path):
+    """(added, removed, changed, baseline parts), word/document.xml excepted."""
+    with zipfile.ZipFile(base_path) as zb, zipfile.ZipFile(path) as zr:
+        bn = set(zb.namelist()) - {"word/document.xml"}
+        rn = set(zr.namelist()) - {"word/document.xml"}
+        changed = sorted(n for n in bn & rn if zb.read(n) != zr.read(n))
+    return sorted(rn - bn), sorted(bn - rn), changed, bn
+
+
 def phrase_context(xml: str, phrase: str):
     """Was the clause containing this phrase edited at all?
 
@@ -318,8 +692,9 @@ def phrase_context(xml: str, phrase: str):
     done on a tracking table and leaves the contract contradicting itself.
     """
     touched = False
+    phrase = tabs_to_spaces(phrase)
     for p in PARA.findall(xml):
-        if phrase in render(p, "accepted"):
+        if phrase in tabs_to_spaces(render(p, "accepted")):
             if re.search(r"<w:ins\b", p) or re.search(r"<w:del\b", p):
                 touched = True
     return touched
@@ -353,21 +728,32 @@ def parse_phrases(path: Path):
 
 
 def main() -> int:
+    # Contract text is printed verbatim; a character the console cannot encode
+    # should degrade to "?" rather than abort the audit halfway through.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="replace")
+
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("docx", type=Path, help="document exported from Google Docs as .docx")
     ap.add_argument("--check", type=Path, help="file of phrases to test against the accepted version")
+    ap.add_argument("--additions", type=Path, help="file of added text that must appear exactly once in the accepted version")
     ap.add_argument("--baseline", type=Path, help="the brand's untouched draft (.docx); verifies no text was destroyed")
-    ap.add_argument("--write-dir", type=Path, help="write accepted.txt and original.txt here")
+    ap.add_argument("--author", help="author name of OUR suggestions; enables the counterparty view and, "
+                                     "with --baseline, the other-authors check")
+    ap.add_argument("--write-dir", type=Path, help="write accepted.txt and original.txt (and counterparty.txt with --author) here")
     ap.add_argument("--list", action="store_true", help="print every suggestion")
     args = ap.parse_args()
 
-    if not args.docx.exists():
-        print(f"error: {args.docx} not found", file=sys.stderr)
-        return 2
+    for p in (args.docx, args.check, args.additions, args.baseline):
+        if p is not None and not p.exists():
+            print(f"error: {p} not found", file=sys.stderr)
+            return 2
 
     xml = load_document_xml(args.docx)
     accepted = reconstruct(xml, "accepted")
-    original = reconstruct(xml, "original")
+    original_paras = reconstruct_paragraphs(xml, "original")
+    original = "\n".join(original_paras)
+    counterparty = reconstruct(xml, "original", args.author) if args.author else None
     sugg = list(suggestions(xml))
     authors = sorted(set(AUTHOR.findall(xml)))
 
@@ -377,6 +763,11 @@ def main() -> int:
     print(f"  authors     : {', '.join(authors) if authors else 'none'}")
     print(f"  accepted    : {len(accepted):,} chars")
     print(f"  original    : {len(original):,} chars")
+    if counterparty is not None:
+        print(f"  counterparty: {len(counterparty):,} chars (others' changes accepted, {args.author}'s rejected)")
+        if args.author not in authors:
+            print(f"\n  WARNING: no change in this document is by {args.author!r}. Every change will")
+            print("  be treated as the counterparty's. Check the spelling against the authors above.")
 
     if not sugg:
         print("\n  WARNING: no tracked changes found. Either nothing was edited, or the")
@@ -384,9 +775,12 @@ def main() -> int:
 
     if args.write_dir:
         args.write_dir.mkdir(parents=True, exist_ok=True)
-        (args.write_dir / "accepted.txt").write_text(accepted, encoding="utf-8")
-        (args.write_dir / "original.txt").write_text(original, encoding="utf-8")
-        print(f"\n  wrote {args.write_dir}/accepted.txt and original.txt")
+        views = {"accepted.txt": accepted, "original.txt": original}
+        if counterparty is not None:
+            views["counterparty.txt"] = counterparty
+        for name, text in views.items():
+            (args.write_dir / name).write_text(text, encoding="utf-8", newline="")
+        print(f"\n  wrote {', '.join(views)} to {args.write_dir} (tabs are literal \\t)")
 
     if args.list:
         print("\nSuggestions in document order:")
@@ -408,35 +802,25 @@ def main() -> int:
         for kind, text in orphans[:8]:
             print(f"    empty {kind} would remain: \"{text[:90]}…\"")
 
-    want_sz, want_font, fmt_problems = check_inserted_formatting(xml)
-    print("\nFormatting check — do inserted runs match the document's body text?\n")
-    if want_sz:
-        print(f"  body text is {int(want_sz)/2:g}pt {want_font or '(unnamed font)'}")
+    dominant, fmt_problems = check_inserted_formatting(xml, load_part(args.docx, "word/styles.xml"))
+    print("\nFormatting check — does each inserted run render in the face and size of the text beside it?\n")
+    if dominant:
+        print(f"  body text resolves to {describe_font(dominant)}")
     if not fmt_problems:
-        required = ", ".join(x for x in ("size" if want_sz else "", "font" if want_font else "") if x)
-        if required:
-            print(f"  PASS — every inserted run declares the {required} the body text uses.")
-        else:
-            print("  PASS — body runs declare neither size nor font, so there is nothing "
-                  "for inserted runs to match.")
-        if not want_font:
-            print("  Note: no run in this document declares a typeface; it comes from styles.xml.")
-            print("  Inserted runs therefore inherit exactly as the brand's own text does, and")
-            print("  adding an explicit <w:rFonts> would make them the odd ones out.")
+        print("  PASS — every inserted run resolves (run, character style, paragraph style,")
+        print("  docDefaults) to the same face and size as the nearest surviving run.")
     else:
         failures += 1
-        print(f"  FAIL — {len(fmt_problems)} inserted run(s) inherit docDefaults instead.")
-        print("  These will render at the default size and face, visibly larger than the")
-        print("  surrounding text. Copy the <w:rPr> block from an adjacent body run.\n")
-        for missing, text in fmt_problems[:8]:
-            print(f"    missing {', '.join(missing)}: \"{text[:90]}…\"")
+        print(f"  FAIL — {len(fmt_problems)} inserted run(s) resolve to a different face or size than")
+        print("  the surrounding text and will render visibly different. Copy the <w:rPr> of")
+        print("  the adjacent body run.\n")
+        for text, got, expected, where in fmt_problems[:8]:
+            print(f"    {describe_font(got)}, but {describe_font(expected)} {where}: \"{text[:70]}…\"")
 
     if args.baseline:
-        if not args.baseline.exists():
-            print(f"\nerror: baseline {args.baseline} not found", file=sys.stderr)
-            return 2
         base_xml = load_document_xml(args.baseline)
-        base = reconstruct(base_xml, "original")
+        base_paras = reconstruct_paragraphs(base_xml, "original")
+        base = "\n".join(base_paras)
         print("\nFidelity check — does rejecting every suggestion restore the brand's draft?\n")
 
         # Substance: compare with all whitespace removed, so tab and run-splitting
@@ -463,6 +847,21 @@ def main() -> int:
             print("  Common causes: an edit made outside Suggesting mode, or an undo that")
             print("  overshot and was repaired by retyping. Repair by restoring the original")
             print("  wording and re-making the change as a suggestion.")
+
+        # Paragraph count: the text comparison above is blind to an empty
+        # paragraph, which is exactly what a leaked blank spacer or an inserted
+        # paragraph without its <w:ins/> mark looks like on reject-all.
+        if len(base_paras) == len(original_paras):
+            print(f"  PARAGRAPHS: PASS — {len(original_paras)} on reject-all, as in the baseline.")
+        else:
+            failures += 1
+            i, bw, rw = paragraph_divergence(base_paras, original_paras)
+            print(f"  PARAGRAPHS: FAIL — {len(base_paras)} in baseline, {len(original_paras)} on reject-all;")
+            print(f"  first divergence at paragraph {i} (0-based):")
+            print(f"      baseline: …{bw}…")
+            print(f"      redline : …{rw}…")
+            print("  An extra empty paragraph is usually an inserted paragraph whose mark was")
+            print("  not tracked as inserted (<w:ins/> in <w:pPr><w:rPr>).")
 
         # Structure: layout elements are easy to destroy when authoring XML by hand
         # and invisible in a text comparison. Compare the reject-all views, so that
@@ -523,23 +922,76 @@ def main() -> int:
             failures += 1
             print(f"  LAYOUT: FAIL — page breaks {nb} in baseline, {nr} in redline")
 
+        # Package: a redline changes word/document.xml and nothing else. Any
+        # other part that differs — styles, numbering, settings, and above all
+        # the document properties, which record who last saved the file and
+        # with what — is a change the creator did not make and cannot see.
+        added, removed, changed, base_parts = compare_package(args.baseline, args.docx)
+        if not (added or removed or changed):
+            present = [n for n in PROPERTY_PARTS if n in base_parts]
+            print(f"  PACKAGE: PASS — all {len(base_parts)} other parts byte-identical to the baseline"
+                  + (f" (including {' and '.join(present)})" if present else ""))
+        else:
+            failures += 1
+            print(f"  PACKAGE: FAIL — only word/document.xml may differ from the baseline")
+            for label, names in (("added", added), ("removed", removed), ("changed", changed)):
+                for n in names:
+                    note = f"  <- {PROPERTY_PARTS[n]}" if n in PROPERTY_PARTS else ""
+                    print(f"          {label}: {n}{note}")
+
+        # Other authors: the claim the creator most wants to make is that the
+        # counterparty's own pending suggestions are exactly as they left them.
+        print("\nOther authors' changes — are the counterparty's suggestions exactly as they left them?\n")
+        if not args.author:
+            print("  skipped — pass --author NAME (the author of our suggestions) to run it.")
+        else:
+            counts, defects = compare_foreign_changes(base_xml, xml, args.author)
+            if not counts:
+                print(f"  PASS — the baseline has no tracked changes by anyone but {args.author}.")
+            for who in sorted(counts):
+                c = counts[who]
+                print(f"  {who}: {sum(c.values())} in baseline — {c['identical']} identical, "
+                      f"{c['wrapped']} wrapped by our deletion, {c['changed']} changed, {c['missing']} missing")
+            if counts and not defects:
+                print("  PASS — every other author's change is present and unaltered. \"Wrapped by our")
+                print("  deletion\" means we struck text that contains their suggestion; rejecting")
+                print("  our deletion restores theirs exactly.")
+            elif defects:
+                failures += 1
+                print(f"\n  FAIL — {len(defects)} of another author's changes altered or removed:\n")
+                for who, cid, kind, status, text in defects[:12]:
+                    print(f"    [{status}] {who} {kind} id={cid}: \"{text[:80]}\"")
+
     if args.check:
         items = parse_phrases(args.check)
         print(f"\nCompleteness check — is the adverse wording still in the accepted version?\n")
         width = max((len(l) for l, _ in items), default=10)
+        acc_n, org_n = tabs_to_spaces(accepted), tabs_to_spaces(original)
+        cp_n = tabs_to_spaces(counterparty) if counterparty is not None else None
         # Counted separately from `failures`, which the structure, formatting and
         # fidelity checks also increment. Folding those into this tally makes the
         # printed total disagree with the lines printed above it.
-        unresolved = 0
+        unresolved = absent = 0
         for label, phrase in items:
-            n_acc = accepted.count(phrase)
-            n_org = original.count(phrase)
-            if n_org == 0:
-                state = "not found in either — check the phrase"
-                unresolved += 1
-                failures += 1
+            phrase = tabs_to_spaces(phrase)
+            n_acc = acc_n.count(phrase)
+            n_org = org_n.count(phrase)
+            if n_org == 0 and n_acc == 0:
+                # Not gating: nothing adverse survives in the accepted text.
+                # Usually the phrase existed only in the counterparty's pending
+                # text (a mid-edit fragment of theirs), or it was mistyped.
+                absent += 1
+                n_cp = cp_n.count(phrase) if cp_n is not None else 0
+                if n_cp:
+                    state = f"only in the counterparty's pending text (x{n_cp}) — not gating"
+                else:
+                    state = "absent from both — not gating"
             elif n_acc == 0:
                 state = f"resolved (was x{n_org})"
+            elif n_org == 0:
+                unresolved += 1
+                failures += 1
+                state = f"STILL PRESENT (x{n_acc}) — introduced by a pending insertion"
             elif n_acc < n_org:
                 state = f"PARTIAL — x{n_org} before, x{n_acc} still present"
                 unresolved += 1
@@ -552,7 +1004,8 @@ def main() -> int:
                 else:
                     state = f"STILL PRESENT (x{n_acc}) — clause untouched"
             print(f"  {label:<{width}}  {state}")
-        print(f"\n  {unresolved} of {len(items)} unresolved")
+        print(f"\n  {unresolved} of {len(items)} unresolved"
+              + (f"; {absent} absent from both (not gating)" if absent else ""))
         print("\n  \"WAS edited\" is the dangerous one: something was changed in that clause")
         print("  while the adverse wording stayed. Usually a protective sentence was added")
         print("  beside the problem instead of replacing it, leaving the clause to")
@@ -562,6 +1015,34 @@ def main() -> int:
         print("  another was not — check which. A phrase that survives may also have")
         print("  been correctly narrowed by an insertion nearby, so read the context")
         print("  before recording a miss.")
+        if absent:
+            print("\n  'Absent from both' is either a phrase that only ever existed in the")
+            print("  counterparty's pending text or a typo in the phrase list."
+                  + ("" if args.author else " Pass --author to\n  tell the two apart."))
+
+    if args.additions:
+        items = parse_phrases(args.additions)
+        print("\nAdditions check — is every clause we added in the accepted version exactly once?\n")
+        width = max((len(l) for l, _ in items), default=10)
+        acc_n = tabs_to_spaces(accepted)
+        bad = 0
+        for label, text in items:
+            n = acc_n.count(tabs_to_spaces(text))
+            if n == 1:
+                state = "PASS"
+            elif n == 0:
+                state = "FAIL — not in the accepted version"
+            else:
+                state = f"FAIL — appears {n} times — check for a duplicate"
+            if n != 1:
+                bad += 1
+                failures += 1
+            print(f"  {label:<{width}}  {state}")
+        print(f"\n  {bad} of {len(items)} failing")
+        if bad:
+            print("  Missing usually means an edit aborted or was anchored somewhere else;")
+            print("  a duplicate usually means an edit ran twice or a clause was pasted into")
+            print("  two places.")
 
     return 1 if failures else 0
 
