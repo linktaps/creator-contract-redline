@@ -34,8 +34,13 @@ Usage
   # pending text" for phrases found in neither version
   python audit_suggestions.py contract.docx --check phrases.txt --author "Creator Name"
 
-  # the additions gate: is every clause we added there exactly once?
+  # the additions gate: is every clause we added there exactly once? A line
+  # ending ":: x3" expects three copies (one phrase in every termination route)
   python audit_suggestions.py contract.docx --additions additions.txt
+
+  # re-run of a contract redlined before: is every earlier edit still here, or
+  # explained in prior-ok.txt?
+  python audit_suggestions.py redline-v2.docx --prior redline-v1.docx --prior-ok prior-ok.txt
 
   # fidelity against the brand's draft: reject-all text and paragraph count,
   # every other zip part byte-identical, and (with --author) every other
@@ -46,7 +51,8 @@ Usage
   python audit_suggestions.py contract.docx --list
 
   # coverage: does some label name every must-have item (#1-#16, #23, #24,
-  # #reps)? Labels in --check and --additions count, plus every file listed
+  # #reps) and every tagged sub-check (#2a, #4e, ...)? Labels in --check and
+  # --additions count, plus every file listed
   python audit_suggestions.py redline.docx --check phrases.txt \\
       --additions additions.txt --coverage declined.md present.txt
 
@@ -774,11 +780,32 @@ def parse_phrases(path: Path):
 # sweep. Nice-to-haves (#17-#22) are deliberately absent: leaving one out is a
 # commercial choice, leaving out a must-have is a review that never looked.
 MUST_HAVES = [str(n) for n in range(1, 17)] + ["23", "24", "reps"]
-ITEM_LABEL = re.compile(r"#(\d+|reps)\b", re.I)
+ITEM_LABEL = re.compile(r"#(\d+|reps)([a-z])?\b", re.I)
+
+# Sub-checks the checklist tags "[#4e]" because a whole item can be named while
+# they go missing. Naming "#4" satisfies item 4 and none of these; each must be
+# named by its own tag. Observed: a second run of the same contract named every
+# must-have and still dropped mutual confidentiality, the exclusivity carve-outs,
+# the creator's termination consequences and the release scope that the first
+# run had made.
+SUBCHECKS = {
+    "1b": "brand indemnity reaches materials Brand supplied OR approved",
+    "2a": "confidentiality runs both directions",
+    "3d": "cap carve-outs include payment obligations",
+    "4d": "termination pays for work performed, in every route",
+    "4e": "content handover on termination conditioned on payment",
+    "4g": "every termination route has a payment consequence",
+    "5b": "creator's reciprocal termination right, with its consequences",
+    "14f": "creator's own turnaround windows (floors, received not shipped)",
+    "15d": "unpaid activity carved out of exclusivity",
+    "15e": "incidental appearance carved out of exclusivity",
+    "15g": "time-window exclusivity bound to the brand's category",
+    "23a": "release and injunction waiver limited to authorized use",
+}
 
 
 def coverage(sources):
-    """{item: [(source, label, text)]} for every must-have item a label names.
+    """({item: hits}, {subcheck: hits}) where hits are [(source, label, text)].
 
     The phrase and additions gates only check what they are given. A review
     that never looked at the indemnity writes no indemnity line, and both gates
@@ -788,16 +815,80 @@ def coverage(sources):
     and one-way indemnity, confidentiality, the missing liability cap and the
     morals trigger all went out untouched behind a clean audit.
 
-    A label may name several items ("#1 #3 carve-outs"); each counts.
+    A label may name several items ("#1 #3 carve-outs"); each counts. A
+    sub-check tag ("#4e") also counts for its item.
     """
     found = {item: [] for item in MUST_HAVES}
+    subs = {sub: [] for sub in SUBCHECKS}
     for source, items in sources:
         for label, text in items:
             for m in ITEM_LABEL.finditer(label):
                 item = m.group(1).lower()
                 if item in found:
                     found[item].append((source, label, text))
-    return found
+                sub = item + (m.group(2) or "").lower()
+                if sub in subs:
+                    subs[sub].append((source, label, text))
+    return found, subs
+
+
+ADDITION_COUNT = re.compile(r"^(.*?)\s*::\s*x(\d+)$", re.S)
+
+
+def expected_count(text: str):
+    """Split "wording :: x3" into ("wording", 3); plain wording expects 1.
+
+    The checklist asks for some wording in several places -- the same payment
+    phrase in every termination route. "Exactly once" failed that on the
+    second copy, so a run satisfied the gate by writing it once, in the
+    force-majeure clause, and left the termination clause unpaid.
+    """
+    m = ADDITION_COUNT.match(text)
+    return (m.group(1).strip(), int(m.group(2))) if m else (text, 1)
+
+
+def prior_edits(prior_xml: str, accepted: str):
+    """Edits the prior redline made that this one's accepted text lacks.
+
+    Diffs the prior's reject-all against its accept-all word by word; each
+    difference is one prior edit. The prior's accept-all is then aligned with
+    this redline's, and each edit is judged by its own words, so rewording a
+    neighbour does not count as dropping it:
+
+      words it inserted    all still aligned -> carried; none -> DROPPED;
+                           some -> CHANGED (the missing words are shown)
+      words it struck      back in this redline at the same spot -> DROPPED
+
+    A one-word insertion ("material") is caught as well as a clause.
+
+    Returns (reports, total) where reports is [(state, old, new, missing)].
+    """
+    words = lambda s: " ".join(s.split()).split(" ")
+    old = words(reconstruct(prior_xml, "original"))
+    new = words(reconstruct(prior_xml, "accepted"))
+    cur = words(accepted)
+    kept = [False] * len(new)
+    back = []  # (prior index, current words) wherever this run has words the prior lacks
+    for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, new, cur, autojunk=False).get_opcodes():
+        if tag == "equal":
+            kept[i1:i2] = [True] * (i2 - i1)
+        elif j2 > j1:
+            back.append((i1, i2, " " + " ".join(cur[j1:j2]) + " "))
+    reports, total = [], 0
+    for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, old, new, autojunk=False).get_opcodes():
+        if tag == "equal" or "".join(old[i1:i2]) == "".join(new[j1:j2]):
+            continue
+        total += 1
+        o, n = " ".join(old[i1:i2]), " ".join(new[j1:j2])
+        if j2 > j1:
+            lost = [w for w, k in zip(new[j1:j2], kept[j1:j2]) if not k]
+            if len(lost) == j2 - j1:
+                reports.append(("DROPPED", o, n, ""))
+            elif lost:
+                reports.append(("CHANGED", o, n, " ".join(lost)))
+        elif any(a <= j1 <= b and " " + o + " " in s for a, b, s in back):
+            reports.append(("DROPPED", o, n, ""))
+    return reports, total
 
 
 def main() -> int:
@@ -816,12 +907,19 @@ def main() -> int:
     ap.add_argument("--write-dir", type=Path, help="write accepted.txt and original.txt (and counterparty.txt with --author) here")
     ap.add_argument("--list", action="store_true", help="print every suggestion")
     ap.add_argument("--coverage", type=Path, nargs="*", metavar="FILE",
-                    help="gate on every must-have checklist item being named by a '#N' label in "
-                         "--check, --additions, or these files (declined.md, a list of items "
-                         "found present)")
+                    help="gate on every must-have checklist item, and every tagged sub-check "
+                         "('#4e'), being named by a label in --check, --additions, or these "
+                         "files (declined.md, a list of items found present)")
+    ap.add_argument("--prior", type=Path, metavar="DOCX",
+                    help="an earlier redline of the same contract; gate on every edit it made "
+                         "being in this one or explained in --prior-ok")
+    ap.add_argument("--prior-ok", type=Path, metavar="FILE",
+                    help="'label :: fragment' lines explaining prior edits this redline "
+                         "deliberately drops; the fragment is any words of the prior edit")
     args = ap.parse_args()
 
-    for p in (args.docx, args.check, args.additions, args.baseline, *(args.coverage or [])):
+    for p in (args.docx, args.check, args.additions, args.baseline, args.prior, args.prior_ok,
+              *(args.coverage or [])):
         if p is not None and not p.exists():
             print(f"error: {p} not found", file=sys.stderr)
             return 2
@@ -1105,19 +1203,22 @@ def main() -> int:
 
     if args.additions:
         items = parse_phrases(args.additions)
-        print("\nAdditions check — is every clause we added in the accepted version exactly once?\n")
+        print("\nAdditions check — is every clause we added in the accepted version, as often as intended?\n")
         width = max((len(l) for l, _ in items), default=10)
         acc_n = tabs_to_spaces(accepted)
         bad = 0
         for label, text in items:
+            text, want = expected_count(text)
             n = acc_n.count(tabs_to_spaces(text))
-            if n == 1:
-                state = "PASS"
+            if n == want:
+                state = "PASS" if want == 1 else f"PASS (x{n})"
             elif n == 0:
                 state = "FAIL — not in the accepted version"
-            else:
+            elif want == 1:
                 state = f"FAIL — appears {n} times — check for a duplicate"
-            if n != 1:
+            else:
+                state = f"FAIL — appears {n} times, expected {want}"
+            if n != want:
                 bad += 1
                 failures += 1
             print(f"  {label:<{width}}  {state}")
@@ -1130,7 +1231,7 @@ def main() -> int:
     if args.coverage is not None:
         sources = [(p.name, parse_phrases(p))
                    for p in (args.check, args.additions, *args.coverage) if p is not None]
-        found = coverage(sources)
+        found, subs = coverage(sources)
         print("\nCoverage check — was every must-have checklist item looked at?\n")
         if not sources:
             print("  No label files given. Pass --check, --additions, or files after --coverage.")
@@ -1157,6 +1258,49 @@ def main() -> int:
             print("  An item no file names was never reviewed — not reviewed and found fine, not")
             print("  reviewed and declined. Review it, then add a phrase, an addition, or a")
             print("  line in declined.md / the present list saying why it needs no edit.")
+
+        print("\n  Tagged sub-checks — the boxes that go missing while their item is named:\n")
+        sub_missing = [s for s in SUBCHECKS if not subs[s]]
+        for sub, what in SUBCHECKS.items():
+            hits = subs[sub]
+            state = "MISSING" if not hits else ", ".join(dict.fromkeys(s for s, _, _ in hits))
+            print(f"  #{sub:<5} {state:<14} {what}")
+        print(f"\n  {len(sub_missing)} of {len(SUBCHECKS)} tagged sub-checks never named")
+        if sub_missing:
+            failures += 1
+            print("  Name each by its tag (\"#4e handover :: ...\") in a phrase, an addition,")
+            print("  declined.md or the present list. \"#4\" alone does not cover \"#4e\".")
+
+    if args.prior:
+        prior_xml = load_document_xml(args.prior)
+        reports, total = prior_edits(prior_xml, accepted)
+        oks = parse_phrases(args.prior_ok) if args.prior_ok else []
+        norm = lambda s: " ".join(s.split())
+        print(f"\nPrior-run check — is every edit {args.prior.name} made also in this redline?\n")
+        if "".join(reconstruct(prior_xml, "original").split()) != "".join(original.split()):
+            print("  WARNING: the two redlines were not made on the same brand draft; expect")
+            print("  false reports wherever the drafts differ.\n")
+        unexplained = 0
+        for state, old_w, new_w, lost in reports:
+            why = next((label for label, frag in oks
+                        if norm(frag) and (norm(frag) in old_w or norm(frag) in new_w)), None)
+            if why is None:
+                unexplained += 1
+            print(f"  {state}" + (f" — explained: {why}" if why else ""))
+            print(f"      brand : {old_w[:150] or '(nothing — prior inserted here)'}")
+            print(f"      prior : {new_w[:150] or '(struck)'}")
+            if lost:
+                print(f"      lost  : {lost[:150]}")
+        print(f"\n  {total - len(reports)} of {total} prior edits carried; "
+              f"{len(reports) - unexplained} dropped or changed with a reason; "
+              f"{unexplained} unexplained")
+        if unexplained:
+            failures += 1
+            print("  Each unexplained drop is an edit the earlier run made and this one lost.")
+            print("  Restore it, or add \"label :: words from the edit\" to --prior-ok saying why")
+            print("  it goes (declined by the creator, superseded by a better edit, …). An edit")
+            print("  that was reworded, or whose neighbouring words this run changed, also shows")
+            print("  here — read it before restoring.")
 
     return 1 if failures else 0
 

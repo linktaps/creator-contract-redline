@@ -24,6 +24,25 @@ rather than from the document: **the creator has already conceded it** in corres
 **the brand has already rejected it** in a previous round. Re-opening a settled point needs a
 reason, and the creator has it.
 
+**Tagged boxes.** A few boxes carry a tag such as **[#4e]**. These are the sub-checks that go
+missing while their item is still named — on one re-run of a contract, mutual confidentiality,
+the exclusivity carve-outs and the creator's termination consequences all disappeared behind a
+coverage gate that saw every item number. `audit_suggestions.py --coverage` requires each tag to
+be named by its own label; "#4" does not cover "#4e".
+
+**Every number has a direction.** Before editing a figure, write down which way favours the
+creator: ↑ (longer, more — the creator's own deadlines, the cap, the fee, cure periods for the
+creator) or ↓ (shorter, fewer — included revision rounds, the brand's turnaround, exclusivity,
+the payment term). A default figure given in a box below is a **floor or a ceiling in that
+direction, never a target.** Where the contract is already on the creator's side of it, the box
+is *present* and the number is left alone. A contract that gives the creator ten days to deliver
+keeps ten days when the default is seven.
+
+**Mutualizing never narrows a right the creator already holds.** Symmetry is the method, not the
+goal. Where the brand drafted a creator-side right broadly — a reciprocal morals trigger, a
+termination right — making the two sides "match" by narrowing the creator's half is a concession.
+Narrow the clause pointed at the creator; leave the creator's own right as drafted.
+
 **Undefined means partial.** Where a box turns on a word — a trigger, a category, a scope, a channel — the answer is what the contract defines that word to mean, not what it sounds like in ordinary English. Record the clause that defines it. If there isn't one, the box is partial even when the natural reading favors the creator. Supplying a definition for a term the contract already uses is an edit, not a new ask.
 
 **Short-form and non-US contracts: absence is not automatically a finding.** This list is shaped
@@ -50,7 +69,11 @@ Read #4, #20 and #24 hardest on these.
 
 ### 1. Mutual indemnity
 - [ ] Brand's obligation includes a duty to **defend**, not only "indemnify and hold harmless"
-- [ ] Covers brand-supplied materials and Brand Marks
+- [ ] **[#1b]** Covers materials, key messages and claims Brand **supplied or approved**, and
+      Brand Marks. "Approved" is the half that matters: most claims in creator content are
+      wording the brand approved, not wording it supplied. Do not narrow it to "supplied or
+      required" while restructuring the clause — one re-run did, and the brand's indemnity for
+      its own approved talking points went with it
 - [ ] Covers product defects
 - [ ] Covers the brand's own negligence and willful misconduct
 - [ ] Covers use of the creator's likeness outside the granted scope
@@ -60,9 +83,15 @@ Read #4, #20 and #24 hardest on these.
       with #22: the AI clause bounds what the brand may alter, this limb decides who pays when an
       alteration goes wrong
 - [ ] Creator's own indemnity is not broader than the brand's in kind (check for production/personal-injury clauses that don't match the work)
+- [ ] **The creator's fault standard is gross negligence.** Where the creator's indemnity or a
+      cap carve-out turns on the creator's fault, write "gross negligence or willful misconduct",
+      never plain "negligence". The brand's side may stay at "negligence". Narrowing the
+      creator's trigger means **replacing** it — "the Services or any breach" becomes "any
+      material breach, gross negligence or willful misconduct" — not appending a new fault limb
+      beside what is there
 
 ### 2. Mutual confidentiality
-- [ ] Obligation runs both directions, not just against the creator
+- [ ] **[#2a]** Obligation runs both directions, not just against the creator
 - [ ] Consent requirement is reciprocal ("the other party's consent", not "Brand's consent")
 - [ ] Permitted recipients are reciprocal ("its agents", not "Talent's agents")
 - [ ] Creator may identify the brand as a client and show published work in a portfolio — and
@@ -74,21 +103,23 @@ Read #4, #20 and #24 hardest on these.
 - [ ] A limitation-of-liability clause exists at all (frequently absent, leaving exposure uncapped)
 - [ ] Consequential/indirect damages waived mutually
 - [ ] Aggregate cap stated, tied to the fee
-- [ ] Carve-outs present for indemnity, confidentiality, payment obligations, out-of-scope use, gross negligence
+- [ ] **[#3d]** Carve-outs present for indemnity, confidentiality, **the brand's payment
+      obligations**, out-of-scope use, gross negligence. The payment carve-out is the one that
+      disappears: without it the cap limits what the brand owes the creator in fees
 - [ ] **Carve-outs are not broader against the creator than against the brand.** Checking that
       carve-outs exist is half the check; the other half is which way they cut. An uncapped
       carve-out for "defective or inadequate Services" hands the brand both the standard and the
       remedy — bound it to services that fail to meet the concept and SOW the brand approved, so
       "it did not perform well" is not a breach. Breach-based carve-outs ("relating to the
-      Services or any breach") narrow to **material** breach, willful misconduct and gross
-      negligence. Cross-check #12: an uncapped re-performance obligation lets the brand demand a
+      Services or any breach") narrow to **material** breach, willful misconduct and **gross**
+      negligence — the word "gross" is the edit, see #1. Cross-check #12: an uncapped re-performance obligation lets the brand demand a
       free reshoot instead of paying the rate stated there
 
 ### 4. Mutual termination, with payment for work completed
 - [ ] Creator can terminate at all
 - [ ] Creator can terminate for non-payment specifically
 - [ ] Cure period stated and reciprocal
-- [ ] Payment on termination covers **all work performed on an approved concept, whether or not
+- [ ] **[#4d]** Payment on termination covers **all work performed on an approved concept, whether or not
       delivered**, published or approved. "Content created and submitted" is the narrower
       formulation and it is usually the creator's own redline that introduces it — a deal killed
       after the concept is approved and before the shoot has produced no Content at all. **Word
@@ -97,14 +128,23 @@ Read #4, #20 and #24 hardest on these.
       development… whether or not approved": it reads as billing for rejected pitches, and it is
       circular — the approval it disclaims is the thing that made the work billable. Use the same
       phrase in every termination route that pays for work performed, so no route pays on a
-      different basis
-- [ ] **Content handover on termination is conditioned on payment**, and is not required at all
+      different basis. **It goes into the termination clause's own payment sentence** ("Brand will
+      then process payment for…") first. A force-majeure or suspension clause is an additional
+      route, not a substitute: one run put the phrase only there and left the termination
+      clause paying for "services provided", which reads as finished work. Record it in
+      `additions.txt` with the count of routes (`:: x2`), so writing it once fails the gate
+- [ ] *(elective)* **Milestone schedule on termination.** Creators who negotiate often ask for
+      percentages rather than a phrase: x% on signature, x% on concept submission, x% on draft
+      delivery, x% on posting, x% on metrics. It is how concept work gets paid without the
+      circular "whether or not approved" wording, and it ends the argument about what "work
+      performed" covers. Offer it with the creator's percentages; do not pick them
+- [ ] **[#4e]** **Content handover on termination is conditioned on payment**, and is not required at all
       where the creator terminates for the brand's cause. An unconditional "deliver all Content
       within forty-eight (48) hours of termination" hands over the work in the one situation
       where the brand has stopped paying for it. Item 4 checks that the creator gets paid on
       termination; this box checks what the creator has to give up
 - [ ] Brand's termination-for-cause trigger is limited to uncured material breach, not any failure
-- [ ] **Every termination route has a payment consequence.** A mutual for-cause sentence and a paid
+- [ ] **[#4g]** **Every termination route has a payment consequence.** A mutual for-cause sentence and a paid
       for-convenience sentence can sit beside a third route with no payment attached at all —
       "Company may terminate immediately at any time if instructed to do so by Client" is the
       common form. Count the routes, then check each one separately; the unpaid route is the one
@@ -131,8 +171,16 @@ Read #4, #20 and #24 hardest on these.
 - [ ] **The trigger pointed at the creator requires material injury, on an objective standard.**
       Reciprocity is the second question; breadth is the first. "Any act which might tend to
       injure the success of Brand" is satisfied by anything the brand dislikes, decided by the
-      brand. "Materially injures" is the ask, and it is a single word
-- [ ] Reciprocal termination right exists for the creator
+      brand. "Materially injures" is the ask, and it is a single word. **Only on this trigger.**
+      The creator's reciprocal trigger against the brand ("…which might tend to injure the
+      success of Influencer") stays as broad as the brand drafted it. Adding "materially" there
+      too looks even-handed and narrows the creator's own exit — a creator reviewing one run
+      called it undercutting themselves. The same goes for "reduce" → "materially reduces" and
+      "disparaging" → "defamatory": edit the creator-facing standard only
+- [ ] **[#5b]** Reciprocal termination right exists for the creator, **with its consequences
+      written out** — the five boxes below. A reciprocal trigger with no consequences leaves the
+      creator free to leave and nothing else; one re-run kept the trigger and dropped the
+      consequence sentence the earlier run had written
 - [ ] Creator retains fees already paid
 - [ ] Creator is paid for all work performed on an approved concept, in the same words as #4
 - [ ] Creator may remove or archive posts
@@ -235,7 +283,12 @@ its own three defects:
       rate is what makes everything past the cap paid
 
 ### 12. Reshoot fee
-- [ ] A rate is stated
+- [ ] A rate is stated — **a figure**, not "subject to the parties' mutual written agreement on
+      timing, scope and additional compensation". That is an agreement to agree: the brand
+      decides whether one is ever reached, so it prices the reshoot at nothing. It is the
+      natural over-correction when a creator objects to the rate being too high; the fix for a
+      rate that is too high is a lower rate (see editing standards §8 — a reshoot fee is a
+      production rate, not the whole fee), never no rate
 - [ ] **The fee attaches from concept approval, not content approval.** A rate for reshoots
       "requested after approval" excludes the ordinary case, because the brand asking for a
       reshoot is usually the brand declining to approve — it calls the re-creation a revision
@@ -258,12 +311,15 @@ its own three defects:
       condition** — no obligation to remove *provided no paid amplification sits behind the post
       after the usage term expires*. Paid spend past the licensed window is a fresh use of the
       creator's likeness; an evergreen organic post is not
-- [ ] **The brand's takedown right is preserved, and bounded to defined triggers.** Do not strip
-      it. A brand should be able to require removal on a product recall, an IP problem, a
-      reputational event, or uncured breach — removing that right outright is not a creator win
-      and it costs credibility with the brand's counsel, which is the one asset the rest of the
-      redline is spending. What to cut is removal "upon Brand's request" at will; what to write
-      is the trigger list
+- [ ] **The brand's takedown right is left alone.** Do not strip it and do not bound it. A brand
+      has to be able to pull a post when things go wrong — a recall, an IP claim, a regulator, or
+      the creator in the press for the wrong reasons — and a trigger list always misses one: the
+      list one run wrote (recall, IP claim, legal requirement) left out the creator's own scandal,
+      the case the brand most needs it for. A creator who negotiates these for a living said of
+      that edit, "I really just wouldn't redline this at all." Removing or listing the triggers
+      reads to the brand's counsel as not knowing the market and costs credibility the rest of
+      the redline is spending. Record it *present*; the sentence below is the only edit this
+      area needs
 - [ ] **Creator-side retention and takedown obligations carve out brand breach, non-payment and
       termination.** The creator's minimum-live obligation — one year on the primary feed, and
       the like — is otherwise absolute, so the creator keeps hosting the campaign after the
@@ -278,26 +334,47 @@ its own three defects:
       is backed by a refund clause the creator owes money for taking down their own post years
       later. Every retention obligation needs a date or a duration, not only a carve-out
 
-> **One sentence closes the last three boxes, in both directions.** *Except in the event of
-> uncured breach of this Agreement, Brand shall have no obligation to remove the Content.* It
-> concedes the market-normal position the brand wants, and by making the exception mutual it
-> hands the creator the power to compel a takedown for non-payment or a morals breach. Prefer it
-> to three separate edits: it is shorter, it reads as drafting rather than as an ask, and the
-> brand's reviewer has nothing to push back on.
+> **One sentence closes the no-removal and retention boxes, in both directions.** *Except in the
+> event of uncured breach of this Agreement, Brand shall have no obligation to remove the
+> Content.* It concedes the market-normal position the brand wants, and by making the exception
+> mutual it hands the creator the power to compel a takedown for non-payment or a morals breach.
+> Prefer it to separate edits: it is shorter, it reads as drafting rather than as an ask, and
+> the brand's reviewer has nothing to push back on. It does not touch the brand's own takedown
+> right, which stays as drafted.
 
 ### 14. Mutual timing
 - [ ] **Who controls the posting schedule** — watch for "Brand's decision shall be final and controlling" in the schedule
 - [ ] **Extension clause**: term cannot be extended without additional compensation (search "without any additional compensation")
 - [ ] **Extension clause**: payment dates are not pushed back by an extension
-- [ ] *(elective)* Brand-caused delay does not move the creator's payment dates
-- [ ] *(elective)* Material timely submitted but unposted due to brand delay is still paid
-- [ ] **The creator's own submission and revision windows are workable.** This item otherwise
-      looks only at the brand's timing, and the clauses that bind the creator — first draft
-      within seventy-two (72) hours, revisions within forty-eight (48) — go unread because they
-      are obligations rather than rights. Two questions: is the window long enough to do the
-      work, and does it run from an event the creator controls? **Product *received*, not product
-      *shipped*** — a clock started by a carrier is a clock the creator cannot manage. Quote the
-      actual windows to the creator and let them set the numbers; do not pick them
+- [ ] *(elective — raise, never draft)* Brand-caused delay does not move the creator's payment dates
+- [ ] *(elective — raise, never draft)* Material timely submitted but unposted due to brand delay is still paid
+
+> These two are the ask experienced creators strike from a redline themselves: "very
+> aggressive", and on a second run, "I wouldn't add this." Mention them in the step-4 report as
+> a yes/no. **Do not draft either unless the creator says yes** — and a softened version ("payment
+> shall be due thirty (30) days after the live date agreed") is still the same ask; softening an
+> elective does not make it core.
+
+- [ ] **[#14f]** **The creator's own submission and revision windows are workable.** This item
+      otherwise looks only at the brand's timing, and the clauses that bind the creator — first
+      draft within seventy-two (72) hours, revisions within forty-eight (48) — go unread because
+      they are obligations rather than rights. It is a core edit, not a flag: a creator reviewing
+      two runs that only quoted "72 hours of receiving product" back called it "crazy" that it
+      was not redlined. Two parts:
+      - **Defaults, as floors: seven (7) days** from receipt of product for a first draft,
+        **seventy-two (72) hours** from receipt of feedback for revisions. These are the
+        creator's deadlines, so longer favours the creator (↑). Edit only a window **shorter**
+        than the default, and only by lengthening it to the default. A window already at or
+        above it is *present* and untouched — a contract giving ten days keeps ten days.
+        Where the creator names their own figure, use theirs, and apply the same direction
+        check to it
+      - **The clock starts on an event the creator controls.** Product *received*, not product
+        *shipped* — a clock started by a carrier is one the creator cannot manage. This applies
+        whatever the length
+- [ ] **The brand's own windows run the other way.** "Brand shall submit comments within 48 hours
+      prior to each anticipated postdate", a notes-turnaround window, a deemed-approval period —
+      here shorter favours the creator (↓). Never apply the floors above to these. Tightening the
+      brand's timing costs the brand something, so it is elective
 - [ ] **Any option or additional-deliverable right** the brand holds is (a) priced at the creator's
       rate rather than a figure the brand chose, (b) conditioned on the creator's availability
       ("subject to Influencer's prior professional commitments"), and (c) bounded by a date. An
@@ -315,10 +392,10 @@ its own three defects:
 - [ ] Category definition matches what was agreed in correspondence
 - [ ] Vague expanders removed ("and accessories", "and related products")
 - [ ] Parent-company exclusion stated if that was the deal
-- [ ] **Unpaid activity** carved out — "any services (paid or unpaid)" restricts organic mentions
-- [ ] **Incidental appearance** carved out
+- [ ] **[#15d]** **Unpaid activity** carved out — "any services (paid or unpaid)" restricts organic mentions
+- [ ] **[#15e]** **Incidental appearance** carved out
 - [ ] No right of first refusal extending the restriction beyond the paid term
-- [ ] **Exclusivity drawn by time window rather than by category.** Every box above assumes a
+- [ ] **[#15g]** **Exclusivity drawn by time window rather than by category.** Every box above assumes a
       category definition exists to narrow. "No other sponsor videos on the promotion date"
       defines no category at all — it restricts *every* advertiser rather than competitors, which
       is broader than the category exclusivity the rest of this item is written to cut down, and
@@ -353,7 +430,11 @@ The first five are the terms that are usually capitalized, and "live" is on the 
 - [ ] **Two clocks with one meaning are one clock.** If the creator's keep-up obligation and the
       brand's usage period are meant to be the same length, define one and reference it from the
       other ("for the Usage Period"). Two identically measured clocks written in different words
-      invite an argument about whether they differ
+      invite an argument about whether they differ. **Only where the lengths already match.**
+      A one-year keep-up obligation beside a sixty-day usage period is two clocks, not one:
+      one run rewrote "at least (1) year" as "for the Usage Period" and cut the creator's
+      obligation from a year to sixty days without a word in the report. That is a commercial
+      change — raise it, do not make it as a consistency fix
 - [ ] **Syndication is not a new publication.** Where a usage period or a fee installment is
       triggered by "publication" of an asset that is syndicated to several platforms, say that
       initial publication is the first channel, and that later syndication of the same asset
@@ -514,8 +595,14 @@ a fight about a paragraph the brand considers standard.
 > agreement and among the least read, because it is written as boilerplate and sits near the
 > signature block. A release given away here cannot be recovered by any edit made above it.
 
-- [ ] **The release is limited to use within the granted scope.** A release covering all use of
-      the creator's likeness releases the out-of-scope use that #10 and #1 exist to control
+- [ ] **[#23a]** **The release is limited to authorized use.** A release covering all use of
+      the creator's likeness releases the out-of-scope use that #10 and #1 exist to control.
+      **Write "authorized use"** — "arising out of the authorized use of such Content by Brand" —
+      rather than "in accordance with the rights granted in Section 3": it is two words, it is
+      the form brands have accepted, and it cannot go stale when the grant moves. **It goes in
+      every place the release reaches**: the release sentence *and* the waiver of injunctive
+      relief beneath it ("(i) the authorized use of Content"). One run scoped the first and left
+      the waiver reaching all use, so the creator could still not stop an unlicensed campaign
 - [ ] **Defamation is excluded.** Do not release defamation by default. A release that covers
       "any claim for defamation" means an edit that changes what the creator appears to say is
       not actionable — which is exactly the harm #22's AI clause and #1's alteration limb are
@@ -597,4 +684,4 @@ Flag these to the creator and let them decide.
 - **Insurance and production requirements that do not match self-shot content** — a term-length
   insurance covenant for a video filmed at home with a phone.
 - **Schedules incorporated by reference but marked "reserved" or "subject to change"** — terms that do not exist yet but bind on arrival.
-- **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags. Raise as courtesy, not objection. Where a duplicate paragraph exists, fixing one copy and leaving the other is worse than fixing neither.
+- **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags, and party swaps left half-done by the brand's own template — a creator termination right that fires "in the event that brand believes the contract is materially affected" hands the creator's exit to the brand. Fixing that one (to "Influencer believes") is a correction, and it belongs in the redline even though brands sometimes refuse it; record a refusal in `declined.md` like any other. Raise as courtesy, not objection. Where a duplicate paragraph exists, fixing one copy and leaving the other is worse than fixing neither.

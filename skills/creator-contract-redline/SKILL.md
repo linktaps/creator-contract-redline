@@ -171,8 +171,9 @@ cost.** Mutuality is the method, not the goal. A brand having no obligation to d
 post once it is up, and a brand keeping the right to demand a takedown on a recall or an IP
 problem, are both how this market works; stripping either reads to the brand's counsel as not
 having done this before, and that judgment is then applied to every other item in the redline.
-The checklist marks these where they arise and gives the conditioning edit instead — bound the
-right, do not remove it. Credibility with the other side's reviewer is a resource the redline
+The checklist marks these where they arise. Some take a conditioning edit — the no-removal
+clause takes an ad-spend condition — and some take none: the brand's takedown right is left as
+drafted, because any trigger list misses the case the brand most needs it for. Credibility with the other side's reviewer is a resource the redline
 spends, and there is no way to earn it back inside one document.
 
 **Do not add things that are not on the list.** Each additional ask is a line the brand's reviewer stops at, and asks that protect nothing real make the ones that matter look like part of a pile. Genuinely dangerous things outside the list get raised with the creator as separate flagged items, not added unilaterally.
@@ -187,6 +188,17 @@ wrongly: included revision rounds are unpaid labour, so raising the count — on
 more sounds like more — is a concession written in the creator's own voice. Where an instruction
 would move a number against the creator, say so and confirm before editing rather than executing
 it faithfully. Faithful execution of a backwards instruction is still a backwards redline.
+
+The same check governs the checklist's own figures. Where a box gives a default — seven days to
+deliver a first draft — it is a floor in the creator's direction, not a value to write in. A
+contract already giving ten days keeps ten; changing it to seven because seven is the number on
+the list is the backwards redline again, authored by the checklist instead of the creator. The
+tracking table's Direction column exists so this is read off a row rather than remembered.
+
+**Making a clause mutual never narrows a right the creator holds.** Where the brand drafted the
+creator's reciprocal right broadly — a morals trigger "which might tend to injure the success of
+Influencer" — leave it. Narrow the half pointed at the creator; symmetry for its own sake is a
+concession.
 
 ## What a term means, not what it sounds like
 
@@ -207,10 +219,19 @@ Defining a term the contract already uses is an **edit**, not a flag. It does no
 
 Build this before editing and keep it current. It is the artifact that survives interruption; your memory is not.
 
-| # | Item | Sub-check | Status in contract | Action | Done? |
-|---|------|-----------|--------------------|--------|-------|
+| # | Item | Sub-check | Status in contract | Direction | Action | Done? |
+|---|------|-----------|--------------------|-----------|--------|-------|
 
 One row per **sub-check**, not per item. Status is present / partial / adverse / missing. Action is edit / flag / none. Done stays blank until you have visually confirmed the edit in the document.
+
+**Direction** is filled on every row that turns on a number — a deadline, a count, a cap, a cure
+period, a payment term — and is blank elsewhere. It records which way favours the creator and the
+value before and after: `↑ longer: 72h → 7d`, `↓ fewer: 2 → 1`, `↑ longer: 10d → 10d (present)`.
+A row whose value moved against its arrow is a backwards edit, visible without re-deriving it.
+Fill it for numbers the creator supplied as well as your own.
+
+Tagged sub-checks (**[#4e]** in the checklist) keep their tag in the `#` column, so the labels
+in `phrases.txt`, `additions.txt` and `present.txt` can carry it.
 
 Two further statuses record decisions rather than drafting, and both are terminal:
 
@@ -252,7 +273,8 @@ cell need escaping in any case.
 3. Build the tracking table, one row per sub-check. Mark each action **core** (edit) or
    **elective** (ask first); the checklist defines the two tiers and marks the standing electives.
    **Every must-have item gets its rows** (#1–#16, #23, #24, and the representations sweep), each
-   with a status, even where the status is *present*. A must-have with no row is how a whole
+   with a status, even where the status is *present*, and **every tagged sub-check gets its own
+   row under its tag** (#2a, #4e, …). A must-have with no row is how a whole
    item goes missing without anyone deciding to drop it. The creator's instructions become rows
    too, marked as their decisions.
 4. Report to the creator before editing: the table, **the core edits you are about to make**,
@@ -263,7 +285,11 @@ cell need escaping in any case.
    without prompting (Cowork, a background agent). Asking afterwards under *decisions for you*
    is not the same step: by then the creator is reviewing a finished file instead of choosing
    its scope. Skip this only if the creator has said to proceed without it, and then say in the
-   report which electives you decided and which way.
+   report which electives you decided and which way. **An elective with no answer is not
+   drafted**, and a softened version of an elective is still the elective — one run turned
+   "brand delay shall not postpone payment dates" into "payment shall be due thirty days after
+   the agreed live date" and drafted it as if the rewording had made it core. A creator
+   reviewing the earlier run had already called the original "very aggressive".
 6. Apply edits by hand in Suggesting mode, following `references/editing-standards.md`. Update the table as you go.
 7. **Run the three audit passes.** See below. This is a gate, not a formality.
    - **7½. Re-sync from any returned document.** Whenever a file comes back — from the creator,
@@ -287,7 +313,9 @@ repair it. The same thing happened again with two adversarial-model files layere
 
 So, every time a file comes back:
 
-1. Build its accept-all text and diff it against your last accept-all.
+1. Build its accept-all text and diff it against your last accept-all. After the rebuild,
+   `--prior` against the previous version confirms nothing was lost in the process (see
+   *When the contract has been redlined before*).
 2. Express every difference as an edit in the master list — the creator's wording, not the
    returned file's markup.
 3. Rebuild from the pristine brand draft.
@@ -298,6 +326,37 @@ instructions given in chat. A creator who picked one included revision round in 
 changed it to two in their own edit two rounds later. The direction warning under *Scope* applies
 to a number typed into the document exactly as it does to one typed into chat: say which way it
 cuts, and confirm.
+
+## When the contract has been redlined before
+
+A second run on a contract that already has a redline — a re-run after the skill changed, a
+fresh session picking the work up, another tool's markup — is the case where good edits
+disappear silently. Each run is judged on its own, and nothing notices an edit the earlier one
+made and this one did not.
+
+Observed on one contract, with a creator reviewing both runs: the second fixed nearly everything
+the creator had criticised in the first, and in the same pass lost mutual confidentiality, the
+exclusivity carve-outs for organic mentions and incidental appearance, the creator's termination
+consequences, the cap's carve-out for payment obligations, the scope limit on the release's
+injunction waiver, and "approved" from the brand's indemnity. The creator's verdict: parts of
+each were stronger. Nobody had decided to drop any of it.
+
+So when an earlier redline exists, gate on it:
+
+```bash
+python scripts/audit_suggestions.py redline-v2.docx --prior redline-v1.docx --prior-ok prior-ok.txt
+```
+
+Every edit the earlier redline made is reported **DROPPED** (none of its words survive, or text it
+struck is back) or **CHANGED** (some words survive; the lost ones are printed). Each must be
+restored or explained with a line in `prior-ok.txt` — `label :: words from the edit`, where the
+label says why: `#11 creator wants 1 round :: two (2) rounds`, `superseded by Live Date
+definition :: each live post`. The gate fails on any unexplained entry. Expect it to be long
+after a real rework. That is the point: each entry is a decision, and a decision is cheap to
+write down.
+
+This does not replace the edit list as the source of truth. It checks that the edit list
+carried forward everything it should have.
 
 ## Adversarial-model rounds
 
@@ -414,14 +473,16 @@ python scripts/audit_suggestions.py redline.docx --check phrases.txt \
     --additions additions.txt --coverage declined.md present.txt
 ```
 
-Label every line with its item number (`#1 brand indemnity :: …`; one line may name several). An
-item the redline does not edit still needs a line saying why: `declined.md` holds rejected and
+Label every line with its item number (`#1 brand indemnity :: …`; one line may name several). The
+checklist's tagged sub-checks need their own tag (`#4e handover :: …`): naming `#4` covers item 4
+and none of its tags, because the tagged boxes are the ones that went missing on a run where every
+item was named. An item or tag the redline does not edit still needs a line saying why: `declined.md` holds rejected and
 conceded items, and `present.txt` holds items the brand's draft already satisfies, with the
 clause that does it (`#2 confidentiality :: present (Confidentiality ¶) — already mutual`). An item
 no file names was never reviewed, and the gate fails. Report it as a gap in the review, not as a
 pass.
 
-**A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and pass it with `--additions`. Each line must occur **exactly once** in the accept-all text: zero means the edit did not land, and more than one usually means an edit was applied twice or a clause duplicated — that check caught an accidental duplicate once. The phrase gate proves the bad language left; only this proves the good language landed.
+**A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and pass it with `--additions`. Each line must occur **exactly once** in the accept-all text: zero means the edit did not land, and more than one usually means an edit was applied twice or a clause duplicated — that check caught an accidental duplicate once. Where the checklist asks for the same wording in several places — the termination-payment phrase in every termination route — end the line with the count (`#4d work performed :: pre-production and production work performed on a Brand-approved concept :: x2`). Without it the gate rewards writing the phrase once, and one run did exactly that, in the force-majeure clause, leaving the termination clause itself unchanged. The phrase gate proves the bad language left; only this proves the good language landed.
 
 This also disposes of a state that otherwise eats time. A surviving adverse phrase is expected wherever the fix was an addition placed beside text that should stay: the creator's own indemnity survives a mutuality edit, "worldwide license" survives having "non-exclusive," inserted in front of it. Those are phrase-selection artifacts, not misses — but they are indistinguishable from real misses until the additions check confirms the counterpart exists.
 

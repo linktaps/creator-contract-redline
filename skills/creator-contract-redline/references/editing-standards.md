@@ -80,6 +80,36 @@ When something is out of scope, strike it. Do not replace it with a sentence exp
 
 Declining to grant something is not the same as prohibiting it, and the difference is worth real money later.
 
+**The exception: a condition on an obligation the creator relies on.** Striking a whole bullet
+leaves nothing behind. Striking a condition from the middle of a sentence can leave a sentence
+that no longer says anything. "Payment of $5,500 will be sent after content is verified and
+complete" had its brand-controlled condition struck and became "Payment of $5,500 will be sent."
+— sent when? A creator reviewing it: "incomplete sentence. before was better." The earlier run
+had replaced the condition with a pointer: "in accordance with the payment terms set forth
+below." Where the struck words answered *when*, *how much* or *on what condition*, put the
+governing term in their place, preferably as a cross-reference to the clause that already
+answers it.
+
+## 6a. Do not strike what does nothing
+
+Redundant words the brand wrote — "this Agreement or Statement of Work" where there is no
+separate SOW, a doubled "and/or", a harmless synonym — cost the creator nothing where they are.
+Striking them adds a line the brand's reviewer has to read and costs nothing to leave. "The less
+you redline out stuff that has no impact the better," in the words of a creator who reviewed
+one. Before any deletion, ask what changes if it is accepted. If the answer is nothing, do not
+make it.
+
+## 6b. Put a definition where the term first does work
+
+A new definition belongs beside the first clause that uses it, as a parenthetical — "a period of
+sixty (60) consecutive calendar days commencing on the date Influencer first publishes the
+Content on Influencer's own channel (the "Live Date")" in the usage grant. Where the contract has
+a definitions section or a defined-terms table, it goes there instead. It does not go at the end
+of whichever clause happens to come first: a "Live Date" definition appended to the Services
+paragraph read to the creator reviewing it as "a weird place to add this", and it reads the same
+way to the brand's counsel — as text dropped in rather than drafted. §3 still applies: a
+definition added beside an existing sentence is an insertion, never a rewrite of that sentence.
+
 ## 7. Don't draft the clause you've already won
 
 If the correspondence shows the brand already conceded a point and is revising the language themselves, do not draft their clause for them. Drafting it implies the subject belongs in this agreement and hands them a starting position you chose.
@@ -91,6 +121,8 @@ Strike what is out of scope, state plainly that it is not granted and not includ
 Check the correspondence for rates the creator already quoted before writing any figure. Writing a number lower than what they quoted — into a contract, in their own voice — is worse than leaving it blank.
 
 Where a figure is genuinely needed and none exists, flag it for the creator rather than picking one.
+The exception is a default the checklist itself states — the turnaround floors in #14. Those are
+positions, not guesses, and they only ever move a number in the creator's direction.
 
 Be careful with derived figures. A total fee divided by deliverable count is not a per-deliverable rate if the fee was built from a per-asset base plus bundled syndication and exclusivity. A wrong derived number in a contract becomes the number the other side reaches for at termination.
 
@@ -282,6 +314,13 @@ Run against the finished redline:
 - [ ] Mutuality items mirror the brand's wording rather than replacing it
 - [ ] No bracketed commentary anywhere in the body
 - [ ] Out-of-scope items struck, not replaced with explanations or prohibitions
+- [ ] **No struck condition leaves a stub** — where the words answered when, how much or on what
+      condition, a cross-reference to the governing clause replaces them
+- [ ] **No deletion that changes nothing** — redundant brand wording left where it is
+- [ ] **New definitions sit at first use or in the definitions section**, not appended to an
+      unrelated clause
+- [ ] **Every number moved in the creator's direction** — checked against the Direction column,
+      including numbers the creator supplied
 - [ ] No invented figures; all numbers traceable to the correspondence or flagged
 - [ ] Related clauses edited on consistent reasoning
 - [ ] Every checklist **sub-check** marked for change is actually present in the document

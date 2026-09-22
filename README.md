@@ -130,10 +130,14 @@ Exits non-zero when anything is unresolved, so it can hard-gate the workflow.
 
 The phrase gate proves the bad language left. It cannot see additions, and
 roughly half a mutuality redline is additions — so `--additions` asserts each
-expected new clause appears exactly once. `--baseline` also checks that every
+expected new clause appears exactly once (or `:: xN` times, for wording that
+belongs in several clauses). `--baseline` also checks that every
 other part of the package is byte-identical to the brand's draft, and with
 `--author` that the other side's pending suggestions are exactly as they left
-them.
+them. `--coverage` requires every must-have item and every tagged sub-check
+(`#2a`, `#4e`, …) to be named somewhere, and `--prior earlier-redline.docx`
+lists every edit an earlier redline of the same contract made that this one
+dropped, so a re-run cannot lose work silently.
 
 ## The applier
 
