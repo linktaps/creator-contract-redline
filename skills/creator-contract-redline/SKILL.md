@@ -405,11 +405,21 @@ The same check reports **LAYOUT** and **TYPE** separately. LAYOUT counts tab sto
 Build `phrases.txt` while making the tracking table — one line per sub-check, `label :: exact adverse wording`, copied verbatim from the contract including curly quotes. The script exits non-zero if anything is unresolved, so it can hard-gate the workflow.
 
 **The gate only checks what you gave it.** A review that never looked at the indemnity writes no
-indemnity line, and `--check` passes. So, before trusting a green result, count by label:
-every must-have item number (#1–#16, #23, #24) appears in `phrases.txt`, `additions.txt` or
-`declined.md`, or has a tracking-table row marked *present* with the clause that makes it so.
-An item number that appears nowhere was never reviewed. Report it as a gap in the review, not as
-a pass.
+indemnity line, and `--check` passes. `--coverage` closes that: it requires every must-have item
+(#1–#16, #23, #24, and `#reps` for the representations sweep) to be named by a label in
+`phrases.txt`, `additions.txt`, or a file listed after the flag.
+
+```bash
+python scripts/audit_suggestions.py redline.docx --check phrases.txt \
+    --additions additions.txt --coverage declined.md present.txt
+```
+
+Label every line with its item number (`#1 brand indemnity :: …`; one line may name several). An
+item the redline does not edit still needs a line saying why: `declined.md` holds rejected and
+conceded items, and `present.txt` holds items the brand's draft already satisfies, with the
+clause that does it (`#2 confidentiality :: present (Confidentiality ¶) — already mutual`). An item
+no file names was never reviewed, and the gate fails. Report it as a gap in the review, not as a
+pass.
 
 **A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and pass it with `--additions`. Each line must occur **exactly once** in the accept-all text: zero means the edit did not land, and more than one usually means an edit was applied twice or a clause duplicated — that check caught an accidental duplicate once. The phrase gate proves the bad language left; only this proves the good language landed.
 
@@ -503,7 +513,9 @@ to what the brand sent.
 
 It also covers the cases that otherwise tempt you to widen an edit or hand-splice
 XML: `within=` to anchor a non-unique word inside a unique wider context,
-`del_para` and its relatives to strike whole paragraphs with their marks,
+`del_para` and its relatives to strike whole paragraphs with their marks —
+`del_para_range` for a whole exhibit or block, so you never write that loop
+yourself —
 `del_multi` for a deletion broken up by bookmarks or proofing marks, and safe
 insertion beside another author's pending suggestion. The docstring lists them.
 

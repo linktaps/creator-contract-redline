@@ -32,12 +32,12 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from audit_suggestions import reconstruct  # noqa: E402
+from audit_suggestions import paragraph_spans, reconstruct  # noqa: E402
 
-# Self-closing <w:p/> paragraphs count: a struck paragraph followed by an empty
-# spacer written that way must merge into the spacer, or it survives acceptance
-# as an empty paragraph that no text comparison can see.
-PARA_RE = re.compile(r"<w:p(?:\s[^>]*?)?/>|<w:p(?:\s[^>]*?)?(?<!/)>.*?</w:p>", re.S)
+# Paragraphs come from paragraph_spans, which counts a self-closing <w:p/> (a
+# struck paragraph followed by a spacer written that way must merge into it, or
+# it survives acceptance as an empty paragraph no text comparison can see) and
+# keeps a text box's nested paragraphs inside the paragraph that holds them.
 EMPTY_PARA = re.compile(r"<w:p(\s[^>]*?)?/>$")
 PARA_PARTS = re.compile(
     r"(<w:p(?:\s[^>]*)?>)"
@@ -83,14 +83,14 @@ def _structural(xml, mode):
     changes in place. Walks last-to-first so a chain of removed marks folds
     into the first paragraph that survives."""
     gone = "del" if mode == "accepted" else "ins"
-    ms = list(PARA_RE.finditer(xml))
+    ms = paragraph_spans(xml)
     if not ms:
         return xml, 0
-    paras = [m.group(0) for m in ms]
+    paras = [xml[s:e] for s, e in ms]
     paras = [f"<w:p{e.group(1) or ''}></w:p>" if (e := EMPTY_PARA.match(p)) else p
              for p in paras]
-    gaps = [xml[: ms[0].start()]] + [xml[ms[k - 1].end(): ms[k].start()] for k in range(1, len(ms))]
-    tail = xml[ms[-1].end():]
+    gaps = [xml[: ms[0][0]]] + [xml[ms[k - 1][1]: ms[k][0]] for k in range(1, len(ms))]
+    tail = xml[ms[-1][1]:]
     merges = 0
     for k in reversed(range(len(paras))):
         if gone not in _mark_kinds(paras[k]):

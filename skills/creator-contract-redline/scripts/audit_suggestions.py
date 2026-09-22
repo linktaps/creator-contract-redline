@@ -45,6 +45,11 @@ Usage
   # list every suggestion as an edit pair
   python audit_suggestions.py contract.docx --list
 
+  # coverage: does some label name every must-have item (#1-#16, #23, #24,
+  # #reps)? Labels in --check and --additions count, plus every file listed
+  python audit_suggestions.py redline.docx --check phrases.txt \\
+      --additions additions.txt --coverage declined.md present.txt
+
 phrases.txt and additions.txt hold one entry per line, optionally
 "label :: text". Blank lines and lines starting with "# " are ignored. Use
 the exact wording from the contract — curly quotes and all. Tabs are compared
@@ -77,10 +82,40 @@ TEXT_RUN = re.compile(
 FLOW = re.compile(
     r"<w:(?:t|delText)(?:\s[^>]*)?>(.*?)</w:(?:t|delText)>|<w:tab\s*/>", re.S
 )
-# A self-closing <w:p/> is a real (empty) paragraph and must be counted; and
-# "<w:p[ >]" alone would read <w:p w:rsidR="..."/> as an open tag and run on to
-# the next paragraph's </w:p>, swallowing it.
-PARA = re.compile(r"<w:p(?:\s[^>]*?)?/>|<w:p(?:\s[^>]*?)?(?<!/)>.*?</w:p>", re.S)
+P_TAG = re.compile(r"<w:p(?=[\s>/])[^>]*?(/?)>|</w:p>")
+
+
+def paragraph_spans(xml: str):
+    """(start, end) of every paragraph not nested inside another, in order.
+
+    Two traps, both met in real contracts. A self-closing <w:p/> is a real
+    (empty) paragraph and must be counted. And paragraphs nest: a drawing's text
+    box (<w:txbxContent>) holds whole paragraphs inside a run inside a
+    paragraph — signature lines in exhibits are commonly drawn that way. A
+    non-greedy <w:p>.*?</w:p> ends the outer paragraph at the first inner
+    </w:p>, which splits it and misreads its paragraph mark. Counting depth
+    keeps a text box's paragraphs as part of the paragraph that holds them.
+    """
+    spans, depth, start = [], 0, 0
+    for m in P_TAG.finditer(xml):
+        if m.group(0) == "</w:p>":
+            depth -= 1
+            if depth == 0:
+                spans.append((start, m.end()))
+        elif m.group(1):
+            if depth == 0:
+                spans.append((m.start(), m.end()))
+        else:
+            if depth == 0:
+                start = m.start()
+            depth += 1
+    return spans
+
+
+def paragraphs(xml: str):
+    return [xml[s:e] for s, e in paragraph_spans(xml)]
+
+
 AUTHOR = re.compile(r'w:author="([^"]*)"')
 
 UNESCAPE = [("&lt;", "<"), ("&gt;", ">"), ("&quot;", '"'), ("&apos;", "'"), ("&amp;", "&")]
@@ -239,7 +274,7 @@ def reconstruct_paragraphs(xml: str, mode: str, author=None):
     """The paragraphs of a view, as a list; see reconstruct()."""
     accepts = acceptor(mode, author)
     out = []
-    for p in PARA.findall(xml):
+    for p in paragraphs(xml):
         if not all((kind == "ins") == accepts(who) for kind, who in mark_changes(p)):
             continue
         out.append(render(p, mode, author))
@@ -399,7 +434,7 @@ def check_inserted_formatting(xml: str, styles_xml=None):
     paras = []
     by_style = collections.defaultdict(collections.Counter)
     overall = collections.Counter()
-    for p in PARA.findall(xml):
+    for p in paragraphs(xml):
         pstyle = paragraph_style(p)
         runs = []
         for m, enclosing in scan(p, RUN_SCAN):
@@ -446,9 +481,16 @@ def check_paragraph_structure(xml: str):
     behind — a blank line, or worse a bullet with nothing after it. Deleting a
     whole paragraph means deleting its runs *and* marking its paragraph mark
     deleted, which in OOXML is a <w:del> inside <w:pPr><w:rPr>.
+
+    The exception is a paragraph whose pPr carries a section break (<w:sectPr>).
+    Deleting that mark merges its section into the next one — a two-column
+    signature block's layout spreads into whatever follows, or the section
+    holding the contract's headers and footers loses them. Keeping the mark is
+    correct there, and costs one empty paragraph on accept. Those come back as
+    kind "section" so they can be reported without failing the check.
     """
     orphans = []
-    for p in PARA.findall(xml):
+    for p in paragraphs(xml):
         ppr = re.search(r"<w:pPr>(.*?)</w:pPr>", p, re.S)
         ppr_text = ppr.group(1) if ppr else ""
         mark_deleted = bool(
@@ -461,7 +503,8 @@ def check_paragraph_structure(xml: str):
             re.findall(r"<w:delText(?:\s[^>]*)?>(.*?)</w:delText>", p, re.S)
         )
         if all_text.strip() and all_text == del_text and not mark_deleted:
-            kind = "bullet" if "<w:numPr>" in ppr_text else "paragraph"
+            kind = ("section" if "<w:sectPr" in ppr_text
+                    else "bullet" if "<w:numPr>" in ppr_text else "paragraph")
             orphans.append((kind, unescape(" ".join(all_text.split()))))
     return orphans
 
@@ -501,7 +544,7 @@ def char_formats(xml: str, mode: str = "original"):
     change.
     """
     text, sigs = [], []
-    for p in PARA.findall(xml):
+    for p in paragraphs(xml):
         for kind, chunk in segment(p):
             if kind == "ins" and mode == "original":
                 continue
@@ -569,7 +612,7 @@ def paragraph_divergence(base_paras, red_paras):
 
 def change_elements(xml: str):
     """{w:id: [element]} for every <w:ins>/<w:del>, containers and marks alike."""
-    para_spans = [(m.start(), m.end(), m.group(0)) for m in PARA.finditer(xml)]
+    para_spans = [(s, e, xml[s:e]) for s, e in paragraph_spans(xml)]
     starts = [s for s, _, _ in para_spans]
 
     def paragraph_at(pos):
@@ -693,7 +736,7 @@ def phrase_context(xml: str, phrase: str):
     """
     touched = False
     phrase = tabs_to_spaces(phrase)
-    for p in PARA.findall(xml):
+    for p in paragraphs(xml):
         if phrase in tabs_to_spaces(render(p, "accepted")):
             if re.search(r"<w:ins\b", p) or re.search(r"<w:del\b", p):
                 touched = True
@@ -727,6 +770,36 @@ def parse_phrases(path: Path):
     return items
 
 
+# Must-have items in references/review-checklist.md, plus the representations
+# sweep. Nice-to-haves (#17-#22) are deliberately absent: leaving one out is a
+# commercial choice, leaving out a must-have is a review that never looked.
+MUST_HAVES = [str(n) for n in range(1, 17)] + ["23", "24", "reps"]
+ITEM_LABEL = re.compile(r"#(\d+|reps)\b", re.I)
+
+
+def coverage(sources):
+    """{item: [(source, label, text)]} for every must-have item a label names.
+
+    The phrase and additions gates only check what they are given. A review
+    that never looked at the indemnity writes no indemnity line, and both gates
+    pass. Counting item numbers across every file the review produced is the
+    only way to see an item that nobody decided to drop -- it simply was never
+    opened. Observed: a review scoped itself to the creator's three-line brief,
+    and one-way indemnity, confidentiality, the missing liability cap and the
+    morals trigger all went out untouched behind a clean audit.
+
+    A label may name several items ("#1 #3 carve-outs"); each counts.
+    """
+    found = {item: [] for item in MUST_HAVES}
+    for source, items in sources:
+        for label, text in items:
+            for m in ITEM_LABEL.finditer(label):
+                item = m.group(1).lower()
+                if item in found:
+                    found[item].append((source, label, text))
+    return found
+
+
 def main() -> int:
     # Contract text is printed verbatim; a character the console cannot encode
     # should degrade to "?" rather than abort the audit halfway through.
@@ -742,9 +815,13 @@ def main() -> int:
                                      "with --baseline, the other-authors check")
     ap.add_argument("--write-dir", type=Path, help="write accepted.txt and original.txt (and counterparty.txt with --author) here")
     ap.add_argument("--list", action="store_true", help="print every suggestion")
+    ap.add_argument("--coverage", type=Path, nargs="*", metavar="FILE",
+                    help="gate on every must-have checklist item being named by a '#N' label in "
+                         "--check, --additions, or these files (declined.md, a list of items "
+                         "found present)")
     args = ap.parse_args()
 
-    for p in (args.docx, args.check, args.additions, args.baseline):
+    for p in (args.docx, args.check, args.additions, args.baseline, *(args.coverage or [])):
         if p is not None and not p.exists():
             print(f"error: {p} not found", file=sys.stderr)
             return 2
@@ -791,11 +868,17 @@ def main() -> int:
 
     failures = 0
 
-    orphans = check_paragraph_structure(xml)
+    found = check_paragraph_structure(xml)
+    sections = [o for o in found if o[0] == "section"]
+    orphans = [o for o in found if o[0] != "section"]
     print("\nStructure check — will any emptied paragraph survive acceptance?\n")
     if not orphans:
         print("  PASS — every fully struck paragraph also has its paragraph mark deleted.")
-    else:
+    for _, text in sections:
+        print(f"  NOTE — mark kept on a struck paragraph carrying a section break: \"{text[:60]}…\"")
+        print("         Correct: deleting it would merge two sections. One empty paragraph")
+        print("         remains on accept.")
+    if orphans:
         failures += 1
         print(f"  FAIL — {len(orphans)} paragraph(s) struck without deleting the paragraph mark.")
         print("  Accepting these removes the words and leaves an empty line or bullet behind.\n")
@@ -1043,6 +1126,37 @@ def main() -> int:
             print("  Missing usually means an edit aborted or was anchored somewhere else;")
             print("  a duplicate usually means an edit ran twice or a clause was pasted into")
             print("  two places.")
+
+    if args.coverage is not None:
+        sources = [(p.name, parse_phrases(p))
+                   for p in (args.check, args.additions, *args.coverage) if p is not None]
+        found = coverage(sources)
+        print("\nCoverage check — was every must-have checklist item looked at?\n")
+        if not sources:
+            print("  No label files given. Pass --check, --additions, or files after --coverage.")
+        missing = [item for item in MUST_HAVES if not found[item]]
+        for item in MUST_HAVES:
+            hits = found[item]
+            if not hits:
+                state = "MISSING — no label names this item"
+            else:
+                by = {}
+                for source, _, _ in hits:
+                    by[source] = by.get(source, 0) + 1
+                state = ", ".join(f"{s} x{n}" if n > 1 else s for s, n in by.items())
+                # A line in a coverage file carries its reason ("present (§12)",
+                # "conceded 9/22"); show the first so the reader can judge it.
+                note = next((t for s, _, t in hits if s not in
+                             {p.name for p in (args.check, args.additions) if p}), None)
+                if note:
+                    state += f" — {' '.join(note.split())[:70]}"
+            print(f"  #{item:<5} {state}")
+        print(f"\n  {len(missing)} of {len(MUST_HAVES)} must-have items never named")
+        if missing:
+            failures += 1
+            print("  An item no file names was never reviewed — not reviewed and found fine, not")
+            print("  reviewed and declined. Review it, then add a phrase, an addition, or a")
+            print("  line in declined.md / the present list saying why it needs no edit.")
 
     return 1 if failures else 0
 

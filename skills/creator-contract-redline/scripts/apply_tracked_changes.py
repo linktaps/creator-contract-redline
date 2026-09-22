@@ -58,6 +58,11 @@ Edit kinds:
       second copy of a duplicated paragraph is reached. Delete by offset BEFORE
       deleting the anchor paragraph: once struck, its text leaves the flat
       index and cannot be counted from.
+  del_para_range(first_text, last_text, expect_count=None)
+      strike a whole block — an exhibit, a release, a run of bullets — from
+      the paragraph holding first_text through the one holding last_text,
+      blanks and duplicates included, every mark deleted. Use this instead of
+      writing a loop: a hand-written one missed the last mark of an exhibit.
   para_after(anchor, [texts])       whole new paragraph(s) after anchor's
       paragraph; "\\t" in a text becomes a real <w:tab/>
   clone_para_after(anchor, subs)    copy anchor's paragraph as a new tracked
@@ -96,13 +101,14 @@ RPR_RE = re.compile(r"^<w:rPr>.*?</w:rPr>", re.S)
 # since "<w:t" + "ab/" + ">" fits the pattern. That silently captured raw XML
 # into the indexed text and would have corrupted every edit near a tab stop.
 T_RE = re.compile(r"<w:t(?P<tattr>\s[^>]*)?>(?P<text>.*?)</w:t>", re.S)
-# `(?<!/)` so an empty <w:p .../> is not read as an open tag that then runs on
-# to the next paragraph's </w:p>.
-PARA_RE = re.compile(r"<w:p(?:\s[^>]*?)?(?<!/)>.*?</w:p>", re.S)
-# The next paragraph may itself be an empty <w:p/> — python-docx and some
-# exporters write blank spacer paragraphs that way, and those are exactly the
-# ones del_blank_para_after exists to remove.
-NEXT_PARA = re.compile(r"\s*(<w:p(?:\s[^>]*?)?/>|<w:p(?:\s[^>]*?)?(?<!/)>.*?</w:p>)", re.S)
+# Paragraphs and runs NEST: a drawing's text box (<w:txbxContent>) holds whole
+# paragraphs inside a run inside a paragraph, and signature lines in contract
+# exhibits are commonly drawn that way. A non-greedy <w:p>.*?</w:p> ends the
+# outer paragraph at the first inner </w:p>, so anything that walks paragraphs
+# has to count depth instead. `(?=[\s>/])` keeps <w:pPr> and <w:rPr> out.
+P_TAG = re.compile(r"<w:p(?=[\s>/])[^>]*?(/?)>|</w:p>")
+R_TAG = re.compile(r"<w:r(?=[\s>/])[^>]*?(/?)>|</w:r>")
+TXBX = re.compile(r"<w:txbxContent\b.*?</w:txbxContent>", re.S)
 EMPTY_PARA = re.compile(r"<w:p(\s[^>]*?)?/>$")
 PARA_PARTS = re.compile(
     r"(<w:p(?:\s[^>]*)?>)"
@@ -111,6 +117,70 @@ PARA_PARTS = re.compile(
 INS_OPEN = re.compile(r"<w:ins\b[^>]*?(?<!/)>")
 NESTED_INS = re.compile(r"<w:ins\b[^>]*?(?<!/)>(?:(?!</w:ins>).)*?<w:ins\b[^>]*?(?<!/)>", re.S)
 W_ID = re.compile(r'\bw:id="(\d+)"')
+
+
+def _strike_run(run):
+    """A run's text as deleted text. Text inside a drawing's text box stays
+    <w:t>: those are the shape's own paragraphs, and deleting the run deletes
+    the whole shape with them."""
+    def strike(seg):
+        seg = re.sub(r"<w:t(\s[^>]*)?>", lambda x: "<w:delText" + (x.group(1) or "") + ">", seg)
+        seg = seg.replace("</w:t>", "</w:delText>")
+        seg = seg.replace("<w:delText>", '<w:delText xml:space="preserve">')
+        seg = re.sub(r"<w:instrText\b", "<w:delInstrText", seg)
+        return seg.replace("</w:instrText>", "</w:delInstrText>")
+    out, pos = [], 0
+    for m in TXBX.finditer(run):
+        out.append(strike(run[pos:m.start()]))
+        out.append(m.group(0))
+        pos = m.end()
+    out.append(strike(run[pos:]))
+    return "".join(out)
+
+
+def _balanced_end(xml, start, tag_re, close):
+    """End offset of the element opening at `start`, counting nested copies."""
+    depth = 0
+    for m in tag_re.finditer(xml, start):
+        if m.group(0) == close:
+            depth -= 1
+        elif m.group(1):                 # self-closing
+            if depth == 0:
+                return m.end()
+            continue
+        else:
+            depth += 1
+        if depth == 0:
+            return m.end()
+    raise SystemExit("ABORT: unbalanced markup (unclosed element)")
+
+
+def _enclosing_para(xml, pos):
+    """(start, end) of the innermost paragraph containing offset `pos`."""
+    stack = []
+    for m in P_TAG.finditer(xml, 0, pos):
+        if m.group(0) == "</w:p>":
+            if stack:
+                stack.pop()
+        elif not m.group(1):
+            stack.append(m.start())
+    if not stack:
+        raise SystemExit("ABORT: text is not inside a paragraph")
+    return stack[-1], _balanced_end(xml, stack[-1], P_TAG, "</w:p>")
+
+
+def _next_para(xml, pos):
+    """(start, end) of the sibling paragraph starting at `pos` after
+    whitespace, or None when something else comes first (a table, a section
+    break, the end of a cell or text box). An empty <w:p/> counts: python-docx
+    and some exporters write blank spacers that way, and those are exactly the
+    ones del_blank_para_after exists to remove."""
+    at = pos
+    while at < len(xml) and xml[at].isspace():
+        at += 1
+    if xml.startswith("</w:p>", at) or not P_TAG.match(xml, at):
+        return None
+    return at, _balanced_end(xml, at, P_TAG, "</w:p>")
 
 
 def esc(s):
@@ -450,9 +520,7 @@ class Doc:
                 xs = r[0]
                 break
             acc += len(r[4])
-        pstart = max(self.xml.rfind("<w:p ", 0, xs), self.xml.rfind("<w:p>", 0, xs))
-        pend = self.xml.find("</w:p>", xs) + len("</w:p>")
-        return pstart, pend
+        return _enclosing_para(self.xml, xs)
 
     @staticmethod
     def _add_mark(ppr, mark):
@@ -481,7 +549,14 @@ class Doc:
             raise SystemExit(f"ABORT [{label}] could not decompose paragraph")
         popen, ppr, body = m.group(1), m.group(2) or "", m.group(3)
         # Already mark-deleted by someone else: a second <w:del/> is invalid.
-        if not re.search(r"<w:rPr>(?:<w:ins\b[^>]*/>)?<w:del\b", ppr):
+        # A mark carrying a section break is kept: deleting it merges the
+        # section into the next one (a two-column signature layout spreading
+        # into the text after it, or headers and footers lost). Striking the
+        # text and keeping the mark is what Word does, at the cost of one empty
+        # paragraph on accept.
+        if "<w:sectPr" in ppr:
+            self.applied.append((label or "del-para", "kept a section-break paragraph mark"))
+        elif not re.search(r"<w:rPr>(?:<w:ins\b[^>]*/>)?<w:del\b", ppr):
             ppr = self._add_mark(ppr, f"<w:del{self._attrs()}/>")
         out, i = [], 0
         while i < len(body):
@@ -491,16 +566,10 @@ class Doc:
                 out.append(body[i:j])
                 i = j
                 continue
-            rm = RUN_FULL.match(body, i)
-            if rm:
-                run = re.sub(r"<w:t(\s[^>]*)?>", lambda x: "<w:delText" + (x.group(1) or "") + ">",
-                             rm.group(0))
-                run = run.replace("</w:t>", "</w:delText>")
-                run = run.replace("<w:delText>", '<w:delText xml:space="preserve">')
-                run = re.sub(r"<w:instrText\b", "<w:delInstrText", run)
-                run = run.replace("</w:instrText>", "</w:delInstrText>")
-                out.append(f"<w:del{self._attrs()}>{run}</w:del>")
-                i = rm.end()
+            if R_TAG.match(body, i) and not body.startswith("</w:r>", i):
+                j = _balanced_end(body, i, R_TAG, "</w:r>")
+                out.append(f"<w:del{self._attrs()}>{_strike_run(body[i:j])}</w:del>")
+                i = j
                 continue
             # Any other tag passes through — including someone's <w:ins> open
             # tag, so their inserted runs get our <w:del> inside their <w:ins>.
@@ -518,15 +587,16 @@ class Doc:
 
     def del_blank_para_after(self, unique_text, label=""):
         ps, pe = self._para_span(unique_text, label)
-        m = NEXT_PARA.match(self.xml, pe)
-        if not m:
+        nxt = _next_para(self.xml, pe)
+        if not nxt:
             raise SystemExit(f"ABORT [{label}] no following sibling paragraph")
-        para = m.group(1)
+        s, e = nxt
+        para = self.xml[s:e]
         if _plain(para):
             raise SystemExit(f"ABORT [{label}] following paragraph is not blank: "
                              f"{_plain(para)[:60]!r}")
         self._tick()
-        self.xml = self.xml[:m.start(1)] + self._delete_para_xml(para, label) + self.xml[m.end(1):]
+        self.xml = self.xml[:s] + self._delete_para_xml(para, label) + self.xml[e:]
         self.applied.append((label or "del-blank", "blank paragraph"))
 
     def del_para_offset(self, unique_text, k, expect_prefix, label=""):
@@ -538,17 +608,60 @@ class Doc:
         ps, pe = self._para_span(unique_text, label)
         pos, last = pe, None
         for _ in range(k):
-            last = NEXT_PARA.match(self.xml, pos)
+            last = _next_para(self.xml, pos)
             if not last:
                 raise SystemExit(f"ABORT [{label}] ran out of sibling paragraphs")
-            pos = last.end(1)
-        para = last.group(1)
+            pos = last[1]
+        para = self.xml[last[0]:last[1]]
         txt = _plain(para)
         if not txt.startswith(expect_prefix) or (expect_prefix == "" and txt.strip()):
             raise SystemExit(f"ABORT [{label}] paragraph text mismatch: {txt[:80]!r}")
         self._tick()
-        self.xml = self.xml[:last.start(1)] + self._delete_para_xml(para, label) + self.xml[last.end(1):]
+        self.xml = self.xml[:last[0]] + self._delete_para_xml(para, label) + self.xml[last[1]:]
         self.applied.append((label or "del-para-offset", txt[:55]))
+
+    def del_para_range(self, first_text, last_text, label="", expect_count=None):
+        """Strike every paragraph from the one holding first_text through the
+        one holding last_text, inclusive: runs, blank spacers, duplicates and
+        every paragraph mark.
+
+        A block — an exhibit, a release, a run of bullets — is otherwise struck
+        one paragraph at a time, and the blanks and duplicates in it cannot be
+        anchored, so sessions write their own loop. Observed: a hand-written
+        loop over Exhibit 1 struck 36 paragraph marks and missed the last one,
+        leaving an empty paragraph behind on accept.
+
+        The range must be consecutive sibling paragraphs: a table or a
+        container edge inside it aborts rather than being walked past. A
+        paragraph carrying a section break has its text struck and its mark
+        kept (see _delete_para_xml). The paragraph after last_text must exist,
+        because the final mark of a body or cell cannot be deleted. expect_count, if given, asserts how
+        many paragraphs the range holds.
+        """
+        ps, pe = self._para_span(first_text, label)
+        ls, le = self._para_span(last_text, label)
+        if ls < ps:
+            raise SystemExit(f"ABORT [{label}] last_text comes before first_text")
+        spans, pos = [(ps, pe)], pe
+        while spans[-1][1] < le:
+            nxt = _next_para(self.xml, pos)
+            if not nxt or nxt[0] > ls:
+                raise SystemExit(f"ABORT [{label}] range is not consecutive sibling paragraphs "
+                                 f"(a table, section or container edge sits inside it)")
+            spans.append(nxt)
+            pos = nxt[1]
+        if spans[-1] != (ls, le):
+            raise SystemExit(f"ABORT [{label}] could not walk from first_text to last_text")
+        if expect_count is not None and len(spans) != expect_count:
+            raise SystemExit(f"ABORT [{label}] range holds {len(spans)} paragraphs, "
+                             f"expected {expect_count}")
+        if not _next_para(self.xml, le):
+            raise SystemExit(f"ABORT [{label}] no paragraph follows last_text; the final mark "
+                             f"of a body or cell cannot be deleted — end the range one earlier")
+        self._tick()
+        for s, e in reversed(spans):        # last-to-first keeps earlier offsets valid
+            self.xml = self.xml[:s] + self._delete_para_xml(self.xml[s:e], label) + self.xml[e:]
+        self.applied.append((label or "del-para-range", f"{len(spans)} paragraphs"))
 
     # ------------------------------------------------------- new paragraphs
     @staticmethod
@@ -561,13 +674,7 @@ class Doc:
 
     def para_after(self, anchor, texts, label="", within=None, first=False):
         runs, i, a, j, b = self._locate(anchor, label, within, first)
-        end = self.xml.find("</w:p>", runs[j][1])
-        if end == -1:
-            raise SystemExit(f"ABORT [{label}] no enclosing paragraph")
-        end += len("</w:p>")
-
-        pstart = max(self.xml.rfind("<w:p ", 0, runs[i][0]),
-                     self.xml.rfind("<w:p>", 0, runs[i][0]))
+        pstart, end = _enclosing_para(self.xml, runs[i][0])
         m = PARA_PARTS.match(self.xml[pstart:end])
         ppr = (m.group(2) or "") if m else ""
         ppr_inner = ppr[len("<w:pPr>"):-len("</w:pPr>")] if ppr.startswith("<w:pPr>") else ""
@@ -599,9 +706,7 @@ class Doc:
         keeps its formatting and leading tab. Int keys apply first.
         """
         runs, i, a, j, b = self._locate(anchor, label, within, first)
-        pstart = max(self.xml.rfind("<w:p ", 0, runs[i][0]),
-                     self.xml.rfind("<w:p>", 0, runs[i][0]))
-        pend = self.xml.find("</w:p>", runs[j][1]) + len("</w:p>")
+        pstart, pend = _enclosing_para(self.xml, runs[i][0])
         para = self.xml[pstart:pend]
 
         by_index = {k: v for k, v in subs.items() if isinstance(k, int)}

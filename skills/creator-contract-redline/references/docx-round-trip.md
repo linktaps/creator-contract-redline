@@ -74,6 +74,21 @@ Without it, accepting the suggestion removes the words and leaves the empty para
   paragraph** is reached: once one copy is struck its text leaves the flat index, and the survivor
   is no longer distinguishable by content. **Delete by offset first, then delete the anchor
   paragraph** — the other order removes the anchor you are counting from.
+- `del_para_range(first_text, last_text, expect_count=None)` strikes a whole block — an exhibit,
+  a release, a run of bullets — blanks and duplicates included. Use it instead of writing a
+  loop. A session that hand-wrote one over a release exhibit struck 36 marks and left the 37th.
+
+**Two things inside a block are not ordinary paragraphs, and the script handles both.**
+
+- **Text boxes.** Signature lines are often drawn shapes, and a shape's text box holds whole
+  paragraphs *inside a run inside a paragraph*. A `<w:p>.*?</w:p>` regex ends the outer paragraph
+  at the first inner `</w:p>` and splits it. The scripts count nesting instead, and deleting the
+  outer paragraph deletes the shape whole, leaving the text box's own paragraphs alone.
+- **Section breaks.** A paragraph whose `<w:pPr>` carries a `<w:sectPr>` ends a section: a
+  two-column signature block, or the section holding the contract's headers and footers. Deleting
+  that mark merges the section into the next one, and the layout spreads into the text around it.
+  The script strikes the text and keeps the mark, as Word does. That leaves one empty paragraph on
+  accept, and the audit reports it as a NOTE rather than a structure failure.
 
 **Expect a rendering artifact, and know where it appears.** A deleted paragraph mark is drawn as a strikethrough at the junction between that paragraph and the next — so the line shows up at the left edge of the *following* paragraph, running across its indent, not on the deleted one. In a bullet list it looks as though an untouched bullet has a stray line beside it; the line belongs to the deleted bullet above.
 
