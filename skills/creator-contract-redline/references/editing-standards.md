@@ -274,6 +274,14 @@ the inducement rider, and a review read that name four times without questioning
 rule being applied was looking for `_____`. A name that appears consistently throughout is not
 thereby verified; it is consistently wrong.
 
+**Find them on the first read, and ask before drafting.** A placeholder name, a missing figure or
+a wrong entity is a decision like any other, so it goes into the step-4 question list — "The
+contract names you 'Creator X' in three places. What is the correct legal name?" — and is answered
+before the first edit, then made as a tracked correction. Do not guess it; the author name the
+creator gave for the tracked changes may be a manager's or a handle, not the signatory. One run
+found "Creator X", correctly refused to guess, and raised it only in the final message, leaving a
+blocking item after the redline was otherwise finished.
+
 **The worst placeholder is a real name — someone else's.** A contract assembled from the last deal
 carries the previous creator's name and that deal's effective date in the preamble, and it passes
 every blank-hunting check because it is a perfectly ordinary name in a perfectly ordinary sentence.

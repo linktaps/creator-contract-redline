@@ -120,6 +120,13 @@ Failure modes to hunt specifically:
   decision (strike it, or keep it with a start date and a breach carve-out) instead of striking
   it. One run struck a one-year keep-up obligation on a summary alone; the creator had kept it
   both times earlier runs asked.
+- **Terms the correspondence leaves open.** "Open to discuss", "TBD", "we can talk about" is the
+  brand saying the point is unsettled — neither agreed nor refused. It is a step-4 decision, not
+  a correction: the creator chooses between striking it, the checklist's fallback, and leaving it.
+  One brand's email offered "boosting on Meta and TikTok (open to discuss boosting vs dark posting
+  on TikTok)"; the run struck whitelisting outright as a correction. On the same contract a year
+  earlier, the brand had accepted whitelisting "that does not require Influencer and/or Lender to
+  authenticate to third-party integrations" — the #21 fallback, and the answer the creator wanted.
 
 **Ask for the negotiation history too, not only the correspondence.** Two questions: has this
 contract been through a round already, and what did the brand refuse? A redline that re-asks for
@@ -127,6 +134,16 @@ something the brand rejected last week is not neutral — it spends goodwill on 
 tells their counsel the creator is not tracking the conversation. It may still be right to
 re-open one, but that is the creator's call with a reason attached. Equally, a point the creator
 already conceded by email is settled; do not hand it back to them as a finding.
+
+**Ask it as the first question, every run, through the question tool** — "Has this contract (or
+an earlier version of it) been through a round with the brand?" with options for *no*, *yes, I'll
+upload their marked-up version*, and *yes, but I don't have the file*. A prose request buried in
+the report gets skipped. If they upload a round, read the brand's tracked changes as the brand's
+positions: what they struck is `rejected (brand)`, what they rewrote is their counter-offer, and
+what they left alone of the creator's earlier asks is accepted. Start the redline from there. One
+run never asked; the same contract had a year-old response from the brand's lawyers that cut the
+brand indemnity to product defects, rewrote non-disparagement to "defamatory" and trimmed the
+brand's morals exit — the new redline re-asked all three at full width.
 
 **Check for suggestions already in the document.** The brand may have left pending edits, some favorable. Read them, never reject them, and factor them into what still needs asking.
 
@@ -351,7 +368,9 @@ cell need escaping in any case.
    "decisions next". One run finished its report on that line and stopped; nothing happened
    until the creator typed "?".
 
-   **Every decision is answered before the first edit.** Keep the open decisions as a
+   **Every decision is answered before the first edit** — including the ones the first read
+   turns up rather than the checklist: a placeholder party name, a figure the contract leaves
+   blank, a term the correspondence left open. Keep the open decisions as a
    numbered list and ask all of it, over as many batches as it takes, before touching the
    document. There is no "round one" drafted after the first batch. And no decision is ever
    filled in with its recommended answer because it was not asked: if a batch fails, or a
