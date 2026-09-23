@@ -89,7 +89,15 @@ Read #4, #20 and #24 hardest on these.
       brand-supplied materials, product defects and negligence all point elsewhere. Read together
       with #22: the AI clause bounds what the brand may alter, this limb decides who pays when an
       alteration goes wrong
-- [ ] Creator's own indemnity is not broader than the brand's in kind (check for production/personal-injury clauses that don't match the work)
+- [ ] Creator's own indemnity is not broader than the brand's in kind (check for production/personal-injury clauses that don't match the work).
+      **Narrow the trigger or the heads, not both.** Once the creator's trigger is limited to
+      material breach, gross negligence or willful misconduct, heads such as "physical loss or
+      damage to property" and "personal injury, disease, illness or death" only describe the
+      loss the creator covers when actually at fault — reasonable, and usually matched by the
+      heads of the brand's new indemnity. Keep them. Striking them as well leaves the creator
+      covering almost nothing, reads as overreach, and buys little. Strike a head only where
+      the trigger stays broad and the head cannot arise from the work at all. Runs of the same
+      contract went both ways on this, and one promised the strike in its report and never made it
 - [ ] **The brand indemnity's carve-out uses the creator's fault standard.** Mirroring the
       brand's own clause produces "except to the extent … caused by the acts or omissions of
       Influencer", and that exception swallows the indemnity: posting the brand's approved
@@ -618,6 +626,12 @@ a fight about a paragraph the brand considers standard.
 > removes (SKILL.md, *First*): the creator's likeness outlives the deal. Record it under
 > **[#22a]** — present, drafted, or offered as recommended and declined — so the coverage gate
 > sees it was raised.
+- [ ] **Everyone who appears is covered, animals included.** Write the clause over "the Content
+      or Influencer's Likeness (including the likeness of any person or animal appearing in the
+      Content)", and bar replicas "of Influencer or of any such person or animal". On a pet
+      account the animal is the talent, and a clause protecting only "Influencer" — the human
+      party — leaves the face of the channel open to cloning. One run dropped the words that
+      earlier runs had carried
 - [ ] Creator's likeness cannot be used as training data
 - [ ] No synthetic replicas, voice clones, or digital doubles without separate consent
 - [ ] **Flow-down** to agencies, vendors, and platforms
@@ -724,4 +738,4 @@ Flag these to the creator and let them decide.
 - **Insurance and production requirements that do not match self-shot content** — a term-length
   insurance covenant for a video filmed at home with a phone.
 - **Schedules incorporated by reference but marked "reserved" or "subject to change"** — terms that do not exist yet but bind on arrival.
-- **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags, and party swaps left half-done by the brand's own template — a creator termination right that fires "in the event that brand believes the contract is materially affected" hands the creator's exit to the brand. Fixing that one (to "Influencer believes") is a correction, and it belongs in the redline even though brands sometimes refuse it; record a refusal in `declined.md` like any other. **Edit a drafting error only when it changes what the contract means** — a half-done party swap, the wrong company or product ("Other Co" for the brand), an entity name that makes a clause point at nobody. Everything else is raised in the report as a courtesy and left in the document: an identical sentence appearing twice, a typo whose meaning is obvious, a stray phrase that binds no one. Striking those adds lines to the redline and protects nothing (editing standards §6a). One run deleted a confidentiality sentence from §12 because it duplicated §9 word for word; the contract meant exactly the same thing afterwards. Where a duplicate paragraph *is* edited because it carries meaning, fixing one copy and leaving the other is worse than fixing neither.
+- **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags, and party swaps left half-done by the brand's own template — a creator termination right that fires "in the event that brand believes the contract is materially affected" hands the creator's exit to the brand. Fixing that one (to "Influencer believes") is a correction, and it belongs in the redline even though brands sometimes refuse it; record a refusal in `declined.md` like any other. **Edit a drafting error only when it changes what the contract means** — a half-done party swap, the wrong company or product ("Other Co" for the brand), an entity name that makes a clause point at nobody. **A wrong party name is never housekeeping**, however much it looks like a typo: trace where it lands first. "Other Co will provide key messages" sits in the exhibit that decides who supplied the health claims — and the brand indemnity covers claims "supplied or approved by Brand". Left as "Other Co", the claims the creator most needs covered were supplied by someone the indemnity never names. One run listed it among the typos to mention. Everything else is raised in the report as a courtesy and left in the document: an identical sentence appearing twice, a typo whose meaning is obvious, a stray phrase that binds no one. Striking those adds lines to the redline and protects nothing (editing standards §6a). One run deleted a confidentiality sentence from §12 because it duplicated §9 word for word; the contract meant exactly the same thing afterwards. Where a duplicate paragraph *is* edited because it carries meaning, fixing one copy and leaving the other is worse than fixing neither.

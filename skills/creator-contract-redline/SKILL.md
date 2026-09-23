@@ -340,7 +340,10 @@ cell need escaping in any case.
    labelled so. Batch as many calls as the list needs — the tool takes a few questions at a
    time. Do not ask the creator to "reply with numbers" in prose, and do not bury a decision
    in the report text; a question only in prose is one they can read past. Plain-text
-   questions are the fallback only where no such tool exists.
+   questions are the fallback only where no such tool exists. **The report and the first batch
+   of questions go in the same turn** — end the report by calling the tool, never with
+   "decisions next". One run finished its report on that line and stopped; nothing happened
+   until the creator typed "?".
 
    **A skipped question means leave it as drafted.** No answer is not a yes, and it is not
    licence for the part of the same clause you had planned as core: once a clause has been put
