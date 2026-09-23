@@ -63,6 +63,19 @@ shows no strikethrough at all — the diff is pure insertion. Resist tidying the
 you write it: reproducing their phrasing verbatim, awkwardness included, is what makes the symmetry
 impossible to argue with.
 
+**A mirror carries over what the words do, not only the words.** An exception that limits
+the brand's obligation "to the extent caused by the acts or omissions of Brand" is narrow in
+the brand's clause and swallows the brand indemnity when swapped, because the creator's act —
+posting what the brand approved — is how every covered claim arises. Before keeping a mirrored
+carve-out, ask whether it excludes the thing the new clause exists to cover. (Checklist #1 has
+the replacement wording.)
+
+**Refer to the creator by the contract's defined term, never by a pronoun you chose.** New text
+says "Influencer" and "Influencer's", or "its" where the creator contracts through a company.
+Where the brand's draft writes "his/her", that tells you nothing about the creator — and a
+redline that writes "her agents" has guessed the gender of a real person in a document going
+out under their name. The same goes for a pet or anyone else the content features.
+
 Write fresh language only where there is no counterpart to mirror — a limitation of liability clause
 where none exists, for instance.
 
@@ -327,6 +340,9 @@ Run against the finished redline:
 - [ ] Every checklist **sub-check** marked for change is actually present in the document
 - [ ] No clause closed on the strength of an edit to its tail while its head is untouched
 - [ ] Every party swap re-read for verb agreement, negation, and possessives
+- [ ] **No mirrored carve-out swallows the clause it sits in** — a brand indemnity excepts the
+      creator's material breach, gross negligence or willful misconduct, not their "acts or omissions"
+- [ ] **No pronoun for the creator** — "Influencer" / "Influencer's" throughout new text
 - [ ] No malformed punctuation where a phrase was inserted beside an existing comma or period
 - [ ] **No blank placeholders anywhere except the signature block** — search for runs of underscores
 - [ ] **Party names, entities, dates and figures checked against the correspondence** — placeholders

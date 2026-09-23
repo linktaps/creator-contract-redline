@@ -315,7 +315,10 @@ cell need escaping in any case.
 4. Report to the creator before editing: the table, **the core edits you are about to make**,
    anything missing that needs their decision, **every elective item, as a yes/no decision in the
    same list**, anything dangerous outside the list, and any drafting errors. On a small deal,
-   the scope — focused or full mutuality — is one of the decisions (see *First*).
+   the scope — focused or full mutuality — is one of the decisions (see *First*). **So is the
+   author name on the tracked changes** — the brand sees it on every change, and it can be the
+   creator's legal name, their handle, or a manager's. Ask; never pick one. Two runs of the
+   same contract chose "Creator Name" once by asking and "@handle" once without.
    **Every edit the report promises becomes a gate line** before drafting starts: a phrase in
    `phrases.txt` for each wording it says will go, an entry in `additions.txt` for each it says
    will arrive. The gate checks only what it is given, and the report is the fuller list. One

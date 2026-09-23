@@ -86,6 +86,14 @@ Read #4, #20 and #24 hardest on these.
       with #22: the AI clause bounds what the brand may alter, this limb decides who pays when an
       alteration goes wrong
 - [ ] Creator's own indemnity is not broader than the brand's in kind (check for production/personal-injury clauses that don't match the work)
+- [ ] **The brand indemnity's carve-out uses the creator's fault standard.** Mirroring the
+      brand's own clause produces "except to the extent … caused by the acts or omissions of
+      Influencer", and that exception swallows the indemnity: posting the brand's approved
+      health claims is itself an act of the creator's, so the one limb that matters most is the
+      one the brand's counsel will say never applies. Write the exception as "caused by
+      Influencer's material breach of this Agreement, gross negligence or willful misconduct".
+      Mirror the brand's structure and wording everywhere else in the clause; this is the
+      one phrase that does not survive the swap
 - [ ] **The creator's fault standard is gross negligence.** Where the creator's indemnity or a
       cap carve-out turns on the creator's fault, write "gross negligence or willful misconduct",
       never plain "negligence". The brand's side may stay at "negligence". Narrowing the
