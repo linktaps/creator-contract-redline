@@ -780,7 +780,7 @@ def parse_phrases(path: Path):
 # sweep. Nice-to-haves (#17-#22) are deliberately absent: leaving one out is a
 # commercial choice, leaving out a must-have is a review that never looked.
 MUST_HAVES = [str(n) for n in range(1, 17)] + ["23", "24", "reps"]
-ITEM_LABEL = re.compile(r"#(\d+|reps)([a-z])?\b", re.I)
+ITEM_LABEL = re.compile(r"#(\d+|reps)(?:-?([a-z]))?\b", re.I)
 
 # Sub-checks the checklist tags "[#4e]" because a whole item can be named while
 # they go missing. Naming "#4" satisfies item 4 and none of these; each must be
@@ -804,6 +804,7 @@ SUBCHECKS = {
     "15g": "time-window exclusivity bound to the brand's category",
     "22a": "AI / digital-replica limit present, drafted, or offered as recommended",
     "23a": "release and injunction waiver limited to authorized use",
+    "reps-a": "every rep and covenant with no end date bounded (FTC disclosure included)",
 }
 
 
@@ -829,7 +830,8 @@ def coverage(sources):
                 item = m.group(1).lower()
                 if item in found:
                     found[item].append((source, label, text))
-                sub = item + (m.group(2) or "").lower()
+                letter = (m.group(2) or "").lower()
+                sub = item + ("-" if letter and not item.isdigit() else "") + letter
                 if sub in subs:
                     subs[sub].append((source, label, text))
     return found, subs

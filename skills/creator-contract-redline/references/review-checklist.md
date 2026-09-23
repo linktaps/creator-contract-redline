@@ -519,8 +519,15 @@ Work back through the items and find each one's rep:
       reps that no content will contain anything "that can be construed as political" are a
       standing restriction on the creator's whole feed if the drafting does not confine them to the
       deliverables
-- [ ] **Anything the rep makes permanent.** A rep with no "during the Term" is forever. Adding
-      those three words is the smallest edit in this file and often the largest one by effect
+- [ ] **[#reps-a]** **Anything the rep makes permanent.** A rep with no "during the Term" is
+      forever. Adding those three words is the smallest edit in this file and often the largest
+      one by effect. **List every rep and covenant with no end date and give each its own row** —
+      fixing the morals rep does not fix the one below it. The FTC disclosure covenant is the one
+      that gets left: "Influencer hereby agrees not to speak about or refer to Brand … without
+      disclosing that Brand paid" binds every mention of the brand for life. Bound it to "during
+      the Term and the usage period in Section 3(a)" — the usage period, because the disclosure
+      exists for as long as the brand may run the endorsement. One run limited rep (v) and left
+      this one untouched behind a passing `#reps` label
 - [ ] **Reps that restrict the creator's other work.** Union membership ("Influencer is not and
       shall not be a member of…"), other client relationships, platform exclusivity. These are
       career terms wearing a warranty's clothes, and they belong in the report even when the

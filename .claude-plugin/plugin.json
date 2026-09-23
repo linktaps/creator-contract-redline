@@ -1,7 +1,7 @@
 {
   "name": "creator-contract-redline",
   "description": "Redline influencer, creator and talent contracts against a fixed mutuality checklist, applying every edit as a tracked change in the document. Not legal advice — see DISCLAIMER.md.",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "author": {
     "name": "LinkTaps LLC"
   },
