@@ -71,7 +71,11 @@ Read #4, #20 and #24 hardest on these.
 ## Must-haves
 
 ### 1. Mutual indemnity
-- [ ] Brand's obligation includes a duty to **defend**, not only "indemnify and hold harmless"
+- [ ] **[#1a]** Brand's obligation includes a duty to **defend**, not only "indemnify and hold
+      harmless" — **even where the brand's own indemnity has no "defend" to mirror.** Without
+      it the creator funds their own lawyers and waits to be reimbursed, which on a health-claim
+      suit is the whole cost. Mirroring the brand's clause verbatim dropped the word in one run;
+      this is the one place the mirror adds a word rather than copying
 - [ ] **[#1b]** Covers materials, key messages and claims Brand **supplied or approved**, and
       Brand Marks. "Approved" is the half that matters: most claims in creator content are
       wording the brand approved, not wording it supplied. Do not narrow it to "supplied or

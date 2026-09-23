@@ -789,6 +789,7 @@ ITEM_LABEL = re.compile(r"#(\d+|reps)([a-z])?\b", re.I)
 # the creator's termination consequences and the release scope that the first
 # run had made.
 SUBCHECKS = {
+    "1a": "brand indemnity includes a duty to defend",
     "1b": "brand indemnity reaches materials Brand supplied OR approved",
     "2a": "confidentiality runs both directions",
     "3d": "cap carve-outs include payment obligations",

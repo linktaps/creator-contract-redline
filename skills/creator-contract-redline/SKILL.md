@@ -114,6 +114,12 @@ Failure modes to hunt specifically:
   quoted against, so an obligation it never mentions is work the fee does not cover: strike it
   and cite the scope email, the same as any other mismatch. A report that lists "requirements
   not in the scope email" under *flagged, your call* has found the item and then dropped it.
+  **That rule needs the scope email.** Where the only source is the creator's own summary of
+  the deal — "no emails, use my summary" — an obligation the summary never mentions is not
+  evidence it was never agreed; summaries leave things out. Ask about each one as a step-4
+  decision (strike it, or keep it with a start date and a breach carve-out) instead of striking
+  it. One run struck a one-year keep-up obligation on a summary alone; the creator had kept it
+  both times earlier runs asked.
 
 **Ask for the negotiation history too, not only the correspondence.** Two questions: has this
 contract been through a round already, and what did the brand refuse? A redline that re-asks for
@@ -315,7 +321,11 @@ cell need escaping in any case.
 4. Report to the creator before editing: the table, **the core edits you are about to make**,
    anything missing that needs their decision, **every elective item, as a yes/no decision in the
    same list**, anything dangerous outside the list, and any drafting errors. On a small deal,
-   the scope — focused or full mutuality — is one of the decisions (see *First*). **So is the
+   the scope — focused or full mutuality — is one of the decisions (see *First*). **Under full
+   mutuality, no tagged must-have sub-check (#4g, #5b, …) goes in "flag only"** — the scope
+   choice is the creator saying yes to all of them. One full-mutuality run left Exhibit B's
+   "terminate … in the event of any noncompliance", a termination route with no cure and no
+   payment, under *not planned*. **So is the
    author name on the tracked changes** — the brand sees it on every change, and it can be the
    creator's legal name, their handle, or a manager's. Ask; never pick one. Two runs of the
    same contract chose "Creator Name" once by asking and "@handle" once without.
