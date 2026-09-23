@@ -59,6 +59,7 @@ On a short form, these absences are still real exposure and still get reported:
 - no brand-side indemnity (#1)
 - no creator termination right (#4)
 - no defined total fee or bounded scope (#24)
+- no AI or digital-replica limit (#22), offered as a recommended addition
 
 The rest are recorded as normal at that length and not reported as gaps. **Short does not mean
 benign.** A short template carries its danger in penalty, forfeiture and refund clauses rather
@@ -232,7 +233,7 @@ its own three defects:
       handle on screen breaches it
 
 ### 7. Non-exclusive license
-- [ ] Grant says non-exclusive (search for "exclusive" in the grant)
+- [ ] **[#7a]** Grant says non-exclusive (search for "exclusive" in the grant)
 - [ ] Grant is not "non-cancellable" / irrevocable
 - [ ] **Sublicense scope** limited to affiliates and agencies acting for the brand
 - [ ] Grant is bounded by a defined license term
@@ -563,8 +564,7 @@ a fight about a paragraph the brand considers standard.
 - [ ] **Conditions that never fire or always fire.** "Subject to payment of amounts then due" on a
       delivery or handover obligation, in a net-30 structure, either blocks every routine request
       (something is always invoiced and not yet paid) or means nothing. Write delivery and
-      handover conditions as "provided no undisputed amount is then **past due**" — including the
-      one the creator's own redline adds to #4's handover box
+      handover conditions as "provided no undisputed amount is then **past due**"
 - [ ] **The payment trigger is stated identically in the fee table and in the operative clause.**
       Template contracts state it twice — once in the defined-terms/fee row and once in the
       compensation paragraph — and a redline that fixes the paragraph and misses the row leaves the
@@ -587,6 +587,12 @@ a fight about a paragraph the brand considers standard.
 - [ ] **Remarketing / custom-audience list handover** — check separately; this reaches the creator's audience data
 
 ### 22. Generative AI clause
+
+> Numbered among the nice-to-haves, and **offered on every deal** as a recommended addition, however
+> small the fee and however short the form. It is one of the four asks the small-deal cut never
+> removes (SKILL.md, *First*): the creator's likeness outlives the deal. Record it under
+> **[#22a]** — present, drafted, or offered as recommended and declined — so the coverage gate
+> sees it was raised.
 - [ ] Creator's likeness cannot be used as training data
 - [ ] No synthetic replicas, voice clones, or digital doubles without separate consent
 - [ ] **Flow-down** to agencies, vendors, and platforms

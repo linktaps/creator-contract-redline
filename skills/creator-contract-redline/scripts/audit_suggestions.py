@@ -796,10 +796,12 @@ SUBCHECKS = {
     "4e": "content handover on termination conditioned on payment",
     "4g": "every termination route has a payment consequence",
     "5b": "creator's reciprocal termination right, with its consequences",
+    "7a": "grant is non-exclusive",
     "14f": "creator's own turnaround windows (floors, received not shipped)",
     "15d": "unpaid activity carved out of exclusivity",
     "15e": "incidental appearance carved out of exclusivity",
     "15g": "time-window exclusivity bound to the brand's category",
+    "22a": "AI / digital-replica limit present, drafted, or offered as recommended",
     "23a": "release and injunction waiver limited to authorized use",
 }
 

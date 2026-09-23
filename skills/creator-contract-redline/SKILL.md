@@ -49,10 +49,26 @@ On a small deal, still run the full list to *find* problems — the finding is f
 - obligations with no end date
 - the dispute forum, where arbitration in the brand's home jurisdiction costs multiples of the fee
 
+**Four asks are never cut, whatever the fee.** They protect the creator beyond this deal, and all
+but the last mirror language the brand already wrote, so they cost the brand nothing to grant:
+
+- **mutual confidentiality, with the portfolio right** (#2) — a one-way clause that keeps the
+  deal's "existence and terms" confidential also contradicts the public paid post
+- **a non-exclusive grant** (#7) — often one word
+- **the creator's reciprocal termination right, with its consequences written out** (#5b) — fees
+  kept, work paid, posts removable, brand stops using the content, exclusivity released
+- **an AI and digital-replica limit** (#22) — the likeness outlives the deal. Where the contract
+  has none, it is a missing clause, so it is offered rather than drafted — but offered in every
+  report as a **recommended** addition, not listed among the cuts
+
+One small-deal run cut all four into "found but not marked up". The creator reviewing it called
+them extremely important asks.
+
 Everything else gets mentioned in the report and not marked up. A twelve-item redline on a
 $600 deal does not get negotiated, it gets the creator replaced — and the creator, not the
-skill, is the one who decides that trade. Say which items you cut and why, so they can add any
-back.
+skill, is the one who decides that trade. **Ask it as a question in the step-4 decisions** —
+focused redline or full mutuality — with the cut items listed under it, not only as a sentence
+offering to add them back. A cut the creator was never asked about is a scope the skill chose.
 
 ## Before touching the document
 
@@ -298,7 +314,13 @@ cell need escaping in any case.
    too, marked as their decisions.
 4. Report to the creator before editing: the table, **the core edits you are about to make**,
    anything missing that needs their decision, **every elective item, as a yes/no decision in the
-   same list**, anything dangerous outside the list, and any drafting errors.
+   same list**, anything dangerous outside the list, and any drafting errors. On a small deal,
+   the scope — focused or full mutuality — is one of the decisions (see *First*).
+   **Every edit the report promises becomes a gate line** before drafting starts: a phrase in
+   `phrases.txt` for each wording it says will go, an entry in `additions.txt` for each it says
+   will arrive. The gate checks only what it is given, and the report is the fuller list. One
+   report promised to remove right-of-publicity claims from the release and to stop rep (v)
+   reaching backwards; neither phrase was tracked, both survived, and every check passed.
 5. **Stop and get their decisions.** Your first reply is the report, not a redline, even when
    the creator's message came with instructions and even on a surface that runs to completion
    without prompting (Cowork, a background agent). Asking afterwards under *decisions for you*
@@ -485,7 +507,9 @@ Build `phrases.txt` while making the tracking table — one line per sub-check, 
 **The gate only checks what you gave it.** A review that never looked at the indemnity writes no
 indemnity line, and `--check` passes. `--coverage` closes that: it requires every must-have item
 (#1–#16, #23, #24, and `#reps` for the representations sweep) to be named by a label in
-`phrases.txt`, `additions.txt`, or a file listed after the flag.
+`phrases.txt`, `additions.txt`, or a file listed after the flag. Coverage says every item was
+looked at; it cannot say every promised edit was made. Before running the gate, re-read the
+step-4 report and confirm each "I'll…" has its line.
 
 ```bash
 python scripts/audit_suggestions.py redline.docx --check phrases.txt \
