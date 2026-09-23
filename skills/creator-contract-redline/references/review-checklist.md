@@ -25,9 +25,9 @@ rather than from the document: **the creator has already conceded it** in corres
 reason, and the creator has it.
 
 **Tagged boxes.** A few boxes carry a tag such as **[#4e]**. These are the sub-checks that go
-missing while their item is still named — on one re-run of a contract, mutual confidentiality,
-the exclusivity carve-outs and the creator's termination consequences all disappeared behind a
-coverage gate that saw every item number. `audit_suggestions.py --coverage` requires each tag to
+missing while their item is still named — mutual confidentiality, the exclusivity carve-outs and
+the creator's termination consequences can all disappear behind a coverage gate that sees every
+item number. `audit_suggestions.py --coverage` requires each tag to
 be named by its own label; "#4" does not cover "#4e".
 
 **Every number has a direction.** Before editing a figure, write down which way favours the
@@ -71,16 +71,32 @@ Read #4, #20 and #24 hardest on these.
 ## Must-haves
 
 ### 1. Mutual indemnity
+- [ ] **Agency deals: the indemnity comes from whoever makes the product.** Where the agreement
+      is with an agency "for the benefit of its client", and the client does not sign, split the
+      new indemnity by who controls the risk. The agency covers its own conduct: its breach, its
+      negligence, its edits to the Content. The product, product-defect and approved-claims limbs
+      come from the client: the agency procures the client's indemnity for the creator, and the
+      creator is made a third-party beneficiary of it, mirroring the third-party-beneficiary
+      clause that almost always lets the client sue the creator directly. Putting the client's
+      product on the agency asks for something it structurally cannot give (see #20 on
+      pay-when-paid), and even if granted it leaves the company that made the product and wrote
+      the claims owing the creator nothing. **The same split governs every other brand-side
+      duty the redline adds** — the AI limit, confidentiality, non-disparagement, ceasing use
+      on termination. Writing "Agency and Client shall…" binds no one on the client's side: the
+      client did not sign, and these templates usually say outright that the client "is not
+      bound by any of Agency's agreements or covenants". Write "Agency shall, and shall cause
+      Client to, …" and make the creator a third-party beneficiary of the client's compliance
+      (editing standards §4)
 - [ ] **[#1a]** Brand's obligation includes a duty to **defend**, not only "indemnify and hold
       harmless" — **even where the brand's own indemnity has no "defend" to mirror.** Without
       it the creator funds their own lawyers and waits to be reimbursed, which on a health-claim
-      suit is the whole cost. Mirroring the brand's clause verbatim dropped the word in one run;
+      suit is the whole cost. Mirroring the brand's clause verbatim drops the word;
       this is the one place the mirror adds a word rather than copying
 - [ ] **[#1b]** Covers materials, key messages and claims Brand **supplied or approved**, and
       Brand Marks. "Approved" is the half that matters: most claims in creator content are
       wording the brand approved, not wording it supplied. Do not narrow it to "supplied or
-      required" while restructuring the clause — one re-run did, and the brand's indemnity for
-      its own approved talking points went with it
+      required" while restructuring the clause — the brand's indemnity for its own approved
+      talking points goes with it
 - [ ] Covers product defects
 - [ ] Covers the brand's own negligence and willful misconduct
 - [ ] Covers use of the creator's likeness outside the granted scope
@@ -96,8 +112,7 @@ Read #4, #20 and #24 hardest on these.
       loss the creator covers when actually at fault — reasonable, and usually matched by the
       heads of the brand's new indemnity. Keep them. Striking them as well leaves the creator
       covering almost nothing, reads as overreach, and buys little. Strike a head only where
-      the trigger stays broad and the head cannot arise from the work at all. Runs of the same
-      contract went both ways on this, and one promised the strike in its report and never made it
+      the trigger stays broad and the head cannot arise from the work at all
 - [ ] **The brand indemnity's carve-out uses the creator's fault standard.** Mirroring the
       brand's own clause produces "except to the extent … caused by the acts or omissions of
       Influencer", and that exception swallows the indemnity: posting the brand's approved
@@ -145,7 +160,11 @@ Read #4, #20 and #24 hardest on these.
 ### 4. Mutual termination, with payment for work completed
 - [ ] Creator can terminate at all
 - [ ] Creator can terminate for non-payment specifically
-- [ ] Cure period stated and reciprocal
+- [ ] **Cure period stated and reciprocal.** The position is **ten (10) business days after
+      written notice**, the same for both parties. "A reasonable opportunity to cure" is not a
+      stated period — it is an argument about what reasonable meant, held after termination.
+      The creator's cure period is a floor (↑): a contract already giving the creator longer
+      keeps it. It is a checklist position, not an invented figure (editing standards §8)
 - [ ] **[#4d]** Payment on termination covers **all work performed on an approved concept, whether or not
       delivered**, published or approved. "Content created and submitted" is the narrower
       formulation and it is usually the creator's own redline that introduces it — a deal killed
@@ -157,7 +176,7 @@ Read #4, #20 and #24 hardest on these.
       phrase in every termination route that pays for work performed, so no route pays on a
       different basis. **It goes into the termination clause's own payment sentence** ("Brand will
       then process payment for…") first. A force-majeure or suspension clause is an additional
-      route, not a substitute: one run put the phrase only there and left the termination
+      route, not a substitute: putting the phrase only there leaves the termination
       clause paying for "services provided", which reads as finished work. Record it in
       `additions.txt` with the count of routes (`:: x2`), so writing it once fails the gate
 - [ ] *(elective)* **Milestone schedule on termination.** Creators who negotiate often ask for
@@ -201,13 +220,13 @@ Read #4, #20 and #24 hardest on these.
       brand. "Materially injures" is the ask, and it is a single word. **Only on this trigger.**
       The creator's reciprocal trigger against the brand ("…which might tend to injure the
       success of Influencer") stays as broad as the brand drafted it. Adding "materially" there
-      too looks even-handed and narrows the creator's own exit — a creator reviewing one run
-      called it undercutting themselves. The same goes for "reduce" → "materially reduces" and
+      too looks even-handed and narrows the creator's own exit — the creator undercutting
+      themselves. The same goes for "reduce" → "materially reduces" and
       "disparaging" → "defamatory": edit the creator-facing standard only
 - [ ] **[#5b]** Reciprocal termination right exists for the creator, **with its consequences
       written out** — the five boxes below. A reciprocal trigger with no consequences leaves the
-      creator free to leave and nothing else; one re-run kept the trigger and dropped the
-      consequence sentence the earlier run had written. **Attach them to every route the creator
+      creator free to leave and nothing else, and a rework that keeps the trigger can drop the
+      consequence sentence without anyone noticing. **Attach them to every route the creator
       terminates on other than convenience** — the brand's uncured breach and the morals trigger
       alike: "Upon any termination by Influencer under this Section 11(b) other than for
       convenience, …". A sentence opening "In such event" straight after the morals sentence
@@ -328,7 +347,10 @@ its own three defects:
       3. **Leave as drafted** and mention it in the report
 
       Say the trade-off between 1 and 2 once, then draft whichever they choose. Do not reword
-      answer 2, and do not suggest a figure when they have chosen it
+      answer 2, and do not suggest a figure when they have chosen it. **Substitute the
+      contract's own term for the brand party before showing the option** — "Agency or Client"
+      where there is no "Brand" — so the wording the creator picks is the wording that goes in
+      (editing standards §4). A party-name swap is not a rewording
 - [ ] **The fee attaches from concept approval, not content approval.** A rate for reshoots
       "requested after approval" excludes the ordinary case, because the brand asking for a
       reshoot is usually the brand declining to approve — it calls the re-creation a revision
@@ -337,7 +359,14 @@ its own three defects:
       inadequate Services" is a free-reshoot right by another name: the brand demands
       re-performance under the cap exception instead of paying the rate stated here
 - [ ] Escape hatches removed — "additional compensation, **if applicable**" lets the brand decide none applies
-- [ ] Creator-caused reshoots limited to uncured material failure, not any failure
+- [ ] **Creator-paid reshoots are limited to the creator's fault — every limb of the trigger.**
+      A sentence making the creator "responsible for re-shooting costs" usually lists several
+      triggers: compliance, negligence, willful misconduct, "any failure or shortcoming". Narrow
+      the whole list to the creator's uncured material failure, gross negligence or willful
+      misconduct; narrowing one limb leaves the others to do the same work. A compliance limb
+      may stay for applicable law, but not for "the creative brief" or the brand's
+      instructions: that lets the brand declare its own reshoot a compliance failure and pay
+      nothing, which undoes the pricing or mutual-agreement answer above it
 - [ ] **Punctuation check** — rate insertions near an existing comma or period frequently produce malformed sentences
 
 ### 13. Archiving provision
@@ -353,10 +382,9 @@ its own three defects:
       creator's likeness; an evergreen organic post is not
 - [ ] **The brand's takedown right is left alone.** Do not strip it and do not bound it. A brand
       has to be able to pull a post when things go wrong — a recall, an IP claim, a regulator, or
-      the creator in the press for the wrong reasons — and a trigger list always misses one: the
-      list one run wrote (recall, IP claim, legal requirement) left out the creator's own scandal,
-      the case the brand most needs it for. A creator who negotiates these for a living said of
-      that edit, "I really just wouldn't redline this at all." Removing or listing the triggers
+      the creator in the press for the wrong reasons — and a trigger list always misses one: a
+      list of recall, IP claim and legal requirement leaves out the creator's own scandal,
+      the case the brand most needs it for. Removing or listing the triggers
       reads to the brand's counsel as not knowing the market and costs credibility the rest of
       the redline is spending. Record it *present*; the sentence below is the only edit this
       area needs
@@ -389,18 +417,17 @@ its own three defects:
 - [ ] *(elective — raise, never draft)* Brand-caused delay does not move the creator's payment dates
 - [ ] *(elective — raise, never draft)* Material timely submitted but unposted due to brand delay is still paid
 
-> These two are the ask experienced creators strike from a redline themselves: "very
-> aggressive", and on a second run, "I wouldn't add this." Mention them in the step-4 report as
-> a yes/no. **Do not draft either unless the creator says yes** — and a softened version ("payment
+> These two are the ask experienced creators strike from a redline themselves, as too
+> aggressive. Mention them in the step-4 report as a yes/no. **Do not draft either unless the creator says yes** — and a softened version ("payment
 > shall be due thirty (30) days after the live date agreed") is still the same ask; softening an
 > elective does not make it core.
 
 - [ ] **[#14f]** **The creator's own submission and revision windows are workable.** This item
       otherwise looks only at the brand's timing, and the clauses that bind the creator — first
       draft within seventy-two (72) hours, revisions within forty-eight (48) — go unread because
-      they are obligations rather than rights. It is a core edit, not a flag: a creator reviewing
-      two runs that only quoted "72 hours of receiving product" back called it "crazy" that it
-      was not redlined. Two parts:
+      they are obligations rather than rights. It is a core edit, not a flag: a report that only
+      quotes "72 hours of receiving product" back to the creator has found the problem and left
+      it in place. Two parts:
       - **Defaults, as floors: seven (7) days** from receipt of product for a first draft,
         **seventy-two (72) hours** from receipt of feedback for revisions. These are the
         creator's deadlines, so longer favours the creator (↑). Edit only a window **shorter**
@@ -432,8 +459,19 @@ its own three defects:
 - [ ] Category definition matches what was agreed in correspondence
 - [ ] Vague expanders removed ("and accessories", "and related products")
 - [ ] Parent-company exclusion stated if that was the deal
-- [ ] **[#15d]** **Unpaid activity** carved out — "any services (paid or unpaid)" restricts organic mentions
+- [ ] **[#15d]** **Unpaid activity** carved out — "any services (paid or unpaid)" restricts organic
+      mentions. Draw the carve-out by consideration, not by subject: *"Nothing in this Agreement,
+      including the Exclusivity Period, restricts content for which Influencer receives no
+      compensation or other consideration from a Competitor, or the incidental appearance of
+      any Competitive Product in Influencer's content."* A carve-out for content "not made in
+      connection with any Competitor" misses the case it exists for — an organic post that
+      shows a competing product is arguably made in connection with it
 - [ ] **[#15e]** **Incidental appearance** carved out
+- [ ] **The carve-outs reach every statement of the restriction.** Exclusivity is often stated
+      twice — once as a defined-terms row ("No other cat food content one week before and
+      after…") and once in the body. A carve-out opening "the foregoing" reaches only the
+      sentence above it; open it with "Nothing in this Agreement, including the Exclusivity
+      Period," so it reaches both
 - [ ] No right of first refusal extending the restriction beyond the paid term
 - [ ] **[#15g]** **Exclusivity drawn by time window rather than by category.** Every box above assumes a
       category definition exists to narrow. "No other sponsor videos on the promotion date"
@@ -451,7 +489,15 @@ its own three defects:
 - [ ] **License Term** defined
 - [ ] **Organic Usage** defined, if the agreement grants it
 - [ ] **Paid Usage** defined, if the agreement grants it
-- [ ] **Allowlisting** defined, if the agreement grants it
+- [ ] **Allowlisting** defined, if the agreement grants it — **as its own sentence, never as a
+      clause trailing the word.** "whitelisting, being paid promotion run through Influencer's
+      own account, that does not require…" leaves the reader to guess whether "that" attaches
+      to the whitelisting or to the account. Write a definition with the term in quotes, at
+      first use or in the definitions table (editing standards §6b), and state any condition
+      as a separate sentence: *"Whitelisting" means paid media placed by or for Brand through
+      Influencer's own account or handle. Brand may use Whitelisting only where it does not
+      require Influencer to authenticate to, or grant account access through, any third-party
+      integration.* Use the contract's own party names (editing standards §4)
 - [ ] **live / live post / goes live** defined, wherever any of them appears. It belongs on this
       list and not further down it: "live" governs more clocks in a typical influencer template
       than every capitalized term combined, and it is the one phrase a brand will reinterpret
@@ -476,8 +522,8 @@ The first five are the terms that are usually capitalized, and "live" is on the 
       other ("for the Usage Period"). Two identically measured clocks written in different words
       invite an argument about whether they differ. **Only where the lengths already match.**
       A one-year keep-up obligation beside a sixty-day usage period is two clocks, not one:
-      one run rewrote "at least (1) year" as "for the Usage Period" and cut the creator's
-      obligation from a year to sixty days without a word in the report. That is a commercial
+      rewriting "at least (1) year" as "for the Usage Period" cuts the creator's obligation
+      from a year to sixty days, silently unless the report says so. That is a commercial
       change — raise it, do not make it as a consistency fix
 - [ ] **Syndication is not a new publication.** Where a usage period or a fee installment is
       triggered by "publication" of an asset that is syndicated to several platforms, say that
@@ -526,7 +572,7 @@ Work back through the items and find each one's rep:
       that gets left: "Influencer hereby agrees not to speak about or refer to Brand … without
       disclosing that Brand paid" binds every mention of the brand for life. Bound it to "during
       the Term and the usage period in Section 3(a)" — the usage period, because the disclosure
-      exists for as long as the brand may run the endorsement. One run limited rep (v) and left
+      exists for as long as the brand may run the endorsement. Limiting rep (v) can leave
       this one untouched behind a passing `#reps` label
 - [ ] **Reps that restrict the creator's other work.** Union membership ("Influencer is not and
       shall not be a member of…"), other client relationships, platform exclusivity. These are
@@ -566,8 +612,8 @@ a fight about a paragraph the brand considers standard.
 ### 20. Net 30
 - [ ] *(elective)* Payment term is net 30 or better. It costs the brand money and is the ask
       most often traded away, so it is a yes/no in the elective list — never part of a scope
-      bundle. One run put "Net 60 → Net 30" inside "full mutuality" and drafted it when the
-      creator chose that scope; the same creator had declined Net 30 in every earlier run
+      bundle. Putting "Net 60 → Net 30" inside "full mutuality" drafts it the moment the
+      creator chooses that scope, for a creator who may already have declined it
 - [ ] **What survives the payment.** This item checks *when* the creator is paid and never *how
       much arrives*. Each of these discounts an already-agreed rate and belongs in the report as
       what it is — a reduction in the fee, quantified: a processing or handling fee deducted at
@@ -622,7 +668,7 @@ a fight about a paragraph the brand considers standard.
 
 > If the review resolves this by striking the grant, these sub-checks are **not** n/a — they are the
 > fallback position. The brand may simply refuse to give the grant up, and the review should already
-> know which of them is worth holding. Record it in the report as the fallback. In practice the one
+> know which of them is worth holding. Record it in the report as the fallback. Usually the one
 > that survives is the authentication box: brands keep allowlisting and concede "that does not
 > require Influencer and/or Lender to authenticate to third-party integrations".
 
@@ -630,7 +676,10 @@ a fight about a paragraph the brand considers standard.
 - [ ] Targeting restrictions; no political or issue advertising
 - [ ] No indefinite or evergreen advertising permissions
 - [ ] Reporting on spend and placement
-- [ ] **Third-party rights-management authentication** (rights-management platforms and equivalents) — check separately
+- [ ] **Third-party rights-management authentication** (rights-management platforms and equivalents) — check separately.
+      Where the grant is kept on that condition, draft it with the defined term and the
+      condition in separate sentences (#16's Allowlisting box), not as a parenthetical inside
+      the grant
 - [ ] **Remarketing / custom-audience list handover** — check separately; this reaches the creator's audience data
 
 ### 22. Generative AI clause
@@ -644,8 +693,7 @@ a fight about a paragraph the brand considers standard.
       or Influencer's Likeness (including the likeness of any person or animal appearing in the
       Content)", and bar replicas "of Influencer or of any such person or animal". On a pet
       account the animal is the talent, and a clause protecting only "Influencer" — the human
-      party — leaves the face of the channel open to cloning. One run dropped the words that
-      earlier runs had carried
+      party — leaves the face of the channel open to cloning
 - [ ] Creator's likeness cannot be used as training data
 - [ ] No synthetic replicas, voice clones, or digital doubles without separate consent
 - [ ] **Flow-down** to agencies, vendors, and platforms
@@ -666,8 +714,8 @@ a fight about a paragraph the brand considers standard.
       rather than "in accordance with the rights granted in Section 3": it is two words, it is
       the form brands have accepted, and it cannot go stale when the grant moves. **It goes in
       every place the release reaches**: the release sentence *and* the waiver of injunctive
-      relief beneath it ("(i) the authorized use of Content"). One run scoped the first and left
-      the waiver reaching all use, so the creator could still not stop an unlicensed campaign
+      relief beneath it ("(i) the authorized use of Content"). Scoping the first and leaving
+      the waiver reaching all use means the creator still cannot stop an unlicensed campaign
 - [ ] **Defamation is excluded.** Do not release defamation by default. A release that covers
       "any claim for defamation" means an edit that changes what the creator appears to say is
       not actionable — which is exactly the harm #22's AI clause and #1's alteration limb are
@@ -719,9 +767,13 @@ a fight about a paragraph the brand considers standard.
       term in the document, not a drafting nit
 - [ ] **Every requirement sentence in the deliverables spec traces to the correspondence.**
       Compare the schedule against the scope email line by line, not term by term. Extra
-      deliverables hide inside spec paragraphs — "link in bio for 72 hours" sat between the CTA
-      and branded-content-tool sentences of one schedule and passed a mismatch table that compared
-      only fee, exclusivity and platforms. Each untraced requirement goes in the mismatch table
+      deliverables hide inside spec paragraphs — a "link in bio for 72 hours" can sit between
+      the CTA and branded-content-tool sentences and pass a mismatch table that compares only
+      fee, exclusivity and platforms. Each untraced **deliverable** goes in the mismatch table.
+      Scope emails list deliverables, usage and rate, and almost never the reporting and
+      administration around them — post analytics, disclosure mechanics, invoicing steps.
+      Silence about those is not a mismatch; judge them on the checklist (an open-ended
+      "at written request" tail is still a finding), not strike them for being unmentioned
 
 ---
 
@@ -752,4 +804,4 @@ Flag these to the creator and let them decide.
 - **Insurance and production requirements that do not match self-shot content** — a term-length
   insurance covenant for a video filmed at home with a phone.
 - **Schedules incorporated by reference but marked "reserved" or "subject to change"** — terms that do not exist yet but bind on arrival.
-- **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags, and party swaps left half-done by the brand's own template — a creator termination right that fires "in the event that brand believes the contract is materially affected" hands the creator's exit to the brand. Fixing that one (to "Influencer believes") is a correction, and it belongs in the redline even though brands sometimes refuse it; record a refusal in `declined.md` like any other. **Edit a drafting error only when it changes what the contract means** — a half-done party swap, the wrong company or product ("Other Co" for the brand), an entity name that makes a clause point at nobody. **A wrong party name is never housekeeping**, however much it looks like a typo: trace where it lands first. "Other Co will provide key messages" sits in the exhibit that decides who supplied the health claims — and the brand indemnity covers claims "supplied or approved by Brand". Left as "Other Co", the claims the creator most needs covered were supplied by someone the indemnity never names. One run listed it among the typos to mention. Everything else is raised in the report as a courtesy and left in the document: an identical sentence appearing twice, a typo whose meaning is obvious, a stray phrase that binds no one. Striking those adds lines to the redline and protects nothing (editing standards §6a). One run deleted a confidentiality sentence from §12 because it duplicated §9 word for word; the contract meant exactly the same thing afterwards. Where a duplicate paragraph *is* edited because it carries meaning, fixing one copy and leaving the other is worse than fixing neither.
+- **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags, and party swaps left half-done by the brand's own template — a creator termination right that fires "in the event that brand believes the contract is materially affected" hands the creator's exit to the brand. Fixing that one (to "Influencer believes") is a correction, and it belongs in the redline even though brands sometimes refuse it; record a refusal in `declined.md` like any other. **Edit a drafting error only when it changes what the contract means** — a half-done party swap, the wrong company or product (another company's name for the brand), an entity name that makes a clause point at nobody. **A wrong party name is never housekeeping**, however much it looks like a typo: trace where it lands first. "Other Co will provide key messages" can sit in the exhibit that decides who supplied the health claims — and the brand indemnity covers claims "supplied or approved by Brand". Left as "Other Co", the claims the creator most needs covered are supplied by someone the indemnity never names. It does not belong among the typos to mention. Everything else is raised in the report as a courtesy and left in the document: an identical sentence appearing twice, a typo whose meaning is obvious, a stray phrase that binds no one. Striking those adds lines to the redline and protects nothing (editing standards §6a). Deleting a confidentiality sentence from §12 because it duplicates §9 word for word leaves the contract meaning exactly the same thing afterwards. Where a duplicate paragraph *is* edited because it carries meaning, fixing one copy and leaving the other is worse than fixing neither.

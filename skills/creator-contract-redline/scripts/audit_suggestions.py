@@ -94,7 +94,7 @@ P_TAG = re.compile(r"<w:p(?=[\s>/])[^>]*?(/?)>|</w:p>")
 def paragraph_spans(xml: str):
     """(start, end) of every paragraph not nested inside another, in order.
 
-    Two traps, both met in real contracts. A self-closing <w:p/> is a real
+    Two traps, both common in contracts. A self-closing <w:p/> is a real
     (empty) paragraph and must be counted. And paragraphs nest: a drawing's text
     box (<w:txbxContent>) holds whole paragraphs inside a run inside a
     paragraph — signature lines in exhibits are commonly drawn that way. A
@@ -784,10 +784,9 @@ ITEM_LABEL = re.compile(r"#(\d+|reps)(?:-?([a-z]))?\b", re.I)
 
 # Sub-checks the checklist tags "[#4e]" because a whole item can be named while
 # they go missing. Naming "#4" satisfies item 4 and none of these; each must be
-# named by its own tag. Observed: a second run of the same contract named every
-# must-have and still dropped mutual confidentiality, the exclusivity carve-outs,
-# the creator's termination consequences and the release scope that the first
-# run had made.
+# named by its own tag. A redline can name every must-have and still drop mutual
+# confidentiality, the exclusivity carve-outs, the creator's termination
+# consequences and the release scope.
 SUBCHECKS = {
     "1a": "brand indemnity includes a duty to defend",
     "1b": "brand indemnity reaches materials Brand supplied OR approved",
@@ -815,9 +814,9 @@ def coverage(sources):
     that never looked at the indemnity writes no indemnity line, and both gates
     pass. Counting item numbers across every file the review produced is the
     only way to see an item that nobody decided to drop -- it simply was never
-    opened. Observed: a review scoped itself to the creator's three-line brief,
-    and one-way indemnity, confidentiality, the missing liability cap and the
-    morals trigger all went out untouched behind a clean audit.
+    opened. A review that scopes itself to the creator's three-line brief can
+    send one-way indemnity, confidentiality, the missing liability cap and the
+    morals trigger out untouched behind a clean audit.
 
     A label may name several items ("#1 #3 carve-outs"); each counts. A
     sub-check tag ("#4e") also counts for its item.
@@ -844,9 +843,9 @@ def expected_count(text: str):
     """Split "wording :: x3" into ("wording", 3); plain wording expects 1.
 
     The checklist asks for some wording in several places -- the same payment
-    phrase in every termination route. "Exactly once" failed that on the
-    second copy, so a run satisfied the gate by writing it once, in the
-    force-majeure clause, and left the termination clause unpaid.
+    phrase in every termination route. "Exactly once" fails that on the
+    second copy, so a redline could satisfy the gate by writing it once, in
+    the force-majeure clause, and leave the termination clause unpaid.
     """
     m = ADDITION_COUNT.match(text)
     return (m.group(1).strip(), int(m.group(2))) if m else (text, 1)
@@ -873,7 +872,7 @@ def prior_edits(prior_xml: str, accepted: str):
     new = words(reconstruct(prior_xml, "accepted"))
     cur = words(accepted)
     kept = [False] * len(new)
-    back = []  # (prior index, current words) wherever this run has words the prior lacks
+    back = []  # (prior index, current words) wherever this redline has words the prior lacks
     for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, new, cur, autojunk=False).get_opcodes():
         if tag == "equal":
             kept[i1:i2] = [True] * (i2 - i1)
@@ -1301,7 +1300,7 @@ def main() -> int:
               f"{unexplained} unexplained")
         if unexplained:
             failures += 1
-            print("  Each unexplained drop is an edit the earlier run made and this one lost.")
+            print("  Each unexplained drop is an edit the earlier redline made and this one lost.")
             print("  Restore it, or add \"label :: words from the edit\" to --prior-ok saying why")
             print("  it goes (declined by the creator, superseded by a better edit, …). An edit")
             print("  that was reworded, or whose neighbouring words this run changed, also shows")

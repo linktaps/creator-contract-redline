@@ -59,7 +59,7 @@ Edit kinds:
       deleting the anchor paragraph: once struck, its text leaves the flat
       index and cannot be counted from.
   del_para_range(first_text, last_text, expect_count=None)
-      strike a whole block — an exhibit, a release, a run of bullets — from
+      strike a whole block — an exhibit, a release, a series of bullets —from
       the paragraph holding first_text through the one holding last_text,
       blanks and duplicates included, every mark deleted. Use this instead of
       writing a loop: a hand-written one missed the last mark of an exhibit.
@@ -625,10 +625,10 @@ class Doc:
         one holding last_text, inclusive: runs, blank spacers, duplicates and
         every paragraph mark.
 
-        A block — an exhibit, a release, a run of bullets — is otherwise struck
+        A block — an exhibit, a release, a series of bullets —is otherwise struck
         one paragraph at a time, and the blanks and duplicates in it cannot be
-        anchored, so sessions write their own loop. Observed: a hand-written
-        loop over Exhibit 1 struck 36 paragraph marks and missed the last one,
+        anchored, so callers are tempted to write their own loop. A hand-written
+        loop over an exhibit can strike 36 paragraph marks and miss the last one,
         leaving an empty paragraph behind on accept.
 
         The range must be consecutive sibling paragraphs: a table or a

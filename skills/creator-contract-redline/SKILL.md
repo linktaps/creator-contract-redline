@@ -61,9 +61,6 @@ but the last mirror language the brand already wrote, so they cost the brand not
   has none, it is a missing clause, so it is offered rather than drafted — but offered in every
   report as a **recommended** addition, not listed among the cuts
 
-One small-deal run cut all four into "found but not marked up". The creator reviewing it called
-them extremely important asks.
-
 Everything else gets mentioned in the report and not marked up. A twelve-item redline on a
 $600 deal does not get negotiated, it gets the creator replaced — and the creator, not the
 skill, is the one who decides that trade. **Ask it as a question in the step-4 decisions** —
@@ -86,9 +83,8 @@ embarrassment, where every checklist item costs them something they drafted on p
 something the creator was told or agreed in writing says otherwise. An agreed term does not reach
 a different restriction by analogy: agreeing "3 days either side of posting, pet supplements only"
 settles the category blackout, not a separate three-hour gap between posts for any brand in
-another schedule. One run listed that gap as "Same — conform to §10", struck it as a correction,
-and the creator's reaction was that nobody had discussed it and it was modest and
-creator-friendly anyway. If no sentence of correspondence can be quoted in the row, the item is a
+another schedule. Listing that gap as "Same — conform to §10" and striking it as a correction
+presents as agreed something nobody discussed. If no sentence of correspondence can be quoted in the row, the item is a
 checklist finding at most, with the checklist's position — not a correction.
 
 Failure modes to hunt specifically:
@@ -106,27 +102,32 @@ Failure modes to hunt specifically:
 - **Deliverables the correspondence never mentioned.** Compare the deliverables schedule against
   the scope email **sentence by sentence**, not headline by headline. Fee, exclusivity and platform
   lists get compared because they are the terms everyone discussed; extra obligations hide inside
-  spec paragraphs between requirements that were agreed. A "link in bio for 72 hours" sat between
-  the call-to-action sentence and the branded-content-tool sentence of one schedule and survived an
-  initial mismatch table that compared fee, exclusivity and platforms and nothing else. Every
+  spec paragraphs between requirements that were agreed. A "link in bio for 72 hours" sitting between
+  the call-to-action sentence and the branded-content-tool sentence of a schedule survives any
+  mismatch table that compares fee, exclusivity and platforms and nothing else. Every
   requirement sentence in Schedule A/B either traces to the correspondence or goes in the table.
   **An untraced deliverable is a correction, not a flag.** The scope email is what the fee was
-  quoted against, so an obligation it never mentions is work the fee does not cover: strike it
-  and cite the scope email, the same as any other mismatch. A report that lists "requirements
-  not in the scope email" under *flagged, your call* has found the item and then dropped it.
+  quoted against, so a deliverable it never mentions — another post, a story frame, a link, a
+  pin, a platform — is work the fee does not cover: strike it and cite the scope email, the
+  same as any other mismatch. A report that lists "deliverables not in the scope email" under
+  *flagged, your call* has found the item and then dropped it. **This reaches deliverables,
+  not everything the email is silent on.** Scope emails cover deliverables, usage and rate;
+  they almost never mention post analytics, disclosure mechanics or invoicing steps, so an
+  ancillary obligation's absence from the email says nothing about whether it was agreed.
+  Judge those on the checklist, and do not strike them as corrections.
   **That rule needs the scope email.** Where the only source is the creator's own summary of
   the deal — "no emails, use my summary" — an obligation the summary never mentions is not
   evidence it was never agreed; summaries leave things out. Ask about each one as a step-4
   decision (strike it, or keep it with a start date and a breach carve-out) instead of striking
-  it. One run struck a one-year keep-up obligation on a summary alone; the creator had kept it
-  both times earlier runs asked.
+  it. A one-year keep-up obligation, for example, may be one the creator agreed to and simply
+  left out of the summary.
 - **Terms the correspondence leaves open.** "Open to discuss", "TBD", "we can talk about" is the
   brand saying the point is unsettled — neither agreed nor refused. It is a step-4 decision, not
   a correction: the creator chooses between striking it, the checklist's fallback, and leaving it.
-  One brand's email offered "boosting on Meta and TikTok (open to discuss boosting vs dark posting
-  on TikTok)"; the run struck whitelisting outright as a correction. On the same contract a year
-  earlier, the brand had accepted whitelisting "that does not require Influencer and/or Lender to
-  authenticate to third-party integrations" — the #21 fallback, and the answer the creator wanted.
+  An email offering "boosting on Meta and TikTok (open to discuss boosting vs dark posting on
+  TikTok)" leaves whitelisting open; striking it outright as a correction takes away the middle
+  answer — whitelisting "that does not require Influencer and/or Lender to authenticate to
+  third-party integrations", the #21 fallback — which may be the one the creator wants.
 
 **Ask for the negotiation history too, not only the correspondence.** Two questions: has this
 contract been through a round already, and what did the brand refuse? A redline that re-asks for
@@ -140,10 +141,10 @@ an earlier version of it) been through a round with the brand?" with options for
 upload their marked-up version*, and *yes, but I don't have the file*. A prose request buried in
 the report gets skipped. If they upload a round, read the brand's tracked changes as the brand's
 positions: what they struck is `rejected (brand)`, what they rewrote is their counter-offer, and
-what they left alone of the creator's earlier asks is accepted. Start the redline from there. One
-run never asked; the same contract had a year-old response from the brand's lawyers that cut the
-brand indemnity to product defects, rewrote non-disparagement to "defamatory" and trimmed the
-brand's morals exit — the new redline re-asked all three at full width.
+what they left alone of the creator's earlier asks is accepted. Start the redline from there.
+Without it, a redline re-asks at full width what the brand's lawyers already answered — a brand
+indemnity cut to product defects, non-disparagement rewritten to "defamatory", a trimmed morals
+exit.
 
 **Check for suggestions already in the document.** The brand may have left pending edits, some favorable. Read them, never reject them, and factor them into what still needs asking.
 
@@ -157,11 +158,11 @@ the signed agreement.
 Google Docs calls this Suggesting mode; Word calls it Track Changes. They are the same thing on
 disk, and everything below works on either.
 
-That is an observed outcome, not a worry. A creator-side redline authored this way changed an
-invoice trigger from "upon completion of all deliverables" to "upon publication of the Content" in
-the compensation clause and missed the identical phrase in the fee table. Both survive in the
-executed contract, which now gives two different answers about when the fee is due. A completeness
-gate would have caught it in one line, and no gate could run.
+The cost is concrete. A creator-side redline authored this way can change an invoice trigger from
+"upon completion of all deliverables" to "upon publication of the Content" in the compensation
+clause and miss the identical phrase in the fee table. Both then survive into the executed
+contract, which gives two different answers about when the fee is due. A completeness gate would
+catch it in one line, and no gate can run.
 
 If the creator's own earlier redline arrives as formatting, say so and re-author it as suggestions
 before adding to it.
@@ -204,12 +205,12 @@ do X" **after** being told what that leaves out.
 corrections (the brand already agreed) and asks (it did not). It does not sort them into "in
 scope" and "out of scope". A one-way indemnity nobody emailed about is still a core edit.
 
-Observed, on a $110k SOW, with the brief above: the review conformed the contract to the emails
-and stopped. Paid media, the usage period, exclusivity and the release block were all handled
-correctly. The one-way indemnity, the one-way confidentiality clause, the missing liability cap
-and the morals trigger were neither edited nor mentioned. Everything else was sorted by a single
+The common failure, with a brief like the one above, is a review that conforms the contract to
+the emails and stops. Paid media, the usage period, exclusivity and the release block are all
+handled correctly. The one-way indemnity, the one-way confidentiality clause, the missing liability
+cap and the morals trigger are neither edited nor mentioned. Everything else is sorted by a single
 test, "was it in your agreed terms?", and listed as *your call*. That is the checklist inverted.
-The creator was never asked a scoping question, because the review never noticed it had chosen
+The creator is never asked a scoping question, because the review never notices it has chosen
 a scope.
 
 **If an item is missing from the contract entirely, flag it — do not silently draft it in.** Filling a gap is a new ask and a commercial judgment that belongs to the creator. Present what's missing, say what leaving it out costs, let them decide.
@@ -244,10 +245,10 @@ the list is the backwards redline again, authored by the checklist instead of th
 tracking table's Direction column exists so this is read off a row rather than remembered.
 
 **Moving a number is not the only way to tighten one.** An edit that leaves a figure unchanged
-can still attach it to something new. The brand's handover sentence read "must be invoiced and
-content must be provided to brand within forty-eight (48) hours" — the 48 hours arguably governed
-only the handover. A redline restructuring that sentence wrote "must be invoiced within
-forty-eight (48) hours", putting a deadline on the creator's invoicing that the brand never
+can still attach it to something new. In a handover sentence reading "must be invoiced and
+content must be provided to brand within forty-eight (48) hours", the 48 hours arguably governs
+only the handover. Restructuring that sentence as "must be invoiced within
+forty-eight (48) hours" puts a deadline on the creator's invoicing that the brand never
 clearly imposed, in the creator's own voice. When an edit changes which obligation a number
 governs, it gets a Direction row like any other: which party it now binds, and which way that
 cuts. Where a deadline on the creator was ambiguous, leave it ambiguous or bind the brand, never
@@ -299,9 +300,9 @@ Two further statuses record decisions rather than drafting, and both are termina
 
 Never re-propose either without an explicit instruction from the creator. A conceded row is the
 one that gets lost: it looks exactly like an unfixed adverse clause, and two rounds later a fresh
-reviewer — or an adversarial model — proposes the fix again. On one review the creator removed a
-takedown trigger list, a notes-turnaround window and a deemed-approval clause themselves; two
-rounds later all three came back as recommendations. Keep a `declined.md` beside the table
+reviewer — or an adversarial model — proposes the fix again. A takedown trigger list, a
+notes-turnaround window or a deemed-approval clause the creator removed themselves comes back as a
+recommendation unless something records the concession. Keep a `declined.md` beside the table
 listing every rejected and conceded row with its date and a one-line reason, so a re-ask is
 recognised by lookup rather than by memory.
 
@@ -320,8 +321,8 @@ cell need escaping in any case.
 0. **Check whether it is already signed, and find the total fee.** If signed, stop and offer an
    exposure read or a template markup instead of a redline. Let the fee set how much of the
    redline is worth making. **Copy `scripts/` into the working directory** before starting: a
-   plugin can be updated or uninstalled mid-session — it has happened, with the skill directory
-   moved to the trash between rounds — and the audit has to survive that.
+   plugin can be updated or uninstalled mid-session, taking the skill directory with it between
+   rounds, and the audit has to survive that.
 1. Read the contract end to end, including schedules and exhibits. On that pass, list the clocks and the event at each end, and note which of those events the document actually defines.
 2. Read the correspondence. Note what's already agreed, any figure the creator quoted, and — if
    the contract has been negotiated before — what the brand has already rejected and what the
@@ -340,23 +341,22 @@ cell need escaping in any case.
    same list**, anything dangerous outside the list, and any drafting errors. On a small deal,
    the scope — focused or full mutuality — is one of the decisions (see *First*). **So is the
    author name on the tracked changes** — the brand sees it on every change, and it can be the
-   creator's legal name, their handle, or a manager's. Ask; never pick one. Two runs of the
-   same contract chose "Creator Name" once by asking and "@handle" once without.
+   creator's legal name, their handle, or a manager's. Ask; never pick one.
 
    **Under full mutuality, no tagged must-have sub-check (#4g, #5b, …) goes in "flag only"** —
-   the scope choice is the creator saying yes to all of them. One full-mutuality run left
-   Exhibit B's "terminate … in the event of any noncompliance", a termination route with no
-   cure and no payment, under *not planned*. **But scope never includes an elective.** Full
+   the scope choice is the creator saying yes to all of them. An exhibit's "terminate … in the
+   event of any noncompliance", a termination route with no cure and no payment, does not go
+   under *not planned*. **But scope never includes an elective.** Full
    mutuality means every core edit, not every checklist box: Net 30, deemed approval, late
    interest, brand-delay protection and anything else marked *(elective)* stay separate
    yes/no questions whatever scope is chosen. Do not label the option "every checklist edit",
-   and do not list an elective among what full mutuality adds. One run did both, and drafted
-   Net 30 for a creator who had declined it in every earlier run.
+   and do not list an elective among what full mutuality adds. Either one drafts an elective —
+   Net 30, say — for a creator who may already have declined it.
    **Every edit the report promises becomes a gate line** before drafting starts: a phrase in
    `phrases.txt` for each wording it says will go, an entry in `additions.txt` for each it says
-   will arrive. The gate checks only what it is given, and the report is the fuller list. One
-   report promised to remove right-of-publicity claims from the release and to stop rep (v)
-   reaching backwards; neither phrase was tracked, both survived, and every check passed.
+   will arrive. The gate checks only what it is given, and the report is the fuller list. A
+   report that promises to remove right-of-publicity claims from the release and to stop rep (v)
+   reaching backwards, with neither phrase tracked, passes every check while both survive.
 5. **Stop and get their decisions — through the host's question tool.** Where the surface has
    one (the multiple-choice pop-up in Claude Code and Cowork), every decision goes through it:
    one question per decision, the options spelled out, the recommended option first and
@@ -365,8 +365,8 @@ cell need escaping in any case.
    in the report text; a question only in prose is one they can read past. Plain-text
    questions are the fallback only where no such tool exists. **The report and the first batch
    of questions go in the same turn** — end the report by calling the tool, never with
-   "decisions next". One run finished its report on that line and stopped; nothing happened
-   until the creator typed "?".
+   "decisions next". A report that ends on that line stops the work until the creator notices
+   and prompts again.
 
    **Every decision is answered before the first edit** — including the ones the first read
    turns up rather than the checklist: a placeholder party name, a figure the contract leaves
@@ -375,16 +375,18 @@ cell need escaping in any case.
    document. There is no "round one" drafted after the first batch. And no decision is ever
    filled in with its recommended answer because it was not asked: if a batch fails, or a
    plain-text fallback is needed, re-ask from the list and tick each item off, so nothing on
-   it goes unasked. One run drafted after three questions, then re-asked the rest in plain text
-   and dropped three of its own eight — the one-year keep-up, reshoot pricing and the AI
-   clause — and drafted all three on the recommended answer.
+   it goes unasked. The common failure is drafting after the first few questions, re-asking the
+   rest in plain text, and dropping some of the list — the one-year keep-up, reshoot pricing,
+   the AI clause — which then get drafted on the recommended answer.
 
    **A skipped question means leave it as drafted.** No answer is not a yes, and it is not
    licence for the part of the same clause you had planned as core: once a clause has been put
    to the creator as a question, a skip leaves the whole clause untouched and recorded as
-   *declined (creator, skipped)*. One run asked whether to move a Florida venue clause to New
-   York, got no answer, and made the clause mutual anyway; the creator had skipped it meaning
-   "leave it alone".
+   *declined (creator, skipped)*. **Never leave a decision unasked just to keep a clause
+   editable.** The skip rule is a reason to ask carefully, not a reason not to ask: a decision
+   withheld so the clause's core edits stay open is a decision made for the creator. Asked whether to move a Florida venue clause to New
+   York, a creator who gives no answer has not agreed to make the clause mutual instead; the skip
+   means "leave it alone".
 
    Your first reply is the report, not a redline, even when
    the creator's message came with instructions and even on a surface that runs to completion
@@ -392,10 +394,9 @@ cell need escaping in any case.
    is not the same step: by then the creator is reviewing a finished file instead of choosing
    its scope. Skip this only if the creator has said to proceed without it, and then say in the
    report which electives you decided and which way. **An elective with no answer is not
-   drafted**, and a softened version of an elective is still the elective — one run turned
-   "brand delay shall not postpone payment dates" into "payment shall be due thirty days after
-   the agreed live date" and drafted it as if the rewording had made it core. A creator
-   reviewing the earlier run had already called the original "very aggressive".
+   drafted**, and a softened version of an elective is still the elective — turning "brand
+   delay shall not postpone payment dates" into "payment shall be due thirty days after the
+   agreed live date" does not make it core.
 6. Apply edits by hand in Suggesting mode, following `references/editing-standards.md`. Update the table as you go.
 7. **Run the three audit passes.** See below. This is a gate, not a formality.
    - **7½. Re-sync from any returned document.** Whenever a file comes back — from the creator,
@@ -412,10 +413,10 @@ adversarial model marks up the clean copy, a colleague adds a comment round. Lay
 onto any of those files inherits whatever the other tool did to it, and some of what they do is
 unrecoverable by editing.
 
-Observed: a creator rewrote one bullet in Google Docs on top of the redline. Docs captured it as
-a *single deletion containing both the creator's new wording and the brand's original* — accept
-removed the bullet entirely, reject produced a garble of the two. No edit to that file could
-repair it. The same thing happened again with two adversarial-model files layered on a clean copy.
+For example, a creator who rewrites one bullet in Google Docs on top of the redline can leave Docs
+holding it as a *single deletion containing both the creator's new wording and the brand's
+original* — accept removes the bullet entirely, reject produces a garble of the two. No edit to
+that file can repair it. Adversarial-model files layered on a clean copy can do the same.
 
 So, every time a file comes back:
 
@@ -428,24 +429,23 @@ So, every time a file comes back:
 4. Run all three audit passes.
 
 **Re-check the direction of every creator-authored numeric change in the returned file**, not only
-instructions given in chat. A creator who picked one included revision round in conversation
-changed it to two in their own edit two rounds later. The direction warning under *Scope* applies
+instructions given in chat. A creator who picks one included revision round in conversation can
+change it to two in their own edit two rounds later. The direction warning under *Scope* applies
 to a number typed into the document exactly as it does to one typed into chat: say which way it
 cuts, and confirm.
 
 ## When the contract has been redlined before
 
-A second run on a contract that already has a redline — a re-run after the skill changed, a
+A second pass over a contract that already has a redline — a re-run after the skill changed, a
 fresh session picking the work up, another tool's markup — is the case where good edits
 disappear silently. Each run is judged on its own, and nothing notices an edit the earlier one
 made and this one did not.
 
-Observed on one contract, with a creator reviewing both runs: the second fixed nearly everything
-the creator had criticised in the first, and in the same pass lost mutual confidentiality, the
-exclusivity carve-outs for organic mentions and incidental appearance, the creator's termination
-consequences, the cap's carve-out for payment obligations, the scope limit on the release's
-injunction waiver, and "approved" from the brand's indemnity. The creator's verdict: parts of
-each were stronger. Nobody had decided to drop any of it.
+A second pass can fix nearly everything the creator criticised in the first and, in the same
+pass, lose mutual confidentiality, the exclusivity carve-outs for organic mentions and incidental
+appearance, the creator's termination consequences, the cap's carve-out for payment obligations,
+the scope limit on the release's injunction waiver, and "approved" from the brand's indemnity —
+leaving parts of each version stronger than the other, and nobody having decided to drop any of it.
 
 So when an earlier redline exists, gate on it:
 
@@ -466,10 +466,9 @@ carried forward everything it should have.
 
 ## Adversarial-model rounds
 
-Creators increasingly run the redline past a second model. The first round is usually worth it —
-one session's first adversarial pass returned 28 proposals, about 22 of them useful. The second
-returned 25, of which 9 were useful, 15 re-asked items declined in the first round, and 3
-reopened concessions the creator had made personally. The creator suspected churn and was right.
+Creators increasingly run the redline past a second model. The first round is usually worth it.
+Later rounds yield less: most of what they return re-asks items declined in an earlier round or
+reopens concessions the creator made personally, and the useful share falls with each round.
 
 Classify every proposal before acting on any of them:
 
@@ -488,8 +487,8 @@ and each one costs another rebuild and audit.
 
 The review does not end at the cover note. After the redline the creator usually asks
 clause-level questions — "is this overreach?", "what does (iii) actually entail?", "should this run
-for the usage period too?", "can I reuse this footage?". On one review that was fifteen questions,
-and several produced the best edits of the session.
+for the usage period too?", "can I reuse this footage?". There can be a dozen or more, and they
+often produce the best edits of the review.
 
 Answer each in three parts:
 
@@ -559,7 +558,7 @@ anyone a green report. See `references/docx-round-trip.md`.
 
 **Run the fidelity check first.** It reconstructs the document with every suggestion rejected and compares it word for word against the brand's draft. They should be identical. If they are not, text was changed outside a suggestion — an edit made in Editing mode, or an undo that overshot and got repaired by retyping. That is the worst defect a redline can carry, because the other side's ability to reject cleanly is the thing that makes a redline safe to send, and nothing about the document looks wrong until they try.
 
-This has happened in practice: a confidentiality clause whose opening words were present when suggestions were accepted and absent when they were rejected. Rejecting that suggestion would have left the clause starting mid-sentence.
+For example: a confidentiality clause whose opening words are present when suggestions are accepted and absent when they are rejected. Rejecting that suggestion would leave the clause starting mid-sentence.
 
 A **STRUCTURE** check reports paragraphs whose text is entirely struck while the paragraph mark survives — accepting those leaves an empty line or an empty bullet behind.
 
@@ -583,14 +582,14 @@ python scripts/audit_suggestions.py redline.docx --check phrases.txt \
 
 Label every line with its item number (`#1 brand indemnity :: …`; one line may name several). The
 checklist's tagged sub-checks need their own tag (`#4e handover :: …`): naming `#4` covers item 4
-and none of its tags, because the tagged boxes are the ones that went missing on a run where every
-item was named. An item or tag the redline does not edit still needs a line saying why: `declined.md` holds rejected and
+and none of its tags, because the tagged boxes are the ones that go missing even when every
+item is named. An item or tag the redline does not edit still needs a line saying why: `declined.md` holds rejected and
 conceded items, and `present.txt` holds items the brand's draft already satisfies, with the
 clause that does it (`#2 confidentiality :: present (Confidentiality ¶) — already mutual`). An item
 no file names was never reviewed, and the gate fails. Report it as a gap in the review, not as a
 pass.
 
-**A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and pass it with `--additions`. Each line must occur **exactly once** in the accept-all text: zero means the edit did not land, and more than one usually means an edit was applied twice or a clause duplicated — that check caught an accidental duplicate once. Where the checklist asks for the same wording in several places — the termination-payment phrase in every termination route — end the line with the count (`#4d work performed :: pre-production and production work performed on a Brand-approved concept :: x2`). Without it the gate rewards writing the phrase once, and one run did exactly that, in the force-majeure clause, leaving the termination clause itself unchanged. The phrase gate proves the bad language left; only this proves the good language landed.
+**A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and pass it with `--additions`. Each line must occur **exactly once** in the accept-all text: zero means the edit did not land, and more than one usually means an edit was applied twice or a clause duplicated. Where the checklist asks for the same wording in several places — the termination-payment phrase in every termination route — end the line with the count (`#4d work performed :: pre-production and production work performed on a Brand-approved concept :: x2`). Without it the gate rewards writing the phrase once — in the force-majeure clause, say, leaving the termination clause itself unchanged. The phrase gate proves the bad language left; only this proves the good language landed.
 
 This also disposes of a state that otherwise eats time. A surviving adverse phrase is expected wherever the fix was an addition placed beside text that should stay: the creator's own indemnity survives a mutuality edit, "worldwide license" survives having "non-exclusive," inserted in front of it. Those are phrase-selection artifacts, not misses — but they are indistinguishable from real misses until the additions check confirms the counterpart exists.
 
@@ -602,7 +601,7 @@ Read the result rather than skimming it. Three states need judgment:
 - **absent from both — not gating** — the phrase is in neither the accepted nor the original
   text. Usually the phrase is wrong, not the item fine: fix it and re-run. It does not fail the
   gate, because some phrases never existed in either — wording that lives only in the brand's own
-  *pending* edits ("must up to (2) frames" was the brand's mid-edit grammar). Pass `--author` with
+  *pending* edits (mid-edit grammar such as "must up to (2) frames"). Pass `--author` with
   your author name to test against the counterparty's view, which applies their pending changes
   and rejects yours; phrases found only there are reported as such.
 
@@ -620,7 +619,7 @@ markup, to pass between rounds. Then use `scripts/accept_all.py redline.docx cle
 before writing. For your own Pass 3 reading, `--write-dir` gives the accept-all text without
 producing a file the creator sees. Do not verify a clean copy with
 `python-docx`'s `paragraph.text`: it silently skips content inside `<w:sdt>` content controls,
-which produced a false "text differs" alarm in practice. Use the audit reconstruction or a raw
+which produces a false "text differs" alarm on a clean copy. Use the audit reconstruction or a raw
 `<w:t>` walk.
 
 Do not use the suggestion count as a verification metric. Importing a .docx merges adjacent tracked changes, so 154 suggestions can arrive as 111 with identical content. Compare the reconstructed text, never the counts.
@@ -658,7 +657,7 @@ else.
 Nothing earlier in Pass 1 substitutes for this. A tool that mis-places an insertion produces a
 perfect reject-all, a clean structure check, intact layout and type, and a `--check` run in which
 every adverse phrase is correctly resolved — while the version the brand would sign reads
-`re-shouncured material failure on the part ofoting costs`. Every automated gate passed on that
+`re-shouncured material failure on the part ofoting costs`. Every automated gate passes on such a
 document.
 
 With the text in front of you, confirm defined terms exist and resolve, cross-references still
@@ -724,8 +723,7 @@ corrections conform the document to what was already agreed in writing; one line
 mutuality, mirroring language the brand drafted; an offer to walk their counsel through any of it.
 The redline carries the substance and their reviewer will read the redline, not the email.
 
-A first draft on one review ran to about 900 words; the creator sent about 80, and the creator was
-right. A long note reads as arguing every point in advance and hands the brand a list of things to
+A long note reads as arguing every point in advance and hands the brand a list of things to
 refuse. Write the long version anyway if it helps, as an **internal explainer for the creator** —
 what each edit does and why — and keep it out of the send.
 
@@ -767,5 +765,5 @@ claims to. The creator must read the redline before sending it and the contract
 before signing it — an edit they did not read is theirs the moment it goes out.
 Contract law also varies by jurisdiction and this review does not research
 theirs. Do not soften this into a single trailing clause the reader skims past;
-it is the part that protects them from the tool. `DISCLAIMER.md` in the skill
-directory has the full text if they want it.
+it is the part that protects them from the tool. `DISCLAIMER.md` at the root of
+the plugin (two levels above this file) has the full text if they want it.

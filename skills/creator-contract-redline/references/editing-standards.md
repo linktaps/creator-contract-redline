@@ -20,7 +20,7 @@ Most changes that feel like swaps are insertions or deletions. Getting this wron
 
 **Example.** "the right to use and support with paid media the Posts" → "the right to use the Posts" is a deletion of five words. Written as a swap it strikes eleven.
 
-Combined, those two changes in one sentence went from a seventeen-word strike to two words in and five words out.
+Combined, those two changes in one sentence go from a seventeen-word strike to two words in and five words out.
 
 ## 2. Match only what changes
 
@@ -76,6 +76,23 @@ Where the brand's draft writes "his/her", that tells you nothing about the creat
 redline that writes "her agents" has guessed the gender of a real person in a document going
 out under their name. The same goes for a pet or anyone else the content features.
 
+**Bind the party that can be bound.** Where an agency signs "for the benefit of its client" and
+the client does not sign, a mirrored duty written as "Agency and Client shall not…" puts an
+obligation on a company that is not a party — and the template's third-party-beneficiary clause
+usually adds that the client "is not bound by any of Agency's agreements or covenants". The
+brand's reviewer will strike "Client" or point at that sentence, and either way the creator's
+protection against the company actually using the Content is gone. Write new brand-side duties
+as "Agency shall, and shall cause Client to, …", and give the creator third-party-beneficiary
+rights in the client's compliance, mirroring the rights the template already gives the client
+against the creator. Read every "Agency and Client" in new text against that clause before
+Pass 3 closes. Checklist #1 covers who gives the indemnity.
+
+**Use the contract's own names for the parties in any sentence the checklist supplies.** The
+checklist's model wording says "Brand" and "Influencer"; a contract whose parties are
+"Agency", "Client" and "Lender" defines neither. Substituting the contract's defined terms is
+not rewording, and it applies to wording the creator chose from a list of options. An undefined
+"Brand" is the first thing the other side's counsel will query.
+
 Write fresh language only where there is no counterpart to mirror — a limitation of liability clause
 where none exists, for instance.
 
@@ -95,11 +112,10 @@ Declining to grant something is not the same as prohibiting it, and the differen
 
 **The exception: a condition on an obligation the creator relies on.** Striking a whole bullet
 leaves nothing behind. Striking a condition from the middle of a sentence can leave a sentence
-that no longer says anything. "Payment of $5,500 will be sent after content is verified and
-complete" had its brand-controlled condition struck and became "Payment of $5,500 will be sent."
-— sent when? A creator reviewing it: "incomplete sentence. before was better." The earlier run
-had replaced the condition with a pointer: "in accordance with the payment terms set forth
-below." Where the struck words answered *when*, *how much* or *on what condition*, put the
+that no longer says anything. "Payment of the Fee will be sent after content is verified and
+complete" with its brand-controlled condition struck becomes "Payment of the Fee will be sent."
+— sent when? The better edit replaces the condition with a pointer: "in accordance with the
+payment terms set forth below." Where the struck words answered *when*, *how much* or *on what condition*, put the
 governing term in their place, preferably as a cross-reference to the clause that already
 answers it.
 
@@ -108,9 +124,8 @@ answers it.
 Redundant words the brand wrote — "this Agreement or Statement of Work" where there is no
 separate SOW, a doubled "and/or", a harmless synonym, a sentence that appears word for word in
 two sections — cost the creator nothing where they are.
-Striking them adds a line the brand's reviewer has to read and costs nothing to leave. "The less
-you redline out stuff that has no impact the better," in the words of a creator who reviewed
-one. Before any deletion, ask what changes if it is accepted. If the answer is nothing, do not
+Striking them adds a line the brand's reviewer has to read and costs nothing to leave. Before any
+deletion, ask what changes if it is accepted. If the answer is nothing, do not
 make it.
 
 ## 6b. Put a definition where the term first does work
@@ -120,8 +135,8 @@ sixty (60) consecutive calendar days commencing on the date Influencer first pub
 Content on Influencer's own channel (the "Live Date")" in the usage grant. Where the contract has
 a definitions section or a defined-terms table, it goes there instead. It does not go at the end
 of whichever clause happens to come first: a "Live Date" definition appended to the Services
-paragraph read to the creator reviewing it as "a weird place to add this", and it reads the same
-way to the brand's counsel — as text dropped in rather than drafted. §3 still applies: a
+paragraph reads to the creator and to the brand's counsel alike as text dropped in rather than
+drafted. §3 still applies: a
 definition added beside an existing sentence is an insertion, never a rewrite of that sentence.
 
 ## 7. Don't draft the clause you've already won
@@ -184,10 +199,10 @@ means the weakest one governs the fate of the rest.
 
 This costs real ground where a clause has a core the brand will defend and
 satellites it would concede. A payment clause struck as one 65-word block
-contained three separate sentences: the pay-when-paid condition itself, a
+can contain three separate sentences: the pay-when-paid condition itself, a
 sentence stripping the creator's right to hold the agency liable, and a sentence
-pointing the creator at a party it had no standing to sue. The agency was never
-going to accept losing the first. Bundled, rejecting it silently restored all
+pointing the creator at a party it has no standing to sue. The agency will never
+accept losing the first. Bundled, rejecting it silently restores all
 three.
 
 Before writing a deletion that spans more than one sentence, ask whether the
@@ -230,13 +245,15 @@ Rejecting a suggestion removes a range from the document, and any other edit ove
 
 After any cycle of rejecting and re-applying, verify that unrelated edits in the same clause survived. On a redline with several such cycles, do a full completeness pass at the end against the checklist — do not trust your memory of having made an edit.
 
-This is not hypothetical: a paid-media carve-out, the single most important sentence in a redline, can vanish entirely and leave behind a clause that grants exactly what it was meant to exclude.
+The stakes are high: a paid-media carve-out, the single most important sentence in a redline, can vanish entirely and leave behind a clause that grants exactly what it was meant to exclude.
 
 ## 13. Re-read the whole sentence after a party swap
 
 Swapping a subject changes what the rest of the sentence needs. "Talent shall not disclose" becoming "neither party shall not disclose" is a double negative that inverts the clause. Check verb agreement, negation, and possessives every time a party name changes.
 
 The same applies to insertions near punctuation. Dropping a rate into "...additional compensation, if applicable." without handling the existing comma and period yields "...additional compensation, at Talent's rate of $10,000 per reshoot., if applicable." Read the finished sentence, not just the inserted phrase.
+
+**Deletions strand punctuation too.** A phrase set off by a pair of commas, or joined by "or" to a neighbour, leaves one comma behind when only part of it is struck: deleting "has committed, or" from "If Talent has committed, or hereafter commits, any act" yields "If Talent hereafter commits, any act". Include the stranded mark in the deletion, or strike the matching one beside it, and read the sentence as accepted.
 
 ## 14. Amending a clause's tail does not fix its head
 
@@ -268,19 +285,18 @@ underscores before declaring completeness; the only ones that belong are in the 
 
 **Blanks do not always look blank.** Check every party name, entity name, date and figure against
 the correspondence as well. Template placeholders reach signature blocks looking like ordinary
-text — a surname of "X", "[Name]", "TBD", a lone initial. This is not hypothetical: a contract
-went out with the influencer named "Creator X" in the defined-terms table, the signature block and
-the inducement rider, and a review read that name four times without questioning it, because the
-rule being applied was looking for `_____`. A name that appears consistently throughout is not
+text — a surname of "X", "[Name]", "TBD", a lone initial. An influencer named "Creator X" in the
+defined-terms table, the signature block and the inducement rider can be read four times without
+question, because the rule being applied is looking for `_____`. A name that appears consistently throughout is not
 thereby verified; it is consistently wrong.
 
 **Find them on the first read, and ask before drafting.** A placeholder name, a missing figure or
 a wrong entity is a decision like any other, so it goes into the step-4 question list — "The
 contract names you 'Creator X' in three places. What is the correct legal name?" — and is answered
 before the first edit, then made as a tracked correction. Do not guess it; the author name the
-creator gave for the tracked changes may be a manager's or a handle, not the signatory. One run
-found "Creator X", correctly refused to guess, and raised it only in the final message, leaving a
-blocking item after the redline was otherwise finished.
+creator gave for the tracked changes may be a manager's or a handle, not the signatory. Refusing
+to guess is right; raising it only in the final message is not, because it leaves a blocking item
+after the redline is otherwise finished.
 
 **The worst placeholder is a real name — someone else's.** A contract assembled from the last deal
 carries the previous creator's name and that deal's effective date in the preamble, and it passes
@@ -291,8 +307,8 @@ somebody else as the counterparty, which is worth fixing for its own sake; and t
 disclosed another creator's name and deal date, which is worth mentioning in the cover note
 without making a point of it.
 
-**A wrong product line is the same failure.** "Client grants Influencer a licence to use any Arm &
-Hammer Baking Soda materials" in a contract for a cat-litter campaign is template residue, and it
+**A wrong product line is the same failure.** "Client grants Influencer a licence to use any
+Brand baking-soda materials" in a contract for a cat-litter campaign is template residue, and it
 means the trademark licence does not cover the product the creator is actually being asked to
 feature. Check that the brand, product and campaign named in the grant are the ones in the brief.
 
@@ -302,11 +318,11 @@ When an audit pass turns up a defect and you fix it, confirm that specific fix l
 
 **Verify with an extractor that sees the whole document.** `python-docx`'s `paragraph.text`
 silently skips text inside `<w:sdt>` content controls, which contracts use for fill-in fields and
-signature blocks. A check built on it reports text as missing that is present — it produced a false
-"text differs" alarm on a clean copy in practice. Use the audit script's reconstruction or a raw
+signature blocks. A check built on it reports text as missing that is present, and raises a false
+"text differs" alarm on a clean copy. Use the audit script's reconstruction or a raw
 walk over `<w:t>` elements.
 
-This is not hypothetical: a review reported finding and repairing a stray character in a clause, and the stray character was still there in the delivered document. The fix was asserted, not verified.
+The common failure: a stray character in a clause reported as found and repaired, and still there in the delivered document. The fix was asserted, not verified.
 
 ## 18. Narrowing a requirement does not remove what it points at
 
@@ -351,7 +367,9 @@ Run against the finished redline:
 - [ ] **No mirrored carve-out swallows the clause it sits in** — a brand indemnity excepts the
       creator's material breach, gross negligence or willful misconduct, not their "acts or omissions"
 - [ ] **No pronoun for the creator** — "Influencer" / "Influencer's" throughout new text
-- [ ] No malformed punctuation where a phrase was inserted beside an existing comma or period
+- [ ] No malformed punctuation where a phrase was inserted beside, or struck from between, existing commas or periods
+- [ ] **No new duty binds a party that did not sign** — on an agency deal, "Agency shall, and shall cause Client to", not "Agency and Client shall"
+- [ ] **Every party name in new text is a term the contract defines** — including wording taken from the checklist or chosen by the creator
 - [ ] **No blank placeholders anywhere except the signature block** — search for runs of underscores
 - [ ] **Party names, entities, dates and figures checked against the correspondence** — placeholders
       do not always look like blanks

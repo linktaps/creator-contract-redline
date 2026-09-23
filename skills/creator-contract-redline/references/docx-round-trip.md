@@ -2,7 +2,7 @@
 
 Google Docs suggestions and Word tracked changes are the same thing on disk. That makes a round trip possible: export the doc as `.docx`, edit the XML, upload it back, and the edits arrive as native suggestions attributed to whatever author you name.
 
-**This is verified end to end on a real contract.** A full redline authored offline — 154 tracked changes across a 64,000-character agreement — imported with the accepted text byte-identical to the local version, both authors preserved, and the brand's own 15 pending suggestions intact. Formatting held.
+**It holds end to end.** A full redline authored offline — well over a hundred tracked changes across a long agreement — imports with the accepted text byte-identical to the local version, both authors preserved, and the brand's own pending suggestions intact. Formatting holds.
 
 **Verified in both directions.** Exporting a Google Doc with pending suggestions yields `w:ins` and `w:del` blocks with each suggester's name intact, including the brand's own pending edits. Uploading a `.docx` containing hand-authored tracked changes produces real suggestions in the Docs sidebar, labelled "From imported document", accept/reject-able clause by clause.
 
@@ -49,7 +49,7 @@ This bites hardest on **whole new clauses** — a Limitation of Liability or a d
 
 `audit_suggestions.py` checks this on every run, with no baseline needed: it resolves each inserted run's size and face through run properties, paragraph style and docDefaults, and reports any that differ from the surviving run beside it.
 
-**Tabs in new clauses are real tabs.** Caption columns in these templates are usually a `<w:tab/>` against a tab stop (2269 twips in one SOW). Non-breaking spaces standing in for one render misaligned. `para_after` turns `\t` in its text into a `<w:tab/>`; `clone_para_after` copies the sibling's tabs by construction, and takes substitutions keyed by run index where a sibling's run texts are not unique.
+**Tabs in new clauses are real tabs.** Caption columns in these templates are usually a `<w:tab/>` against a tab stop (2269 twips, for example). Non-breaking spaces standing in for one render misaligned. `para_after` turns `\t` in its text into a `<w:tab/>`; `clone_para_after` copies the sibling's tabs by construction, and takes substitutions keyed by run index where a sibling's run texts are not unique.
 
 ## Deleting a whole paragraph or bullet
 
@@ -67,7 +67,7 @@ Without it, accepting the suggestion removes the words and leaves the empty para
   inside someone else's `<w:del>` are left alone; runs inside someone else's `<w:ins>` get our
   `<w:del>` *inside* their insertion, so the file records "they inserted it, we deleted it" and
   their suggestion survives intact.
-- `del_blank_para_after(unique_text)` strikes the blank spacer paragraph after it — deleting a run
+- `del_blank_para_after(unique_text)` strikes the blank spacer paragraph after it — deleting a series
   of bullets means deleting the spacers between them, and a spacer has no text to anchor on.
 - `del_para_offset(unique_text, k, expect_prefix)` strikes the k-th paragraph after an anchor,
   asserting its text starts as expected. This is how the second copy of a **duplicated
@@ -75,8 +75,8 @@ Without it, accepting the suggestion removes the words and leaves the empty para
   is no longer distinguishable by content. **Delete by offset first, then delete the anchor
   paragraph** — the other order removes the anchor you are counting from.
 - `del_para_range(first_text, last_text, expect_count=None)` strikes a whole block — an exhibit,
-  a release, a run of bullets — blanks and duplicates included. Use it instead of writing a
-  loop. A session that hand-wrote one over a release exhibit struck 36 marks and left the 37th.
+  a release, a series of bullets — blanks and duplicates included. Use it instead of writing a
+  loop. A hand-written one over a release exhibit can strike 36 marks and leave the 37th.
 
 **Two things inside a block are not ordinary paragraphs, and the script handles both.**
 
@@ -94,7 +94,7 @@ Without it, accepting the suggestion removes the words and leaves the empty para
 
 That is correct markup displayed mid-review, not damage: on accept the deleted bullet vanishes entirely, on reject it returns whole. Worth telling the creator before they spot it, because it looks like corruption and is the most common thing they will ask about.
 
-**Match the label-column convention the source paragraph uses, whichever it is.** Contracts assembled from templates are often inconsistent — the same document may indent most captions with a run of non-breaking spaces and a handful with a real `<w:tab/>`. Copy what the paragraph you are editing already does rather than imposing one convention. Replacing a run that contained a `<w:tab/>` silently drops it and runs the caption into the body text; the baseline check counts tabs for exactly this reason.
+**Match the label-column convention the source paragraph uses, whichever it is.** Contracts assembled from templates are often inconsistent — the same document may indent most captions with a string of non-breaking spaces and a handful with a real `<w:tab/>`. Copy what the paragraph you are editing already does rather than imposing one convention. Replacing a run that contained a `<w:tab/>` silently drops it and runs the caption into the body text; the baseline check counts tabs for exactly this reason.
 
 ## Parse the XML before you ship it
 
@@ -122,14 +122,14 @@ and a flat text index built by concatenating `<w:t>` contents shows none of it.
 An anchor can then span a boundary while looking entirely ordinary, and replacing
 the whole span deletes the structural markup in between.
 
-This is not hypothetical. A contract's notices clause read:
+For example, a notices clause reading:
 
 > Any notices from Influencer must be sent via email to `_______@agency.__.`
 
 The blank is a mailto hyperlink; the full stop after it is not. Anchoring on
-`_______@agency.__.` — blank plus period, the obvious choice — spanned the
-`</w:hyperlink>` and consumed it. The resulting file passed all eight gates and
-Word would not open it.
+`_______@agency.__.` — blank plus period, the obvious choice — spans the
+`</w:hyperlink>` and consumes it. The resulting file passes all eight gates and
+Word will not open it.
 
 Before replacing a span, assert that the gap between consecutive runs in it
 contains no markup at all:
@@ -140,7 +140,7 @@ for k in range(i, j):
         raise SystemExit("anchor spans structural markup — re-anchor it")
 ```
 
-Then re-anchor inside a single element. Dropping the trailing period was the
+Then re-anchor inside a single element. Dropping the trailing period is the
 whole fix.
 
 The same trap catches `<w:tab/>`-only runs and bookmarks sitting between two text
@@ -149,7 +149,7 @@ runs: they are invisible in the flat text, and a span replacement drops them.
 **When the span is a deletion, split it instead of re-anchoring.** The common cause is not a
 hyperlink but `<w:bookmarkStart>`/`<w:bookmarkEnd>` pairs left by comments (`_cp_text_*`) and
 `<w:proofErr>` markers from the spell checker, scattered through an otherwise ordinary sentence.
-One payment-freeze sentence was split across nine runs this way; a forty-word deletion cannot be
+A payment-freeze sentence can be split across nine runs this way; a forty-word deletion cannot be
 re-anchored inside one element. `del_multi(anchor, after)` emits one `<w:del>` per run, leaving
 the markup between them in place, each located by its position immediately before the unique
 `after` string — which is the stable reference, because every deletion shifts the flat text
@@ -157,8 +157,8 @@ before it. Adjacent deletions render as one strike in Word.
 
 **A deletion at the very start of a run must not take the run's tab with it.** A caption row is
 typically `Use:` `<w:tab/>` `During the Term…`, and the tab often sits at the head of the body
-run. Striking from offset 0 of that run used to fold the tab into the deleted fragment, so
-accepting the change deleted the caption column and ran "Use:" into the body. The script now emits
+run. Striking from offset 0 of that run naively folds the tab into the deleted fragment, so
+accepting the change deletes the caption column and runs "Use:" into the body. The script emits
 the tab as its own untouched run before the `<w:del>`.
 
 **Never nest an insertion in an insertion.** Inserting next to another author's pending insertion
@@ -179,15 +179,15 @@ Two checks, both cheap:
 
 **Watch the layout elements.** Authoring XML by hand destroys `<w:tab/>` separators easily — replacing a run that contained one, or rebuilding a paragraph without it. The result is a caption running into its body text. The baseline check counts them; compare before shipping.
 
-**Suggestion counts will not match, and that is expected.** Google merges adjacent tracked changes on import; 154 became 111 with identical content. Compare text, never counts.
+**Suggestion counts will not match, and that is expected.** Google merges adjacent tracked changes on import; 154 can become 111 with identical content. Compare text, never counts.
 
 ## Toolchain changes what "inherit" means
 
 Editing a file in Word and saving it rewrites `styles.xml`. A Google export often declares no default font at all; Word writes `Times New Roman`. That is harmless on its own — but the moment any run loses its explicit `<w:rFonts>`, it stops inheriting nothing and starts inheriting Times New Roman.
 
-This has happened on **surviving brand text**, not just inserted text: seven passages whose run properties were rebuilt with colour and size but no font, rendering the brand's own words in the wrong typeface. Nothing in the text comparison sees it.
+It reaches **surviving brand text**, not just inserted text: passages whose run properties are rebuilt with colour and size but no font render the brand's own words in the wrong typeface. Nothing in the text comparison sees it.
 
-**But Google resolves inheritance on import.** Uploading that file into Docs rewrites every affected run with an explicit `Arial`, and the delivered document is clean. Verified directly: seven passages reading `font=NONE (inherits)` in the Word intermediate all read `font=Arial` after import.
+**But Google resolves inheritance on import.** Uploading that file into Docs rewrites every affected run with an explicit `Arial`, and the delivered document is clean: passages reading `font=NONE (inherits)` in the Word intermediate read `font=Arial` after import.
 
 So whether this is a defect depends entirely on **which artifact is delivered**:
 
@@ -209,21 +209,21 @@ computed after the deletion is short by the length of what was removed, and the 
 that far to the right. Insert first, then delete: `<w:ins>` content is likewise excluded from the
 editable text, so offsets stay valid for the deletion that follows.
 
-**This defect passes every check in Pass 1.** Verified on a real redline: the individual
-insertions and deletions were well-formed, so reject-all reproduced the brand's draft exactly
-(TEXT: PASS), and structure, layout and type all passed. Only the version the brand would sign
-was corrupted — `re-shouncured material failure on the part ofoting costs`, and a licence clause
-with its phrases in scrambled order. `--check` could not see it either, because the adverse
-wording genuinely had been struck. It was caught only by dumping the reconstructed accept-all
-text and reading it.
+**This defect passes every check in Pass 1.** The individual insertions and deletions are
+well-formed, so reject-all reproduces the brand's draft exactly (TEXT: PASS), and structure,
+layout and type all pass. Only the version the brand would sign is corrupted —
+`re-shouncured material failure on the part ofoting costs`, or a licence clause with its phrases
+in scrambled order. `--check` cannot see it either, because the adverse wording genuinely has
+been struck. Only dumping the reconstructed accept-all text and reading it catches it.
 
 ## Toggle properties are written explicitly when off
 
 `<w:strike w:val="0"/>`, `<w:b w:val="0"/>` and their siblings mean the property is **disabled**,
 and editors emit them constantly. Testing for the presence of the element rather than reading its
-value inverts the result. An analysis that checked for `<w:strike>` alone reported that forty-odd
-paragraphs of a contract had been struck through — including clauses the creator had just added —
-when 399 of the 407 elements carried `w:val="0"` and only 8 runs were genuinely struck. Read the
+value inverts the result. An analysis that checks for `<w:strike>` alone can report dozens of
+paragraphs of a contract as struck through — including clauses the creator has just added —
+when nearly every one of the elements carries `w:val="0"` and only a handful of runs are
+genuinely struck. Read the
 value, and treat `"0"`, `"false"` and `"none"` as off.
 
 ## Cautions
