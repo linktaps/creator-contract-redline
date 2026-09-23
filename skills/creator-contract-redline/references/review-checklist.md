@@ -36,7 +36,9 @@ creator) or ↓ (shorter, fewer — included revision rounds, the brand's turnar
 the payment term). A default figure given in a box below is a **floor or a ceiling in that
 direction, never a target.** Where the contract is already on the creator's side of it, the box
 is *present* and the number is left alone. A contract that gives the creator ten days to deliver
-keeps ten days when the default is seven.
+keeps ten days when the default is seven. The same applies when an edit leaves a figure as it
+was but attaches it to a different obligation — restructuring a sentence so an existing
+forty-eight hours now binds the creator's invoicing is a new deadline on the creator.
 
 **Mutualizing never narrows a right the creator already holds.** Symmetry is the method, not the
 goal. Where the brand drafted a creator-side right broadly — a reciprocal morals trigger, a
@@ -399,7 +401,11 @@ its own three defects:
       category definition exists to narrow. "No other sponsor videos on the promotion date"
       defines no category at all — it restricts *every* advertiser rather than competitors, which
       is broader than the category exclusivity the rest of this item is written to cut down, and
-      it reads as a scheduling note. Bound it to the brand's own category, or price the blackout
+      it reads as a scheduling note. Bound it to the brand's own category, or price the blackout.
+      **Measure it first.** A spacing rule of a few hours — "not post about any other brands for
+      three hours after the branded post" — is how sponsored posts are normally kept from being
+      buried, costs the creator almost nothing, and is left alone (*present*). The box is for
+      blackouts measured in days or longer, or across the Term
 - [ ] Blackout windows run from a defined event — "three (3) days before and after each live post" floats if "live post" floats (see #16)
 
 ### 16. Defined terms
@@ -684,4 +690,4 @@ Flag these to the creator and let them decide.
 - **Insurance and production requirements that do not match self-shot content** — a term-length
   insurance covenant for a video filmed at home with a phone.
 - **Schedules incorporated by reference but marked "reserved" or "subject to change"** — terms that do not exist yet but bind on arrival.
-- **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags, and party swaps left half-done by the brand's own template — a creator termination right that fires "in the event that brand believes the contract is materially affected" hands the creator's exit to the brand. Fixing that one (to "Influencer believes") is a correction, and it belongs in the redline even though brands sometimes refuse it; record a refusal in `declined.md` like any other. Raise as courtesy, not objection. Where a duplicate paragraph exists, fixing one copy and leaving the other is worse than fixing neither.
+- **Drafting errors**: duplicated paragraphs, inconsistent entity names, residual text from another client's template, conflicting disclosure hashtags, and party swaps left half-done by the brand's own template — a creator termination right that fires "in the event that brand believes the contract is materially affected" hands the creator's exit to the brand. Fixing that one (to "Influencer believes") is a correction, and it belongs in the redline even though brands sometimes refuse it; record a refusal in `declined.md` like any other. **Edit a drafting error only when it changes what the contract means** — a half-done party swap, the wrong company or product ("Other Co" for the brand), an entity name that makes a clause point at nobody. Everything else is raised in the report as a courtesy and left in the document: an identical sentence appearing twice, a typo whose meaning is obvious, a stray phrase that binds no one. Striking those adds lines to the redline and protects nothing (editing standards §6a). One run deleted a confidentiality sentence from §12 because it duplicated §9 word for word; the contract meant exactly the same thing afterwards. Where a duplicate paragraph *is* edited because it carries meaning, fixing one copy and leaving the other is worse than fixing neither.

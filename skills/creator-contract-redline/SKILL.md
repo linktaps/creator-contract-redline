@@ -66,6 +66,15 @@ the review and the only ones that are not arguable — the brand wrote the email
 completely differently from the rest of the redline: a correction costs the brand nothing but
 embarrassment, where every checklist item costs them something they drafted on purpose.
 
+**Every row cites the correspondence, and covers the same term.** A row is a mismatch only where
+something the creator was told or agreed in writing says otherwise. An agreed term does not reach
+a different restriction by analogy: agreeing "3 days either side of posting, pet supplements only"
+settles the category blackout, not a separate three-hour gap between posts for any brand in
+another schedule. One run listed that gap as "Same — conform to §10", struck it as a correction,
+and the creator's reaction was that nobody had discussed it and it was modest and
+creator-friendly anyway. If no sentence of correspondence can be quoted in the row, the item is a
+checklist finding at most, with the checklist's position — not a correction.
+
 Failure modes to hunt specifically:
 
 - **"Updated" attachments that were not updated.** A brand that agrees a number by email and says
@@ -194,6 +203,16 @@ deliver a first draft — it is a floor in the creator's direction, not a value 
 contract already giving ten days keeps ten; changing it to seven because seven is the number on
 the list is the backwards redline again, authored by the checklist instead of the creator. The
 tracking table's Direction column exists so this is read off a row rather than remembered.
+
+**Moving a number is not the only way to tighten one.** An edit that leaves a figure unchanged
+can still attach it to something new. The brand's handover sentence read "must be invoiced and
+content must be provided to brand within forty-eight (48) hours" — the 48 hours arguably governed
+only the handover. A redline restructuring that sentence wrote "must be invoiced within
+forty-eight (48) hours", putting a deadline on the creator's invoicing that the brand never
+clearly imposed, in the creator's own voice. When an edit changes which obligation a number
+governs, it gets a Direction row like any other: which party it now binds, and which way that
+cuts. Where a deadline on the creator was ambiguous, leave it ambiguous or bind the brand, never
+the creator.
 
 **Making a clause mutual never narrows a right the creator holds.** Where the brand drafted the
 creator's reciprocal right broadly — a morals trigger "which might tend to injure the success of
@@ -504,10 +523,13 @@ drafting furniture rather than as a gap — `[3] days prior`, `USD [55.00]`, a b
 `XX`, `TBD` and `N/A` sitting where a number or a name belongs. Any placeholder outside the
 signature block is a blocking open item, not a completed edit.
 
-**A clean copy is a normal deliverable, not only an audit artefact.** Creators need one — to hand
-to a second model, to read without markup, to pass between rounds. Build it with
-`scripts/accept_all.py redline.docx clean.docx` (and `reject_all.py` for the mirror); each verifies
-its own output against the audit's reconstruction before writing. Do not verify a clean copy with
+**Deliver the redline, not a clean copy beside it.** A second `.docx` with every change accepted,
+sitting next to the one that goes to the brand, is one more file to tell apart, and the wrong one
+is easy to send. Build it only when the creator asks — to hand to a second model, to read without
+markup, to pass between rounds. Then use `scripts/accept_all.py redline.docx clean.docx` (and
+`reject_all.py` for the mirror); each verifies its own output against the audit's reconstruction
+before writing. For your own Pass 3 reading, `--write-dir` gives the accept-all text without
+producing a file the creator sees. Do not verify a clean copy with
 `python-docx`'s `paragraph.text`: it silently skips content inside `<w:sdt>` content controls,
 which produced a false "text differs" alarm in practice. Use the audit reconstruction or a raw
 `<w:t>` walk.

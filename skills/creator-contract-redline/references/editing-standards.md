@@ -93,7 +93,8 @@ answers it.
 ## 6a. Do not strike what does nothing
 
 Redundant words the brand wrote — "this Agreement or Statement of Work" where there is no
-separate SOW, a doubled "and/or", a harmless synonym — cost the creator nothing where they are.
+separate SOW, a doubled "and/or", a harmless synonym, a sentence that appears word for word in
+two sections — cost the creator nothing where they are.
 Striking them adds a line the brand's reviewer has to read and costs nothing to leave. "The less
 you redline out stuff that has no impact the better," in the words of a creator who reviewed
 one. Before any deletion, ask what changes if it is accepted. If the answer is nothing, do not
