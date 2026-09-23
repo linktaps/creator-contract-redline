@@ -334,7 +334,22 @@ cell need escaping in any case.
    will arrive. The gate checks only what it is given, and the report is the fuller list. One
    report promised to remove right-of-publicity claims from the release and to stop rep (v)
    reaching backwards; neither phrase was tracked, both survived, and every check passed.
-5. **Stop and get their decisions.** Your first reply is the report, not a redline, even when
+5. **Stop and get their decisions — through the host's question tool.** Where the surface has
+   one (the multiple-choice pop-up in Claude Code and Cowork), every decision goes through it:
+   one question per decision, the options spelled out, the recommended option first and
+   labelled so. Batch as many calls as the list needs — the tool takes a few questions at a
+   time. Do not ask the creator to "reply with numbers" in prose, and do not bury a decision
+   in the report text; a question only in prose is one they can read past. Plain-text
+   questions are the fallback only where no such tool exists.
+
+   **A skipped question means leave it as drafted.** No answer is not a yes, and it is not
+   licence for the part of the same clause you had planned as core: once a clause has been put
+   to the creator as a question, a skip leaves the whole clause untouched and recorded as
+   *declined (creator, skipped)*. One run asked whether to move a Florida venue clause to New
+   York, got no answer, and made the clause mutual anyway; the creator had skipped it meaning
+   "leave it alone".
+
+   Your first reply is the report, not a redline, even when
    the creator's message came with instructions and even on a surface that runs to completion
    without prompting (Cowork, a background agent). Asking afterwards under *decisions for you*
    is not the same step: by then the creator is reviewing a finished file instead of choosing

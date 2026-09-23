@@ -195,7 +195,12 @@ Read #4, #20 and #24 hardest on these.
 - [ ] **[#5b]** Reciprocal termination right exists for the creator, **with its consequences
       written out** — the five boxes below. A reciprocal trigger with no consequences leaves the
       creator free to leave and nothing else; one re-run kept the trigger and dropped the
-      consequence sentence the earlier run had written
+      consequence sentence the earlier run had written. **Attach them to every route the creator
+      terminates on other than convenience** — the brand's uncured breach and the morals trigger
+      alike: "Upon any termination by Influencer under this Section 11(b) other than for
+      convenience, …". A sentence opening "In such event" straight after the morals sentence
+      reads as covering that route alone, and leaves termination for non-payment with no
+      consequences at all
 - [ ] Creator retains fees already paid
 - [ ] Creator is paid for all work performed on an approved concept, in the same words as #4
 - [ ] Creator may remove or archive posts
@@ -295,15 +300,23 @@ its own three defects:
 - [ ] Deemed-approval after that window
 - [ ] Rate stated for additional rounds or post-approval creative changes. **This is the
       protection on this item**, and it is the one to push on. The count caps the free work; the
-      rate is what makes everything past the cap paid
+      rate is what makes everything past the cap paid. Asked together with #12's reshoot
+      question, with the same three answers — a rate, left to mutual agreement, or as drafted
 
 ### 12. Reshoot fee
-- [ ] A rate is stated — **a figure**, not "subject to the parties' mutual written agreement on
-      timing, scope and additional compensation". That is an agreement to agree: the brand
-      decides whether one is ever reached, so it prices the reshoot at nothing. It is the
-      natural over-correction when a creator objects to the rate being too high; the fix for a
-      rate that is too high is a lower rate (see editing standards §8 — a reshoot fee is a
-      production rate, not the whole fee), never no rate
+- [ ] **Extra rounds and reshoots are priced, or expressly left to agreement.** Where the contract
+      has neither (this box and #11's rate box), ask one step-4 question with three answers:
+      1. **A rate** — the creator's figure. A reshoot fee is a production rate, not the whole
+         fee (editing standards §8)
+      2. **Left to agreement**, drafted as: *"Any additional rounds of notes or re-shoots
+         requested by Brand shall be subject to mutual agreement on timing, scope, and
+         additional compensation."* The creator is never obliged to do the work unpaid; the
+         brand is never obliged to pay until a price is agreed. Creators pick this often, and
+         it is a sound position — offer it as a ready answer rather than making them write it
+      3. **Leave as drafted** and mention it in the report
+
+      Say the trade-off between 1 and 2 once, then draft whichever they choose. Do not reword
+      answer 2, and do not suggest a figure when they have chosen it
 - [ ] **The fee attaches from concept approval, not content approval.** A rate for reshoots
       "requested after approval" excludes the ordinary case, because the brand asking for a
       reshoot is usually the brand declining to approve — it calls the re-creation a revision
@@ -696,7 +709,10 @@ Flag these to the creator and let them decide.
   indicated by Company" binds only the creator — the brand keeps the courts and the creator does
   not. Check who may elect, where the seat is (a clause seated in the brand's home city is a real
   cost on a five-figure deal), and whether prevailing-party fees turn a small dispute into an
-  uninsurable one.
+  uninsurable one. **Raise it as a question; do not make it mutual as a core edit.** Making an
+  exclusive venue in the brand's city bind both parties gains the creator little — the brand
+  sues there anyway, and can no longer sue in the creator's home courts, which would have been
+  cheaper for the creator.
 - **Third-party beneficiary clauses that run one way.** The brand's client gets a direct claim
   against the creator; the creator gets no rights against the client. Harmless alone, serious
   beside pay-when-paid (#20).
