@@ -321,14 +321,20 @@ cell need escaping in any case.
 4. Report to the creator before editing: the table, **the core edits you are about to make**,
    anything missing that needs their decision, **every elective item, as a yes/no decision in the
    same list**, anything dangerous outside the list, and any drafting errors. On a small deal,
-   the scope — focused or full mutuality — is one of the decisions (see *First*). **Under full
-   mutuality, no tagged must-have sub-check (#4g, #5b, …) goes in "flag only"** — the scope
-   choice is the creator saying yes to all of them. One full-mutuality run left Exhibit B's
-   "terminate … in the event of any noncompliance", a termination route with no cure and no
-   payment, under *not planned*. **So is the
+   the scope — focused or full mutuality — is one of the decisions (see *First*). **So is the
    author name on the tracked changes** — the brand sees it on every change, and it can be the
    creator's legal name, their handle, or a manager's. Ask; never pick one. Two runs of the
    same contract chose "Creator Name" once by asking and "@handle" once without.
+
+   **Under full mutuality, no tagged must-have sub-check (#4g, #5b, …) goes in "flag only"** —
+   the scope choice is the creator saying yes to all of them. One full-mutuality run left
+   Exhibit B's "terminate … in the event of any noncompliance", a termination route with no
+   cure and no payment, under *not planned*. **But scope never includes an elective.** Full
+   mutuality means every core edit, not every checklist box: Net 30, deemed approval, late
+   interest, brand-delay protection and anything else marked *(elective)* stay separate
+   yes/no questions whatever scope is chosen. Do not label the option "every checklist edit",
+   and do not list an elective among what full mutuality adds. One run did both, and drafted
+   Net 30 for a creator who had declined it in every earlier run.
    **Every edit the report promises becomes a gate line** before drafting starts: a phrase in
    `phrases.txt` for each wording it says will go, an entry in `additions.txt` for each it says
    will arrive. The gate checks only what it is given, and the report is the fuller list. One
@@ -344,6 +350,15 @@ cell need escaping in any case.
    of questions go in the same turn** — end the report by calling the tool, never with
    "decisions next". One run finished its report on that line and stopped; nothing happened
    until the creator typed "?".
+
+   **Every decision is answered before the first edit.** Keep the open decisions as a
+   numbered list and ask all of it, over as many batches as it takes, before touching the
+   document. There is no "round one" drafted after the first batch. And no decision is ever
+   filled in with its recommended answer because it was not asked: if a batch fails, or a
+   plain-text fallback is needed, re-ask from the list and tick each item off, so nothing on
+   it goes unasked. One run drafted after three questions, then re-asked the rest in plain text
+   and dropped three of its own eight — the one-year keep-up, reshoot pricing and the AI
+   clause — and drafted all three on the recommended answer.
 
    **A skipped question means leave it as drafted.** No answer is not a yes, and it is not
    licence for the part of the same clause you had planned as core: once a clause has been put

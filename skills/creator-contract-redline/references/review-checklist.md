@@ -126,9 +126,13 @@ Read #4, #20 and #24 hardest on these.
 - [ ] A limitation-of-liability clause exists at all (frequently absent, leaving exposure uncapped)
 - [ ] Consequential/indirect damages waived mutually
 - [ ] Aggregate cap stated, tied to the fee
-- [ ] **[#3d]** Carve-outs present for indemnity, confidentiality, **the brand's payment
-      obligations**, out-of-scope use, gross negligence. The payment carve-out is the one that
-      disappears: without it the cap limits what the brand owes the creator in fees
+- [ ] **[#3d]** Carve-outs present for indemnity, **the brand's payment obligations**,
+      out-of-scope use, gross negligence. The payment carve-out is the one that disappears:
+      without it the cap limits what the brand owes the creator in fees. **Confidentiality only
+      where the brand is the main recipient.** A carve-out is mutual, and in most creator deals
+      the creator holds the brand's information, not the reverse — uncapping breach of
+      confidentiality then mostly uncaps the creator. Leave confidentiality inside the cap
+      unless the creator is sharing something the brand could do real damage with
 - [ ] **Carve-outs are not broader against the creator than against the brand.** Checking that
       carve-outs exist is half the check; the other half is which way they cut. An uncapped
       carve-out for "defective or inadequate Services" hands the brand both the standard and the
@@ -553,7 +557,10 @@ a fight about a paragraph the brand considers standard.
       restructure to per-deliverable payment is where this ambiguity usually gets introduced
 
 ### 20. Net 30
-- [ ] Payment term is net 30 or better
+- [ ] *(elective)* Payment term is net 30 or better. It costs the brand money and is the ask
+      most often traded away, so it is a yes/no in the elective list — never part of a scope
+      bundle. One run put "Net 60 → Net 30" inside "full mutuality" and drafted it when the
+      creator chose that scope; the same creator had declined Net 30 in every earlier run
 - [ ] **What survives the payment.** This item checks *when* the creator is paid and never *how
       much arrives*. Each of these discounts an already-agreed rate and belongs in the report as
       what it is — a reduction in the fee, quantified: a processing or handling fee deducted at
