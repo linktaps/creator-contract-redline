@@ -78,9 +78,13 @@ Read #4, #20 and #24 hardest on these.
       come from the client. Putting the client's
       product on the agency asks for something it structurally cannot give (see #20 on
       pay-when-paid), and even if granted it leaves the company that made the product and wrote
-      the claims owing the creator nothing. **The same split governs every other brand-side
+      the claims owing the creator nothing. **So the product, defect and approved-claims limbs
+      read "Agency shall cause Client to indemnify" (or "Client shall, and Agency shall cause
+      Client to, indemnify") — never "Agency shall, and shall cause Client to, indemnify"**,
+      which makes the agency itself liable for the client's product. **The same split governs every other brand-side
       duty the redline adds** — the AI limit, confidentiality, non-disparagement, ceasing use
-      on termination. Writing "Agency and Client shall…" binds no one on the client's side: the
+      on termination — duties both can perform, where "Agency shall, and shall cause Client to,
+      …" is the right form. Writing "Agency and Client shall…" binds no one on the client's side: the
       client did not sign, and these templates usually say outright that the client "is not
       bound by any of Agency's agreements or covenants". **Only the client's signature binds the
       client.** Two layers, both drafted:
@@ -277,10 +281,12 @@ Read #4, #20 and #24 hardest on these.
 - [ ] Brand must cease use of the materials — **and the cease-use sentence agrees with the
       no-removal sentence (#13).** "Cease all use of the Content" beside "Client will not be
       required to remove… in perpetuity" contradicts itself on any creator exit that is not the
-      brand's breach, such as the morals route. Reconcile them one of two ways, following the
-      creator's decision on organic posts: where posts may stay up, cease-use carves out "the
-      continued display, without paid media, of posts already published"; where they may not,
-      the no-removal exception names termination by the creator as well as uncured breach
+      brand's breach, such as the morals route. **The default needs no question:** cease-use
+      carves out "the continued display, without paid media, of posts already published" —
+      the market-normal position the no-removal sentence already takes. Only where the creator
+      has said posts must come down does the no-removal exception name termination by the
+      creator instead. Either way, #13's ad-spend condition and uncured-breach exception on the
+      no-removal sentence are core edits and go in
 - [ ] Creator is released from exclusivity
 
 The non-disparagement covenant is almost always a separate bullet sitting immediately above the

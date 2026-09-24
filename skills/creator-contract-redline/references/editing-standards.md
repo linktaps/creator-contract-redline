@@ -257,6 +257,8 @@ The stakes are high: a paid-media carve-out, the single most important sentence 
 
 Swapping a subject changes what the rest of the sentence needs. "Talent shall not disclose" becoming "neither party shall not disclose" is a double negative that inverts the clause. Check verb agreement, negation, and possessives every time a party name changes.
 
+**A mirrored trigger swaps every party it names, not only the actor.** "If Talent commits any act which brings Talent into public disrepute… or reflects unfavorably upon Brand" names three roles: who acts, who is brought into disrepute, whose reputation suffers. Swapping the first alone yields "If Brand commits any act which brings **Talent** into public disrepute" — an exit that fires on the creator's own scandal. List each party reference in the brand's sentence, confirm each one is swapped in the mirror, and read the mirror back in the accepted text.
+
 The same applies to insertions near punctuation. Dropping a rate into "...additional compensation, if applicable." without handling the existing comma and period yields "...additional compensation, at Talent's rate of $10,000 per reshoot., if applicable." Read the finished sentence, not just the inserted phrase.
 
 **Deletions strand punctuation too.** A phrase set off by a pair of commas, or joined by "or" to a neighbour, leaves one comma behind when only part of it is struck: deleting "or incidental" from "any direct, or incidental, damages" yields "any direct, damages". Include the stranded mark in the deletion, or strike the matching one beside it, and read the sentence as accepted.
@@ -373,6 +375,7 @@ Run against the finished redline:
 - [ ] No clause closed on the strength of an edit to its tail while its head is untouched
 - [ ] **Every limb of a narrowed trigger is narrowed** — one qualifier over the whole list, or each limb in turn
 - [ ] Every party swap re-read for verb agreement, negation, and possessives
+- [ ] **Every party reference in a mirrored trigger is swapped** — who acts, who is brought into disrepute, whose reputation suffers
 - [ ] **No mirrored carve-out swallows the clause it sits in** — a brand indemnity excepts the
       creator's material breach, gross negligence or willful misconduct, not their "acts or omissions"
 - [ ] **No pronoun for the creator** — "Influencer" / "Influencer's" throughout new text

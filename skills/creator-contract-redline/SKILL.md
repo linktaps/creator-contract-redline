@@ -397,14 +397,21 @@ cell need escaping in any case.
    rest in plain text, and dropping some of the list — the one-year keep-up, reshoot pricing,
    the AI clause — which then get drafted on the recommended answer.
 
-   **A skipped question means leave it as drafted.** No answer is not a yes, and it is not
-   licence for the part of the same clause you had planned as core: once a clause has been put
-   to the creator as a question, a skip leaves the whole clause untouched and recorded as
-   *declined (creator, skipped)*. **Never leave a decision unasked just to keep a clause
-   editable.** The skip rule is a reason to ask carefully, not a reason not to ask: a decision
-   withheld so the clause's core edits stay open is a decision made for the creator. Asked whether to move a Florida venue clause to New
-   York, a creator who gives no answer has not agreed to make the clause mutual instead; the skip
-   means "leave it alone".
+   **Questions are for decisions, never for core edits.** A question covers only what the
+   checklist leaves to the creator: a missing clause, an elective, a term the correspondence left
+   open, a placeholder or wrong name, an outside-the-list item. A core edit goes in the report and
+   gets made; it is never put as a question, because a question can be skipped. Where a decision
+   sits in a clause that also carries core edits, the question names those edits and says they
+   happen either way — "The agency's licence: the sublicensing is narrowed either way; do you also
+   want it bounded by the Term?"
+
+   **A skipped question means leave its subject as drafted.** No answer is not a yes. A skip
+   leaves untouched everything the question covered, including any alternative it offered, and
+   records it as *declined (creator, skipped)* — and nothing more: the clause's core edits still
+   go in. Asked whether to move a venue clause to the creator's home state, a creator who gives
+   no answer has not agreed to make the clause mutual instead; the skip means "leave the venue
+   alone". **Never leave a decision unasked just to keep a clause editable** — a decision
+   withheld is a decision made for the creator.
 
    Your first reply is the report, not a redline, even when
    the creator's message came with instructions and even on a surface that runs to completion
