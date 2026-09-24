@@ -27,12 +27,13 @@ body) Word cannot remove the mark either, so it is kept.
 Moved text (w:moveFrom / w:moveTo) is refused: the audit reconstruction does
 not model moves, so the result could not be verified. Resolve moves in Word.
 """
-import re, sys, zipfile
+import os, re, sys, tempfile, zipfile
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from audit_suggestions import load_document_xml, open_docx, paragraph_spans, reconstruct  # noqa: E402
+from audit_suggestions import (SIBLING_GAP, load_document_xml, open_docx,  # noqa: E402
+                               paragraph_spans, reconstruct)
 
 # Paragraphs come from paragraph_spans, which counts a self-closing <w:p/> (a
 # struck paragraph followed by a spacer written that way must merge into it, or
@@ -40,7 +41,7 @@ from audit_suggestions import load_document_xml, open_docx, paragraph_spans, rec
 # keeps a text box's nested paragraphs inside the paragraph that holds them.
 EMPTY_PARA = re.compile(r"<w:p(\s[^>]*?)?/>$")
 PARA_PARTS = re.compile(
-    r"(<w:p(?:\s[^>]*)?>)"
+    r"(<w:p(?:\s[^>]*)?>\s*)"
     r"(<w:pPr>(?:<w:pPrChange\b.*?</w:pPrChange>|(?!<w:pPrChange\b).)*?</w:pPr>|<w:pPr/>)?"
     r"(.*)</w:p>$", re.S)
 
@@ -96,9 +97,12 @@ def _structural(xml, mode):
         if gone not in _mark_kinds(paras[k]):
             continue
         n = k + 1
-        while n < len(paras) and not gaps[n].strip() and paras[n] == "":
+        # Bookmarks and comment ranges may sit between two paragraphs; they
+        # do not stop the mark being removed, and stay where they are.
+        sibling = lambda g: SIBLING_GAP.fullmatch(g) is not None
+        while n < len(paras) and sibling(gaps[n]) and paras[n] == "":
             n += 1
-        if n < len(paras) and not gaps[n].strip():
+        if n < len(paras) and sibling(gaps[n]):
             a, b = PARA_PARTS.match(paras[k]), PARA_PARTS.match(paras[n])
             paras[n] = b.group(1) + (b.group(2) or "") + a.group(3) + b.group(3) + "</w:p>"
             paras[k] = ""
@@ -211,11 +215,20 @@ def build(src, dst, mode):
         stray = [i.filename for i in zin.infolist()
                  if i.filename != "word/document.xml" and i.filename.endswith(".xml")
                  and re.search(rb"<w:(?:ins|del)\b", zin.read(i.filename))]
-        with zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as zout:
-            for item in zin.infolist():
-                data = out.encode("utf-8") if item.filename == "word/document.xml" \
-                    else zin.read(item.filename)
-                zout.writestr(item, data)
+        # Written beside dst and moved into place: a crash never leaves a
+        # half-written copy under the final name.
+        fd, tmp = tempfile.mkstemp(suffix=".docx", dir=os.path.dirname(os.path.abspath(dst)))
+        os.close(fd)
+        try:
+            with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
+                for item in zin.infolist():
+                    data = out.encode("utf-8") if item.filename == "word/document.xml" \
+                        else zin.read(item.filename)
+                    zout.writestr(item, data)
+            os.replace(tmp, dst)
+        except BaseException:
+            os.unlink(tmp)
+            raise
     for name in stray:
         print(f"WARNING: {name} has tracked changes; left as is", file=sys.stderr)
     return merges

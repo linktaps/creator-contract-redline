@@ -87,23 +87,21 @@ Inserting next to another author's pending insertion never nests <w:ins> in
 their element if the anchor falls inside it. Deleting text they inserted puts
 our <w:del> inside their <w:ins>, which records "they inserted, we deleted".
 
-Timestamps: by default each call gets its own w:date, starting now (UTC, to the
-minute) and advancing 20-90 s per call, and w:id starts a random 100-900 above
-the highest id already in the file. One constant timestamp over a contiguous
-id block reads as "not typed in Word". Pass date= for a fixed stamp and seed=
-for reproducible output. w16du:dateUtc is written too when the document
-already declares that namespace, as current Word does.
+Timestamps: every change carries the time the script ran (UTC, to the second),
+or the stamp passed as date=. Nothing is spread out or randomised to look like
+typing. w:id starts just above the highest id already in the file, so no id
+collides. w16du:dateUtc is written too when the document already declares that
+namespace, as current Word does.
 """
-import random, re, sys, zipfile
-from datetime import datetime, timedelta, timezone
+import os, re, sys, tempfile, zipfile
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from audit_suggestions import load_document_xml  # noqa: E402
+from audit_suggestions import SIBLING_GAP, load_document_xml, paragraph_spans  # noqa: E402
 
-# Whatever name you pass shows on every suggestion in the sidebar, so use the
-# creator's or their company's — not a tool name.
-DEFAULT_AUTHOR = "creator"
+# Whatever name you pass shows on every suggestion in the sidebar. There is no
+# default: it is the creator's choice (legal name, handle, a manager's), so ask.
 DATE_FMT = "%Y-%m-%dT%H:%M:%SZ"
 
 RUN_FULL = re.compile(r"<w:r(?:\s[^>]*)?>(?P<inner>.*?)</w:r>", re.S)
@@ -120,9 +118,14 @@ T_RE = re.compile(r"<w:t(?P<tattr>\s[^>]*)?>(?P<text>.*?)</w:t>", re.S)
 P_TAG = re.compile(r"<w:p(?=[\s>/])[^>]*?(/?)>|</w:p>")
 R_TAG = re.compile(r"<w:r(?=[\s>/])[^>]*?(/?)>|</w:r>")
 TXBX = re.compile(r"<w:txbxContent\b.*?</w:txbxContent>", re.S)
+PPR_CHANGE = re.compile(r"<w:pPrChange\b.*?</w:pPrChange>", re.S)
+RPR_CHANGE = re.compile(r"<w:rPrChange\b[^>]*?(?:/>|>.*?</w:rPrChange>)", re.S)
+CHANGE_ID = re.compile(r'(<w:(?:rPrChange|pPrChange)\b[^>]*?\bw:id=")(\d+)"')
 EMPTY_PARA = re.compile(r"<w:p(\s[^>]*?)?/>$")
+# `\s*` after the open tag: a reformatted document.xml puts whitespace between
+# <w:p> and <w:pPr>, and missing the pPr there adds a second one beside it.
 PARA_PARTS = re.compile(
-    r"(<w:p(?:\s[^>]*)?>)"
+    r"(<w:p(?:\s[^>]*)?>\s*)"
     r"(<w:pPr>(?:<w:pPrChange\b.*?</w:pPrChange>|(?!<w:pPrChange\b).)*?</w:pPr>|<w:pPr/>)?"
     r"(.*)</w:p>$", re.S)
 INS_OPEN = re.compile(r"<w:ins\b[^>]*?(?<!/)>")
@@ -186,12 +189,21 @@ def _next_para(xml, pos):
     break, the end of a cell or text box). An empty <w:p/> counts: python-docx
     and some exporters write blank spacers that way, and those are exactly the
     ones del_blank_para_after exists to remove."""
-    at = pos
-    while at < len(xml) and xml[at].isspace():
-        at += 1
+    at = SIBLING_GAP.match(xml, pos).end()
     if xml.startswith("</w:p>", at) or not P_TAG.match(xml, at):
         return None
     return at, _balanced_end(xml, at, P_TAG, "</w:p>")
+
+
+def _count(hay, needle):
+    """Occurrences of needle in hay, overlapping ones included. str.count skips
+    overlaps, so "______" inside an eight-underscore blank counted once and an
+    anchor that fits three places passed as unique."""
+    n, at = 0, hay.find(needle)
+    while at != -1 and needle:
+        n += 1
+        at = hay.find(needle, at + 1)
+    return n
 
 
 def esc(s):
@@ -222,39 +234,25 @@ def _plain(xml):
 
 
 class Doc:
-    def __init__(self, path, author=DEFAULT_AUTHOR, date=None, start=None, seed=None):
+    def __init__(self, path, author=None, date=None):
+        if not author:
+            raise SystemExit("ABORT: pass author= — the name the brand sees on every change. "
+                             "Ask the creator; never pick one.")
         self.path = path
         self.author = author
         self.xml = load_document_xml(path)
         self.applied = []
-        self._rng = random.Random(seed)
-        self._fixed_date = date
-        if start is None:
-            start = datetime.now(timezone.utc).replace(second=0, microsecond=0)
-        elif isinstance(start, str):
-            start = datetime.fromisoformat(start.replace("Z", "+00:00"))
-        self._clock = start
-        self._groups = 0
-        self.date = date or start.strftime(DATE_FMT)
+        self.date = date or datetime.now(timezone.utc).strftime(DATE_FMT)
         # Ids above everything already present, bookmarks and comments included:
         # a collision makes Word merge or drop one of the two elements.
         ids = [int(x) for x in W_ID.findall(self.xml)]
-        self._id = max(ids, default=0) + self._rng.randint(100, 900)
+        self._id = max(ids, default=0)
         root = re.search(r"<w:document\b[^>]*>", self.xml)
         self._w16du = bool(root and "xmlns:w16du=" in root.group(0))
 
     def nid(self):
         self._id += 1
         return self._id
-
-    def _tick(self):
-        """Start a change group: every element one call emits shares a stamp."""
-        if self._fixed_date:
-            return
-        if self._groups:
-            self._clock += timedelta(seconds=self._rng.randint(20, 90))
-        self._groups += 1
-        self.date = self._clock.strftime(DATE_FMT)
 
     def _attrs(self):
         who = esc(self.author).replace('"', "&quot;")
@@ -276,8 +274,20 @@ class Doc:
         caption into its body text.
         """
         runs, flat = [], []
-        for m in RUN_FULL.finditer(self.xml):
+        pos = 0
+        while True:
+            m = RUN_FULL.search(self.xml, pos)
+            if not m:
+                break
+            pos = m.end()
             inner = m.group("inner")
+            if "<w:txbxContent" in inner:
+                # A drawing's run holds whole paragraphs; the non-greedy match
+                # ended at the first INNER </w:r> and would give the text box's
+                # first run the drawing run's formatting. Index the inner runs
+                # themselves instead.
+                pos = m.start("inner") + inner.index("<w:txbxContent")
+                continue
             rm = RPR_RE.match(inner)
             rpr = rm.group(0) if rm else ""
             rest = inner[len(rpr):]
@@ -326,19 +336,19 @@ class Doc:
                 # first= without a context would reintroduce exactly the silent
                 # wrong-occurrence edit the exactly-once rule exists to prevent.
                 raise SystemExit(f"ABORT [{label}] first=True needs a within= context")
-            n = flat.count(anchor)
+            n = _count(flat, anchor)
             if n != 1:
                 raise SystemExit(
                     f"ABORT [{label}] anchor matched {n} times (expected 1):\n  {anchor!r}"
                 )
             pos = flat.index(anchor)
         else:
-            n = flat.count(within)
+            n = _count(flat, within)
             if n != 1:
                 raise SystemExit(
                     f"ABORT [{label}] context matched {n} times (expected 1):\n  {within!r}"
                 )
-            m = within.count(anchor)
+            m = _count(within, anchor)
             if m != 1 and not (first and m > 1):
                 raise SystemExit(
                     f"ABORT [{label}] anchor matched {m} times inside context "
@@ -350,7 +360,7 @@ class Doc:
     def _locate_before(self, after, anchor, label):
         """anchor = the text immediately before the unique string `after`."""
         runs, flat = self._index()
-        n = flat.count(after)
+        n = _count(flat, after)
         if n != 1:
             raise SystemExit(f"ABORT [{label}] after-context matched {n} times (expected 1)")
         end = flat.index(after)
@@ -377,7 +387,23 @@ class Doc:
         return f"<w:del{self._attrs()}>{inner}</w:del>"
 
     def _ins_xml(self, rpr, tattr, text, lead=""):
+        # Text we insert has its formatting now; a copied <w:rPrChange> would
+        # record the brand's pending formatting change on our words, under
+        # their change id.
+        rpr = RPR_CHANGE.sub("", rpr)
         return f"<w:ins{self._attrs()}>{self._run_xml(rpr, tattr, text, lead)}</w:ins>"
+
+    def _fresh_change_ids(self, pieces, seen):
+        """A run split into pieces copies its <w:rPrChange> into each; the first
+        keeps the id, the others get fresh ones, since ids must be unique."""
+        def one(x):
+            def sub(m):
+                if m.group(2) in seen:
+                    return f'{m.group(1)}{self.nid()}"'
+                seen.add(m.group(2))
+                return m.group(0)
+            return CHANGE_ID.sub(sub, x)
+        return [(ours, one(x)) for ours, x in pieces]
 
     def _enclosing_ins(self, pos):
         """(open_start, open_end, close_start, close_end) of the <w:ins> holding
@@ -400,7 +426,6 @@ class Doc:
             raise SystemExit(f"ABORT [{label}] unknown edit kind {kind!r}")
         if (kind == "del") != (new is None):
             raise SystemExit(f"ABORT [{label}] {kind!r} {'takes no' if kind == 'del' else 'needs'} new text")
-        self._tick()
         self._apply(kind, *self._locate(anchor, label, within, first), new, label)
         self.applied.append((label or kind, anchor[:55]))
 
@@ -471,6 +496,7 @@ class Doc:
         if post:
             pieces.append((False, self._run_xml(tail_rpr, tail_tattr, post)))
 
+        pieces = self._fresh_change_ids(pieces, set())
         enc = self._enclosing_ins(runs[i][0])
         if enc is None or not any(ours for ours, _ in pieces):
             self.xml = (self.xml[: runs[i][0]] + "".join(x for _, x in pieces)
@@ -519,7 +545,6 @@ class Doc:
                 f"ABORT [{label}] anchor is not immediately before a unique `after`:\n"
                 f"  anchor {anchor!r}\n  after  {after!r}"
             )
-        self._tick()
         pos = flat.index(after) - len(anchor)
         end = pos + len(anchor)
         frags, acc = [], 0
@@ -539,7 +564,7 @@ class Doc:
     # ---------------------------------------------- whole-paragraph deletion
     def _para_span(self, unique_text, label):
         runs, flat = self._index()
-        n = flat.count(unique_text)
+        n = _count(flat, unique_text)
         if n != 1:
             raise SystemExit(f"ABORT [{label}] para locator matched {n} times (expected 1)")
         pos, acc, xs = flat.index(unique_text), 0, None
@@ -613,7 +638,6 @@ class Doc:
 
     def del_para(self, unique_text, label=""):
         ps, pe = self._para_span(unique_text, label)
-        self._tick()
         last = not _next_para(self.xml, pe)
         self.xml = self.xml[:ps] + self._delete_para_xml(self.xml[ps:pe], label, last) + self.xml[pe:]
         self.applied.append((label or "del-para", unique_text[:55]))
@@ -628,7 +652,6 @@ class Doc:
         if _plain(para):
             raise SystemExit(f"ABORT [{label}] following paragraph is not blank: "
                              f"{_plain(para)[:60]!r}")
-        self._tick()
         last = not _next_para(self.xml, e)
         self.xml = self.xml[:s] + self._delete_para_xml(para, label, last) + self.xml[e:]
         self.applied.append((label or "del-blank", "blank paragraph"))
@@ -650,7 +673,6 @@ class Doc:
         txt = _plain(para)
         if not txt.startswith(expect_prefix) or (expect_prefix == "" and txt.strip()):
             raise SystemExit(f"ABORT [{label}] paragraph text mismatch: {txt[:80]!r}")
-        self._tick()
         final = not _next_para(self.xml, last[1])
         self.xml = self.xml[:last[0]] + self._delete_para_xml(para, label, final) + self.xml[last[1]:]
         self.applied.append((label or "del-para-offset", txt[:55]))
@@ -693,7 +715,6 @@ class Doc:
         if not _next_para(self.xml, le):
             raise SystemExit(f"ABORT [{label}] no paragraph follows last_text; the final mark "
                              f"of a body or cell cannot be deleted — end the range one earlier")
-        self._tick()
         for s, e in reversed(spans):        # last-to-first keeps earlier offsets valid
             self.xml = self.xml[:s] + self._delete_para_xml(self.xml[s:e], label) + self.xml[e:]
         self.applied.append((label or "del-para-range", f"{len(spans)} paragraphs"))
@@ -705,7 +726,7 @@ class Doc:
         # copy, and a copied sectPr would silently add a section break.
         ppr_inner = re.sub(r"<w:rPr>.*?</w:rPr>|<w:rPr/>|<w:sectPr\b.*?</w:sectPr>"
                            r"|<w:pPrChange\b.*?</w:pPrChange>", "", ppr_inner, flags=re.S)
-        return f"<w:pPr>{ppr_inner}<w:rPr>{mark}</w:rPr></w:pPr>"
+        return f"<w:pPr>{ppr_inner}<w:rPr>{mark}</w:rPr></w:pPr>" if mark else f"<w:pPr>{ppr_inner}</w:pPr>"
 
     def para_after(self, anchor, texts, label="", within=None, first=False):
         runs, i, a, j, b = self._locate(anchor, label, within, first)
@@ -714,15 +735,34 @@ class Doc:
         ppr = (m.group(2) or "") if m else ""
         ppr_inner = ppr[len("<w:pPr>"):-len("</w:pPr>")] if ppr.startswith("<w:pPr>") else ""
 
-        self._tick()
-        rpr, tattr = runs[i][2], runs[i][3]
-        blocks = []
-        for t in texts:
-            new_ppr = self._new_ppr(ppr_inner, f"<w:ins{self._attrs()}/>")
-            run = f"<w:r>{rpr}{_t_xml(tattr, t)}</w:r>"
-            blocks.append(f"<w:p>{new_ppr}<w:ins{self._attrs()}>{run}</w:ins></w:p>")
-        self.xml = self.xml[:end] + "".join(blocks) + self.xml[end:]
+        rpr, tattr = RPR_CHANGE.sub("", runs[i][2]), runs[i][3]
+        bodies = [f"<w:ins{self._attrs()}><w:r>{rpr}{_t_xml(tattr, t)}</w:r></w:ins>" for t in texts]
+        self._insert_paras_after(pstart, end, ppr_inner, bodies)
         self.applied.append((label or "para", f"{len(texts)} new paragraph(s)"))
+
+    def _insert_paras_after(self, pstart, end, ppr_inner, bodies):
+        """New tracked paragraphs after the one at [pstart, end).
+
+        Each new paragraph's mark is inserted — except where no sibling
+        paragraph follows (the last in a table cell, text box or body). That
+        final mark cannot be inserted: Word keeps it, so rejecting would leave
+        an empty paragraph behind. Word marks the ANCHOR's mark as inserted
+        instead and the last new paragraph inherits the container's final mark,
+        so rejecting merges the new paragraphs away into the anchor."""
+        last = not _next_para(self.xml, end)
+        blocks = []
+        for k, body in enumerate(bodies):
+            if last and k == len(bodies) - 1:
+                new_ppr = self._new_ppr(ppr_inner, "")
+            else:
+                new_ppr = self._new_ppr(ppr_inner, f"<w:ins{self._attrs()}/>")
+            blocks.append(f"<w:p>{new_ppr}{body}</w:p>")
+        para = self.xml[pstart:end]
+        if last:
+            m = PARA_PARTS.match(para)
+            ppr = self._add_mark(m.group(2) or "", f"<w:ins{self._attrs()}/>")
+            para = m.group(1) + ppr + m.group(3) + "</w:p>"
+        self.xml = self.xml[:pstart] + para + "".join(blocks) + self.xml[end:]
 
     # --------------------------------------------- clone a sibling paragraph
     def clone_para_after(self, anchor, subs, label="", within=None, first=False):
@@ -790,11 +830,10 @@ class Doc:
                       "", body)
         body = re.sub(r"<w:r(?:\s[^>]*)?>(?:(?!</w:r>).)*?<w:commentReference\b.*?</w:r>",
                       "", body, flags=re.S)
+        # A pending formatting change in the sibling is theirs, under their id.
+        body = RPR_CHANGE.sub("", body)
         ppr_inner = ppr[len("<w:pPr>"):-len("</w:pPr>")] if ppr.startswith("<w:pPr>") else ""
-        self._tick()
-        new_ppr = self._new_ppr(ppr_inner, f"<w:ins{self._attrs()}/>")
-        block = f"<w:p>{new_ppr}<w:ins{self._attrs()}>{body}</w:ins></w:p>"
-        self.xml = self.xml[:pend] + block + self.xml[pend:]
+        self._insert_paras_after(pstart, pend, ppr_inner, [f"<w:ins{self._attrs()}>{body}</w:ins>"])
         self.applied.append((label or "clone-para", "1 cloned paragraph"))
 
     # ---------------------------------------------------------------- raw
@@ -824,10 +863,24 @@ class Doc:
         nest = NESTED_INS.search(self.xml)
         if nest:
             raise SystemExit(f"ABORT: nested <w:ins> — {nest.group(0)[:160]!r}")
+        # Well-formed but invalid: a paragraph may hold one <w:pPr>.
+        for s, e in paragraph_spans(self.xml):
+            own = PPR_CHANGE.sub("", TXBX.sub("", self.xml[s:e]))
+            if len(re.findall(r"<w:pPr[\s>/]", own)) > 1:
+                raise SystemExit(f"ABORT: two <w:pPr> in one paragraph — {self.xml[s:s + 160]!r}")
 
-        with zipfile.ZipFile(self.path) as zin, zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as zout:
-            for item in zin.infolist():
-                data = zin.read(item.filename)
-                if item.filename == "word/document.xml":
-                    data = self.xml.encode("utf8")
-                zout.writestr(item, data)
+        # Written beside dst and moved into place, so a crash mid-save never
+        # leaves a half-written file under the final name.
+        fd, tmp = tempfile.mkstemp(suffix=".docx", dir=os.path.dirname(os.path.abspath(dst)))
+        os.close(fd)
+        try:
+            with zipfile.ZipFile(self.path) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
+                for item in zin.infolist():
+                    data = zin.read(item.filename)
+                    if item.filename == "word/document.xml":
+                        data = self.xml.encode("utf8")
+                    zout.writestr(item, data)
+            os.replace(tmp, dst)
+        except BaseException:
+            os.unlink(tmp)
+            raise

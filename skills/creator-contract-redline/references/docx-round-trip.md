@@ -230,8 +230,8 @@ value, and treat `"0"`, `"false"` and `"none"` as off.
 ## Cautions
 
 - **Text is split across runs.** A sentence you can see in the document may be several `<w:r>` elements with formatting boundaries between them. Match on a single run's `<w:t>` content, or normalise first. A naive string search across the raw XML will miss phrases that span runs.
-- **`w:id` collisions** with existing suggestions cause unpredictable merging. Start your ids well above anything already in the file. `apply_tracked_changes.py` starts above the highest existing id plus a random offset.
-- **Uniform metadata is a tell.** Two hundred changes sharing one timestamp to the minute, ids in a contiguous block from 9001, no `w16du:dateUtc` in a document that uses it elsewhere: nothing names a tool, but it does not look typed. The script spreads timestamps across edits and writes `w16du:dateUtc` where the document already uses that namespace. See *Provenance* in SKILL.md for what it cannot fix.
+- **`w:id` collisions** with existing suggestions cause unpredictable merging. Start your ids above anything already in the file. `apply_tracked_changes.py` numbers on from the highest existing id.
+- **Metadata is written as it is.** Every change carries the time the script ran — one timestamp for the whole run, never spread out to look typed — and `w16du:dateUtc` where the document already uses that namespace, so Word shows the right time. See *Provenance* in SKILL.md.
 - **Escape XML entities** in text you insert — `&`, `<`, `>`.
 - **Round-trip the original first and diff it** against the source before trusting the import on a real contract. Confirm the brand's existing suggestions survived, the label-column layout and tab stops held, and headers and footers are intact. Drift reads as carelessness to the other side's reviewer.
 - **Comments probably do not survive.** Check whether any matter before relying on this.
