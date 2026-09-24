@@ -75,17 +75,28 @@ Read #4, #20 and #24 hardest on these.
       is with an agency "for the benefit of its client", and the client does not sign, split the
       new indemnity by who controls the risk. The agency covers its own conduct: its breach, its
       negligence, its edits to the Content. The product, product-defect and approved-claims limbs
-      come from the client: the agency procures the client's indemnity for the creator, and the
-      creator is made a third-party beneficiary of it, mirroring the third-party-beneficiary
-      clause that almost always lets the client sue the creator directly. Putting the client's
+      come from the client. Putting the client's
       product on the agency asks for something it structurally cannot give (see #20 on
       pay-when-paid), and even if granted it leaves the company that made the product and wrote
       the claims owing the creator nothing. **The same split governs every other brand-side
       duty the redline adds** — the AI limit, confidentiality, non-disparagement, ceasing use
       on termination. Writing "Agency and Client shall…" binds no one on the client's side: the
       client did not sign, and these templates usually say outright that the client "is not
-      bound by any of Agency's agreements or covenants". Write "Agency shall, and shall cause
-      Client to, …" and make the creator a third-party beneficiary of the client's compliance
+      bound by any of Agency's agreements or covenants". **Only the client's signature binds the
+      client.** Two layers, both drafted:
+      - **The ask: a client acknowledgment.** A short signature block for the client at the end
+        of the agreement, agreeing to be bound by the sections that name it — the product and
+        approved-claims indemnity, the AI limit, confidentiality, ceasing use on termination.
+        It mirrors the third-party-beneficiary clause that almost always lets the client enforce
+        against the creator. Agencies often resist it; it is still the only direct route
+      - **The fallback: the agency's procurement promise.** "Agency shall, and shall cause
+        Client to, …" makes the client's failure the agency's breach, so the creator's claim runs
+        against a party that signed
+      Do not rely on a third-party-beneficiary sentence to reach the client. It lets the creator
+      enforce a promise someone made, and a client that did not sign made none. **Never tell the
+      creator they can enforce against the client directly** unless the client signs; say the
+      claim runs against the agency, and that the creator's ownership of the Content and
+      right of publicity reach the client's unlicensed use without any contract
       (editing standards §4)
 - [ ] **[#1a]** Brand's obligation includes a duty to **defend**, not only "indemnify and hold
       harmless" — **even where the brand's own indemnity has no "defend" to mirror.** Without
@@ -139,7 +150,11 @@ Read #4, #20 and #24 hardest on these.
 
 ### 3. Mutual limitation of liability, with a cap
 - [ ] A limitation-of-liability clause exists at all (frequently absent, leaving exposure uncapped)
-- [ ] Consequential/indirect damages waived mutually
+- [ ] Consequential/indirect damages waived mutually — **indirect, incidental, special,
+      consequential and punitive, and nothing wider.** Do not add "lost profits" or "loss of
+      revenue": for a creator those are often direct damages (the fee a cancelled campaign would
+      have paid), and a mutual waiver of them mostly waives the creator's claim. Any wider
+      waiver is a question for the creator, not a drafting default
 - [ ] Aggregate cap stated, tied to the fee
 - [ ] **[#3d]** Carve-outs present for indemnity, **the brand's payment obligations**,
       out-of-scope use, gross negligence. The payment carve-out is the one that disappears:
@@ -174,7 +189,8 @@ Read #4, #20 and #24 hardest on these.
       development… whether or not approved": it reads as billing for rejected pitches, and it is
       circular — the approval it disclaims is the thing that made the work billable. Use the same
       phrase in every termination route that pays for work performed, so no route pays on a
-      different basis. **It goes into the termination clause's own payment sentence** ("Brand will
+      different basis — **which is every route the creator did not cause** (#4g says which those
+      are). **It goes into the termination clause's own payment sentence** ("Brand will
       then process payment for…") first. A force-majeure or suspension clause is an additional
       route, not a substitute: putting the phrase only there leaves the termination
       clause paying for "services provided", which reads as finished work. Record it in
@@ -194,7 +210,16 @@ Read #4, #20 and #24 hardest on these.
       for-convenience sentence can sit beside a third route with no payment attached at all —
       "Company may terminate immediately at any time if instructed to do so by Client" is the
       common form. Count the routes, then check each one separately; the unpaid route is the one
-      the brand will use
+      the brand will use. **The payment follows who caused the termination:**
+      - Routes the creator did not cause — the brand's breach or non-payment, convenience, a
+        client instruction, the creator's own morals exit — pay the #4d work-performed phrase
+      - Routes the creator caused — the brand terminating for the creator's uncured breach, or
+        on the morals trigger pointed at the creator — pay for Content delivered and approved, or
+        published, before termination: *"other than for Content delivered and approved, or
+        published, prior to such termination."* Paying a creator in breach for unfinished work
+        reads to the brand's counsel as overreach, and the credibility it costs is spent on
+        every other item
+      Record each phrase in `additions.txt` with its own route count
 - [ ] **No sum is payable by the creator on termination.** Watch for a "termination fee" that runs
       the wrong way — "Influencer agrees to pay a termination fee equal to fifty percent (50%) of
       the Fee" turns a disputed breach into a five-figure invoice against the creator
@@ -217,7 +242,12 @@ Read #4, #20 and #24 hardest on these.
 - [ ] **The trigger pointed at the creator requires material injury, on an objective standard.**
       Reciprocity is the second question; breadth is the first. "Any act which might tend to
       injure the success of Brand" is satisfied by anything the brand dislikes, decided by the
-      brand. "Materially injures" is the ask, and it is a single word. **Only on this trigger.**
+      brand. "Materially injures" is the ask. **It qualifies every limb of the trigger**, not the
+      one that mentions injury: a trigger listing "brings Influencer into public disrepute…, or
+      which shocks, insults, or offends the public or any class or group thereof, or reflects
+      unfavorably upon…" takes one qualifier after the list — *"in each case in a manner that
+      materially injures Brand"* — or the unqualified limbs keep the clause as broad as before
+      (editing standards §14). **Only on this trigger.**
       The creator's reciprocal trigger against the brand ("…which might tend to injure the
       success of Influencer") stays as broad as the brand drafted it. Adding "materially" there
       too looks even-handed and narrows the creator's own exit — the creator undercutting
@@ -234,6 +264,10 @@ Read #4, #20 and #24 hardest on these.
       consequences at all
 - [ ] Creator retains fees already paid
 - [ ] Creator is paid for all work performed on an approved concept, in the same words as #4
+- [ ] **Backward reach is flagged, not edited.** "Has committed, or hereafter commits" and "has
+      been or becomes involved" reach conduct before the deal existed. Brands rarely give this up,
+      because past conduct surfacing during the Term is the case the clause is for. Mention it in
+      the report; leave the words as drafted
 - [ ] Creator may remove or archive posts
 - [ ] Brand must cease use of the materials
 - [ ] Creator is released from exclusivity
@@ -366,7 +400,7 @@ its own three defects:
       misconduct; narrowing one limb leaves the others to do the same work. A compliance limb
       may stay for applicable law, but not for "the creative brief" or the brand's
       instructions: that lets the brand declare its own reshoot a compliance failure and pay
-      nothing, which undoes the pricing or mutual-agreement answer above it
+      nothing, which undoes the pricing or mutual-agreement answer above it (editing standards §14)
 - [ ] **Punctuation check** — rate insertions near an existing comma or period frequently produce malformed sentences
 
 ### 13. Archiving provision
@@ -550,7 +584,8 @@ clause reads acceptably the item gets marked **present** while the rep quietly g
 
 The tell is that a rep states a fact rather than an obligation, so it binds on signature and has no
 time limit unless one is written in. "Influencer has not committed and will not commit any act
-which…" is breached by something that happened years before the deal existed.
+which…" is breached by something that happened years before the deal existed. (In a morals
+clause that backward reach is flagged, not edited — see #5.)
 
 Work back through the items and find each one's rep:
 
@@ -652,7 +687,10 @@ a fight about a paragraph the brand considers standard.
       remedy at a party the contract gives them no standing to sue. The fix is to give the existing
       sentence effect rather than argue with it — an assignment of the agency's claim against its
       client up to the unpaid fee, plus making the third-party-beneficiary clause reciprocal for
-      payment. Both are hard to refuse, because they only make the brand's own sentence work
+      payment. Both are hard to refuse, because they only make the brand's own sentence work.
+      Where the client does not sign, the assignment is the half that does the work: it hands the
+      creator the agency's own claim, while a third-party-beneficiary sentence cannot bind a
+      client that promised nothing (#1)
 - [ ] Any narrowing edit did not leave the original open-ended language in place beside it
 - [ ] **Conditions that never fire or always fire.** "Subject to payment of amounts then due" on a
       delivery or handover obligation, in a net-30 structure, either blocks every routine request
@@ -771,9 +809,12 @@ a fight about a paragraph the brand considers standard.
       the CTA and branded-content-tool sentences and pass a mismatch table that compares only
       fee, exclusivity and platforms. Each untraced **deliverable** goes in the mismatch table.
       Scope emails list deliverables, usage and rate, and almost never the reporting and
-      administration around them — post analytics, disclosure mechanics, invoicing steps.
-      Silence about those is not a mismatch; judge them on the checklist (an open-ended
-      "at written request" tail is still a finding), not strike them for being unmentioned
+      administration around them — post analytics, disclosure mechanics, invoicing steps, and
+      engagement with the brand's channels (following, liking, commenting). These are ancillary
+      obligations, not deliverables. Silence about them is not a mismatch; judge them on the
+      checklist (an open-ended "at written request" tail on analytics is still a finding). An
+      engagement block is flagged in the report, not struck and not bounded — it costs the
+      creator little
 
 ---
 

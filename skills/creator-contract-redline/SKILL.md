@@ -112,9 +112,11 @@ Failure modes to hunt specifically:
   same as any other mismatch. A report that lists "deliverables not in the scope email" under
   *flagged, your call* has found the item and then dropped it. **This reaches deliverables,
   not everything the email is silent on.** Scope emails cover deliverables, usage and rate;
-  they almost never mention post analytics, disclosure mechanics or invoicing steps, so an
-  ancillary obligation's absence from the email says nothing about whether it was agreed.
-  Judge those on the checklist, and do not strike them as corrections.
+  they almost never mention post analytics, disclosure mechanics, invoicing steps or engagement
+  with the brand's channels (following, liking, commenting), so an ancillary obligation's
+  absence from the email says nothing about whether it was agreed. Judge those on the
+  checklist, and do not strike them as corrections; an engagement block is flagged in the
+  report and left as drafted.
   **That rule needs the scope email.** Where the only source is the creator's own summary of
   the deal — "no emails, use my summary" — an obligation the summary never mentions is not
   evidence it was never agreed; summaries leave things out. Ask about each one as a step-4
@@ -355,8 +357,8 @@ cell need escaping in any case.
    **Every edit the report promises becomes a gate line** before drafting starts: a phrase in
    `phrases.txt` for each wording it says will go, an entry in `additions.txt` for each it says
    will arrive. The gate checks only what it is given, and the report is the fuller list. A
-   report that promises to remove right-of-publicity claims from the release and to stop rep (v)
-   reaching backwards, with neither phrase tracked, passes every check while both survive.
+   report that promises to remove right-of-publicity claims from the release and to bound the
+   opinion-change rep to the Term, with neither phrase tracked, passes every check while both survive.
 5. **Stop and get their decisions — through the host's question tool.** Where the surface has
    one (the multiple-choice pop-up in Claude Code and Cowork), every decision goes through it:
    one question per decision, the options spelled out, the recommended option first and

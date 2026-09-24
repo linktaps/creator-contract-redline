@@ -82,10 +82,12 @@ obligation on a company that is not a party — and the template's third-party-b
 usually adds that the client "is not bound by any of Agency's agreements or covenants". The
 brand's reviewer will strike "Client" or point at that sentence, and either way the creator's
 protection against the company actually using the Content is gone. Write new brand-side duties
-as "Agency shall, and shall cause Client to, …", and give the creator third-party-beneficiary
-rights in the client's compliance, mirroring the rights the template already gives the client
-against the creator. Read every "Agency and Client" in new text against that clause before
-Pass 3 closes. Checklist #1 covers who gives the indemnity.
+as "Agency shall, and shall cause Client to, …", so the client's failure is the agency's breach,
+and add a client acknowledgment block — a signature line for the client agreeing to the sections
+that name it — as the ask that actually binds the client (checklist #1). A third-party-beneficiary
+sentence is not a substitute: it cannot make a promise the client never gave. Breach triggers follow the same logic: a client that is not bound cannot
+breach, so "unless Agency and/or Client are in material breach" names the Agency alone. Read
+every "Agency and Client" in new text against that clause before Pass 3 closes. Checklist #1 covers who gives the indemnity.
 
 **Use the contract's own names for the parties in any sentence the checklist supplies.** The
 checklist's model wording says "Brand" and "Influencer"; a contract whose parties are
@@ -253,7 +255,7 @@ Swapping a subject changes what the rest of the sentence needs. "Talent shall no
 
 The same applies to insertions near punctuation. Dropping a rate into "...additional compensation, if applicable." without handling the existing comma and period yields "...additional compensation, at Talent's rate of $10,000 per reshoot., if applicable." Read the finished sentence, not just the inserted phrase.
 
-**Deletions strand punctuation too.** A phrase set off by a pair of commas, or joined by "or" to a neighbour, leaves one comma behind when only part of it is struck: deleting "has committed, or" from "If Talent has committed, or hereafter commits, any act" yields "If Talent hereafter commits, any act". Include the stranded mark in the deletion, or strike the matching one beside it, and read the sentence as accepted.
+**Deletions strand punctuation too.** A phrase set off by a pair of commas, or joined by "or" to a neighbour, leaves one comma behind when only part of it is struck: deleting "or incidental" from "any direct, or incidental, damages" yields "any direct, damages". Include the stranded mark in the deletion, or strike the matching one beside it, and read the sentence as accepted.
 
 ## 14. Amending a clause's tail does not fix its head
 
@@ -262,6 +264,8 @@ A clause can contain two separate problems. Appending a sentence that solves the
 **Example.** An extension clause both lets the brand extend the term "without any additional compensation to Talent" and pushes payment dates back. Adding a sentence at the end saying brand-caused delays don't postpone payment addresses neither of the original two problems — but the clause now has an edit in it, and the item gets marked done.
 
 Before closing any clause, re-read it from the start and confirm every problem you identified is actually addressed.
+
+**A trigger with several limbs is narrowed in every limb.** Triggers aimed at the creator usually come as a list — "brings Talent into public disrepute, …, or which shocks, insults, or offends any group, or reflects unfavorably upon Brand"; "Compliance Purposes, negligence, willful misconduct or any failure or shortcoming". Narrowing the limb that mentions the problem leaves the others to do the same work. Put one qualifier after the whole list ("in each case in a manner that materially injures Brand") or narrow each limb, and read the finished trigger limb by limb (checklist #5, #12).
 
 ## 15. Adding a carve-out does not remove the obligation it carves out from
 
@@ -363,6 +367,7 @@ Run against the finished redline:
 - [ ] Related clauses edited on consistent reasoning
 - [ ] Every checklist **sub-check** marked for change is actually present in the document
 - [ ] No clause closed on the strength of an edit to its tail while its head is untouched
+- [ ] **Every limb of a narrowed trigger is narrowed** — one qualifier over the whole list, or each limb in turn
 - [ ] Every party swap re-read for verb agreement, negation, and possessives
 - [ ] **No mirrored carve-out swallows the clause it sits in** — a brand indemnity excepts the
       creator's material breach, gross negligence or willful misconduct, not their "acts or omissions"
