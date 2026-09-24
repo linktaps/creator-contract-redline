@@ -274,7 +274,13 @@ Read #4, #20 and #24 hardest on these.
       because past conduct surfacing during the Term is the case the clause is for. Mention it in
       the report; leave the words as drafted
 - [ ] Creator may remove or archive posts
-- [ ] Brand must cease use of the materials
+- [ ] Brand must cease use of the materials — **and the cease-use sentence agrees with the
+      no-removal sentence (#13).** "Cease all use of the Content" beside "Client will not be
+      required to remove… in perpetuity" contradicts itself on any creator exit that is not the
+      brand's breach, such as the morals route. Reconcile them one of two ways, following the
+      creator's decision on organic posts: where posts may stay up, cease-use carves out "the
+      continued display, without paid media, of posts already published"; where they may not,
+      the no-removal exception names termination by the creator as well as uncured breach
 - [ ] Creator is released from exclusivity
 
 The non-disparagement covenant is almost always a separate bullet sitting immediately above the
@@ -386,6 +392,15 @@ its own three defects:
       protection on this item**, and it is the one to push on. The count caps the free work; the
       rate is what makes everything past the cap paid. Asked together with #12's reshoot
       question, with the same three answers — a rate, left to mutual agreement, or as drafted
+- [ ] **Free reworks "until it conforms" are limited to material deviation.** Templates often
+      follow the included rounds with free rounds, "up to and including a complete rework or
+      re-shoot", for as long as a Post "does not follow the Approved Concept and/or the approved
+      brand guidelines". Keep the principle — the creator should deliver what was approved — and
+      narrow the trigger: "materially fails to follow the Approved Concept or the brand
+      guidelines provided to Influencer before the concept was approved". Unqualified, any
+      difference the brand points to reopens unpaid rounds, and guidelines issued after approval
+      move the target. Everything outside that trigger is an additional round under the rate or
+      mutual-agreement answer above. Narrow each limb (editing standards §14)
 
 ### 12. Reshoot fee
 - [ ] **Extra rounds and reshoots are priced, or expressly left to agreement.** Where the contract
