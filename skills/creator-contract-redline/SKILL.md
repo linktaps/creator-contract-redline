@@ -71,6 +71,15 @@ offering to add them back. A cut the creator was never asked about is a scope th
 
 **Read the whole contract first, including schedules and exhibits.** Terms defined in Schedule A get used in the main body; exhibits carry obligations the body only gestures at.
 
+**Ask for the main agreement when the document is only part of one.** Terms and conditions, an
+SOW or a rider that "supplements" or is "incorporated into" an agreement you do not have binds on
+that agreement's signature, and the fee, usage period, term, exclusivity and most termination
+rights usually live there. Ask for it before redlining. If it is not available, redline what is in
+hand, list what depends on the missing document as open items, and tell the creator not to sign
+either until both have been read. Do not draft the missing document's commercial terms into the
+part in hand; a fee or usage period written into the rider will conflict with the one the main
+agreement brings.
+
 **Ask for the correspondence.** Emails, rate cards, the original quote. The commercial deal is usually settled before the paperwork arrives, and the paperwork often drifts from it. Anything already agreed in writing is an error to correct, not a negotiation. Anything the creator priced is the number that goes in the contract — never invent a figure when they have already quoted one.
 
 **Produce a mismatch table and put it at the top of the report**, before any checklist finding:
@@ -239,6 +248,13 @@ wrongly: included revision rounds are unpaid labour, so raising the count — on
 more sounds like more — is a concession written in the creator's own voice. Where an instruction
 would move a number against the creator, say so and confirm before editing rather than executing
 it faithfully. Faithful execution of a backwards instruction is still a backwards redline.
+
+The check reaches the scope of a restriction, not only its numbers. A competitor category, a
+platform list or a territory that an edit widens moves against the creator exactly as a longer
+window does — and a correction to the correspondence is no exception. Where the email is broader
+than the clause ("no other pet food partnerships" against a clause barring only cat food), the
+clause is already better than the deal: leave it as drafted and
+note it in the mismatch table. A correction never widens what the creator is barred from.
 
 The same check governs the checklist's own figures. Where a box gives a default — seven days to
 deliver a first draft — it is a floor in the creator's direction, not a value to write in. A

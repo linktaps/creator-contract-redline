@@ -436,6 +436,14 @@ def check_inserted_formatting(xml: str, styles_xml=None):
     dominant resolved formatting of paragraphs in the same style, and failing
     that of the whole document.
 
+    A wholly new clause copies more than body text: its number and caption
+    copy the brand's caption runs, which in some files (PDF conversions in
+    particular) resolve to a separate bold face. Comparing those with the
+    body face flagged every new clause heading in such a file. So in a new
+    paragraph a run also passes when its face and size appear in surviving
+    text of at least two paragraphs of the same style — formatting the brand
+    uses clause after clause, not a one-off.
+
     Returns (dominant, problems): dominant is the (face, size) most body text
     resolves to; problems is [(text, got, expected, where)].
     """
@@ -443,6 +451,7 @@ def check_inserted_formatting(xml: str, styles_xml=None):
     paras = []
     by_style = collections.defaultdict(collections.Counter)
     overall = collections.Counter()
+    paras_using = collections.defaultdict(collections.Counter)  # pstyle -> face/size -> paragraphs
     for p in paragraphs(xml):
         pstyle = paragraph_style(p)
         runs = []
@@ -460,6 +469,8 @@ def check_inserted_formatting(xml: str, styles_xml=None):
             if state == "plain":
                 by_style[pstyle][resolved] += len(text)
                 overall[resolved] += len(text)
+        for used in {r[1] for r in runs if r[0] == "plain"}:
+            paras_using[pstyle][used] += 1
         paras.append((pstyle, runs))
 
     dominant = overall.most_common(1)[0][0] if overall else None
@@ -478,6 +489,8 @@ def check_inserted_formatting(xml: str, styles_xml=None):
                 expected, where = by_style[pstyle].most_common(1)[0][0], "in this paragraph style"
             else:
                 expected, where = dominant, "in the document"
+            if not plain and paras_using[pstyle][resolved] >= 2:
+                continue
             if expected is not None and resolved != expected:
                 problems.append((" ".join(text.split()), resolved, expected, where))
     return dominant, problems
