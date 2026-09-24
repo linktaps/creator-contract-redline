@@ -28,7 +28,7 @@ several runs (contracts routinely split a sentence across runs for a single
 underlined word). Deleted text (<w:delText>) is not in the flat text; text
 inserted by earlier edits in the same script IS — so a `within` context may
 legitimately include your own earlier insertions, e.g.
-ins_after(".", within="as published by Talent.") after inserting
+edit("ins_after", ".", new, within="as published by Talent.") after inserting
 ", as published by Talent" before that period.
 
 Formatting is preserved per fragment: a deletion spanning three runs emits three
@@ -73,7 +73,14 @@ Edit kinds:
 
 Deleting at offset 0 of a run that begins with a <w:tab/> keeps the tab in its
 own untouched run ahead of the <w:del>: otherwise accepting the change deletes a
-caption tab the edit never meant to touch.
+caption tab the edit never meant to touch. An anchor that runs ON into a later
+run beginning with a tab or break aborts instead: the flat text has no tab, so
+"Use:During" looks like one string, and striking it would take the caption tab
+with it.
+
+A paragraph with no sibling paragraph after it (the last in a table cell, text
+box or body) keeps its mark when struck: Word cannot delete that mark, so its
+text is struck and one empty paragraph remains on accept.
 
 Inserting next to another author's pending insertion never nests <w:ins> in
 <w:ins> (Word refuses the file): our insertion goes beside theirs, splitting
@@ -418,6 +425,15 @@ class Doc:
                     f"destroyed:\n  gap: {gap[:120]!r}\n  Re-anchor within one "
                     f"element, or use del_multi() if it is bookmarks/proofErr."
                 )
+        # A later run's `lead` sits between two characters of the flat text, so
+        # an anchor running into it would fold its tab or break into the change
+        # and accepting would run a caption into the body text.
+        for k in range(i + 1, j + 1):
+            if re.search(r"<w:(?:tab|br|cr)\b", runs[k][5]):
+                raise SystemExit(
+                    f"ABORT [{label}] anchor crosses a tab or line break the flat text does "
+                    f"not show, before {runs[k][4][:40]!r}. Anchor on one side of it."
+                )
         head_rpr, head_tattr, head_lead = runs[i][2], runs[i][3], runs[i][5]
         tail_rpr, tail_tattr = runs[j][2], runs[j][3]
         pre = runs[i][4][:a]
@@ -552,7 +568,7 @@ class Doc:
         at = cut.start() if cut else len(head) - (0 if tail else len("</w:pPr>"))
         return head[:at] + f"<w:rPr>{mark}</w:rPr>" + head[at:] + tail
 
-    def _delete_para_xml(self, para, label):
+    def _delete_para_xml(self, para, label, last=False):
         e = EMPTY_PARA.match(para)
         if e:
             para = f"<w:p{e.group(1) or ''}></w:p>"
@@ -568,6 +584,10 @@ class Doc:
         # paragraph on accept.
         if "<w:sectPr" in ppr:
             self.applied.append((label or "del-para", "kept a section-break paragraph mark"))
+        elif last:
+            # The last paragraph of a cell, text box or body: Word cannot
+            # delete that mark, and accept-all keeps it.
+            self.applied.append((label or "del-para", "kept the last paragraph mark of its container"))
         elif not re.search(r"<w:rPr>(?:<w:ins\b[^>]*/>)?<w:del\b", ppr):
             ppr = self._add_mark(ppr, f"<w:del{self._attrs()}/>")
         out, i = [], 0
@@ -594,7 +614,8 @@ class Doc:
     def del_para(self, unique_text, label=""):
         ps, pe = self._para_span(unique_text, label)
         self._tick()
-        self.xml = self.xml[:ps] + self._delete_para_xml(self.xml[ps:pe], label) + self.xml[pe:]
+        last = not _next_para(self.xml, pe)
+        self.xml = self.xml[:ps] + self._delete_para_xml(self.xml[ps:pe], label, last) + self.xml[pe:]
         self.applied.append((label or "del-para", unique_text[:55]))
 
     def del_blank_para_after(self, unique_text, label=""):
@@ -608,7 +629,8 @@ class Doc:
             raise SystemExit(f"ABORT [{label}] following paragraph is not blank: "
                              f"{_plain(para)[:60]!r}")
         self._tick()
-        self.xml = self.xml[:s] + self._delete_para_xml(para, label) + self.xml[e:]
+        last = not _next_para(self.xml, e)
+        self.xml = self.xml[:s] + self._delete_para_xml(para, label, last) + self.xml[e:]
         self.applied.append((label or "del-blank", "blank paragraph"))
 
     def del_para_offset(self, unique_text, k, expect_prefix, label=""):
@@ -629,7 +651,8 @@ class Doc:
         if not txt.startswith(expect_prefix) or (expect_prefix == "" and txt.strip()):
             raise SystemExit(f"ABORT [{label}] paragraph text mismatch: {txt[:80]!r}")
         self._tick()
-        self.xml = self.xml[:last[0]] + self._delete_para_xml(para, label) + self.xml[last[1]:]
+        final = not _next_para(self.xml, last[1])
+        self.xml = self.xml[:last[0]] + self._delete_para_xml(para, label, final) + self.xml[last[1]:]
         self.applied.append((label or "del-para-offset", txt[:55]))
 
     def del_para_range(self, first_text, last_text, label="", expect_count=None):
@@ -786,6 +809,10 @@ class Doc:
 
     # ---------------------------------------------------------------- save
     def save(self, dst):
+        # Opening dst for writing truncates it before the input is read: saving
+        # over the brand's draft would destroy the one file every re-run starts from.
+        if Path(dst).resolve() == Path(self.path).resolve():
+            raise SystemExit("ABORT: output would overwrite the input; save to a new file")
         # Parse before writing. The audit parses too, but only after the damaged
         # file exists; this is the cheapest possible gate and it belongs here.
         from xml.etree import ElementTree as ET
@@ -798,11 +825,9 @@ class Doc:
         if nest:
             raise SystemExit(f"ABORT: nested <w:ins> — {nest.group(0)[:160]!r}")
 
-        zin = zipfile.ZipFile(self.path)
-        zout = zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED)
-        for item in zin.infolist():
-            data = zin.read(item.filename)
-            if item.filename == "word/document.xml":
-                data = self.xml.encode("utf8")
-            zout.writestr(item, data)
-        zout.close()
+        with zipfile.ZipFile(self.path) as zin, zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as zout:
+            for item in zin.infolist():
+                data = zin.read(item.filename)
+                if item.filename == "word/document.xml":
+                    data = self.xml.encode("utf8")
+                zout.writestr(item, data)

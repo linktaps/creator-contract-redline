@@ -33,8 +33,8 @@ If it is signed, say so plainly and offer the two jobs that are actually availab
   something to send.
 
 **Money outstanding under a signed contract takes priority over both.** If they have not been
-paid, the live question is the payment clause and what it conditions payment on, not the other
-nineteen items.
+paid, the live question is the payment clause and what it conditions payment on, not the rest of
+the checklist.
 
 **What is the deal worth?** Find the total fee before opening the checklist — and if the
 contract does not state one, that is itself the first finding (#24). Twenty-plus items, three
@@ -180,7 +180,7 @@ before adding to it.
 
 **Establish which document is the live one before editing anything.** The workflow below assumes a
 Google Doc, and much of the time that assumption is wrong. Brands email `.docx` attachments, and a
-creator who has not opened a Doc has no Doc. Three cases, and they are not interchangeable:
+creator who has not opened a Doc has no Doc. Four cases, and they are not interchangeable:
 
 - **A Google Doc the creator can edit.** Suggesting mode, browser editing, export for the audit.
 - **A local `.docx` and no Doc.** The default for an emailed contract. Do not upload it to Docs to
@@ -482,7 +482,9 @@ Every edit the earlier redline made is reported **DROPPED** (none of its words s
 struck is back) or **CHANGED** (some words survive; the lost ones are printed). Each must be
 restored or explained with a line in `prior-ok.txt` — `label :: words from the edit`, where the
 label says why: `#11 creator wants 1 round :: two (2) rounds`, `superseded by Live Date
-definition :: each live post`. The gate fails on any unexplained entry. Expect it to be long
+definition :: each live post`. The words must be whole words of exactly one entry: a line
+that matches several is ignored and one that matches none is reported unused, so a stray
+`x :: the` cannot excuse everything. The gate fails on any unexplained entry. Expect it to be long
 after a real rework. That is the point: each entry is a decision, and a decision is cheap to
 write down.
 
@@ -572,7 +574,9 @@ be byte-identical to the brand's draft. Together with the per-author check, that
 creator most wants to be able to make: *only my suggested edits changed, nothing else, and your
 own pending suggestions are untouched.* A foreign suggestion reported as *wrapped by our deletion*
 is acceptable — it happens when a paragraph the brand had edited is struck whole — and worth
-naming in the cover note if the brand will notice it.
+naming in the cover note if the brand will notice it. So is *split around our edit*: an edit
+inside their pending insertion divides it in two, because Word refuses an insertion nested in
+another, and rejecting ours rejoins it.
 
 **The XML is parsed first — before any of the checks below.** Every other check in
 `audit_suggestions.py` is a regex over the markup, and a `.docx` whose `document.xml` has an
@@ -590,7 +594,7 @@ A **STRUCTURE** check reports paragraphs whose text is entirely struck while the
 
 A **FORMATTING** check runs alongside, with no baseline needed. It resolves each inserted run's effective size and typeface — through the run's own properties, then the paragraph style, then the document defaults — and flags it only where that differs from the surviving text beside it. Such runs inherit the wrong default and render visibly larger and in the wrong face. (Resolving through the style is what stops a bulleted `ListParagraph` whose style supplies Arial from failing on every run, the brand's own Word-authored edits included.) This catches the defect that no text comparison can see: the words are correct and the document still looks wrong.
 
-The same check reports **LAYOUT** and **TYPE** separately. LAYOUT counts tab stops and page breaks in the reject-all view — comparing raw counts instead would flag tabs inside newly inserted clauses as damage and tabs inside deleted paragraphs as losses. TYPE compares character formatting per character on text present in both documents, so bold, italics, size and typeface cannot drift unnoticed. Tab stops and page breaks are easy to destroy while editing and invisible in any text comparison — losing the tab after a clause caption runs the label into the body ("Use:During the Term…"). A layout failure is cosmetic rather than dangerous, but it is the kind of thing the other side's reviewer notices.
+The same check reports **LAYOUT** and **TYPE** separately. LAYOUT counts tab stops and page breaks in the reject-all view — comparing raw counts instead would flag tabs inside newly inserted clauses as damage and tabs inside deleted paragraphs as losses. TYPE compares character formatting per character on text present in both documents, so bold, italics, size and typeface cannot drift unnoticed. Tab stops and page breaks are easy to destroy while editing and invisible in any text comparison — losing the tab after a clause caption runs the label into the body ("Use:During the Term…"). A layout failure is cosmetic rather than dangerous, but it is the kind of thing the other side's reviewer notices. The reject-all count cannot see a tab struck by one of our deletions — rejecting brings it back — so a separate **Tab check**, which needs no baseline, fails on any tab struck inside a paragraph that survives acceptance.
 
 Build `phrases.txt` while making the tracking table — one line per sub-check, `label :: exact adverse wording`, copied verbatim from the contract including curly quotes. The script exits non-zero if anything is unresolved, so it can hard-gate the workflow.
 
@@ -615,7 +619,7 @@ clause that does it (`#2 confidentiality :: present (Confidentiality ¶) — alr
 no file names was never reviewed, and the gate fails. Report it as a gap in the review, not as a
 pass.
 
-**A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and pass it with `--additions`. Each line must occur **exactly once** in the accept-all text: zero means the edit did not land, and more than one usually means an edit was applied twice or a clause duplicated. Where the checklist asks for the same wording in several places — the termination-payment phrase in every termination route — end the line with the count (`#4d work performed :: pre-production and production work performed on a Brand-approved concept :: x2`). Without it the gate rewards writing the phrase once — in the force-majeure clause, say, leaving the termination clause itself unchanged. The phrase gate proves the bad language left; only this proves the good language landed.
+**A phrase gate cannot see additions, and roughly half a mutuality redline is additions.** Nothing in `--check` can confirm that a brand-side indemnity, a liability cap or a deemed-approval window actually arrived. Build `additions.txt` alongside it — one line per sub-check whose action is an insertion, `label :: exact wording the edit must produce` — and pass it with `--additions`. Each line must be **added exactly once**: only an occurrence that includes inserted text counts, so wording the brand's draft already has — the creator's own indemnity, when the line mirrors it — never passes for the edit. Zero means the edit did not land, and more than one usually means an edit was applied twice or a clause duplicated. Make each line specific enough to tell the new clause from the one it mirrors. Where the checklist asks for the same wording in several places — the termination-payment phrase in every termination route — end the line with the count (`#4d work performed :: pre-production and production work performed on a Brand-approved concept :: x2`). Without it the gate rewards writing the phrase once — in the force-majeure clause, say, leaving the termination clause itself unchanged. The phrase gate proves the bad language left; only this proves the good language landed.
 
 This also disposes of a state that otherwise eats time. A surviving adverse phrase is expected wherever the fix was an addition placed beside text that should stay: the creator's own indemnity survives a mutuality edit, "worldwide license" survives having "non-exclusive," inserted in front of it. Those are phrase-selection artifacts, not misses — but they are indistinguishable from real misses until the additions check confirms the counterpart exists.
 
@@ -624,12 +628,13 @@ Read the result rather than skimming it. Three states need judgment:
 - **PARTIAL (x2 before, x1 still present)** — the phrase occurs in more than one place and only some were handled. Usually the body was edited and an exhibit was not, or the same stock sentence appears in two clauses. Find out which instance survived; sometimes the survivor is legitimately different and should stay.
 - **STILL PRESENT — but this clause WAS edited** — the most dangerous state. Something was changed in that clause while the adverse wording stayed, usually because a protective sentence was added beside the problem instead of replacing it. The clause now contradicts itself and reads as handled. Always read it in full.
 - **STILL PRESENT — clause untouched** — either a genuine miss or a deliberate flag. Check the tracking table for which.
-- **absent from both — not gating** — the phrase is in neither the accepted nor the original
-  text. Usually the phrase is wrong, not the item fine: fix it and re-run. It does not fail the
-  gate, because some phrases never existed in either — wording that lives only in the brand's own
-  *pending* edits (mid-edit grammar such as "must up to (2) frames"). Pass `--author` with
-  your author name to test against the counterparty's view, which applies their pending changes
-  and rejects yours; phrases found only there are reported as such.
+- **NOT FOUND in either version** — fails the gate. The phrase is in neither the accepted nor
+  the original text, so it proves nothing: it is a typo or a paraphrase, and its label would
+  otherwise satisfy `--coverage` for an item nobody checked. Copy the exact words and re-run.
+  The one legitimate case is wording that lives only in the brand's own *pending* edits
+  (mid-edit grammar such as "must up to (2) frames"). Pass `--author` with your author name and
+  the audit tests the counterparty's view as well; a phrase found only there is reported as
+  such and does not gate.
 
 Then search the accepted text for placeholders. Runs of underscores are the obvious form and the
 least common: **bracketed values are more likely to survive signature**, because they read as
@@ -700,8 +705,9 @@ Applying many edits through a browser is slow and failure-prone. Before doing it
 
 **`scripts/apply_tracked_changes.py` already implements it.** Use it rather than
 writing another one: it carries the guards that are expensive to rediscover —
-each anchor must match exactly once, an anchor crossing an element boundary is
-refused instead of silently eating the markup, the XML is parsed before the file
+each anchor must match exactly once (`first=True` takes the first occurrence, but only
+inside a `within=` context that is itself unique), an anchor crossing an element boundary or a
+tab is refused instead of silently eating the markup, the XML is parsed before the file
 is written, and whole clauses are cloned from a sibling paragraph so tabs and
 underlined captions survive. Express the redline as a list of edits, keep the
 pristine brand draft as the input, and re-run from it after every change; the

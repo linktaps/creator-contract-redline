@@ -363,6 +363,44 @@ def reconstruct_paragraphs(xml: str, mode: str, author=None):
     return out
 
 
+def accepted_with_insertions(xml: str):
+    """(accepted text, mask) where mask[i] is True if character i came from a
+    pending insertion. Same text as reconstruct(xml, "accepted")."""
+    accepts = acceptor("accepted")
+    paras, carry = [], ([], [])
+    for p in paragraphs(xml):
+        chars, mask = [], []
+        for m, enclosing in scan(p, TEXT_SCAN):
+            if kept(enclosing, accepts):
+                piece = "\t" if m.group("tab") else unescape(m.group("text"))
+                chars.append(piece)
+                mask += [any(k == "ins" for k, _ in enclosing)] * len(piece)
+        text = "".join(chars)
+        if any(k == "del" for k, _ in mark_changes(p)):
+            carry = (carry[0] + [text], carry[1] + mask)
+            continue
+        paras.append(("".join(carry[0]) + text, carry[1] + mask))
+        carry = ([], [])
+    if carry[0]:
+        paras.append(("".join(carry[0]), carry[1]))
+    text = "\n".join(t for t, _ in paras)
+    mask = []
+    for k, (_, m) in enumerate(paras):
+        mask += ([False] if k else []) + m
+    return text, mask
+
+
+def count_added(text: str, mask, phrase: str):
+    """(occurrences of phrase in text, how many include inserted characters)."""
+    total = added = 0
+    at = text.find(phrase)
+    while at != -1 and phrase:
+        total += 1
+        added += any(mask[at:at + len(phrase)])
+        at = text.find(phrase, at + len(phrase))
+    return total, added
+
+
 def reconstruct(xml: str, mode: str, author=None) -> str:
     """
     A paragraph whose MARK is tracked disappears entirely in one of the two
@@ -598,9 +636,16 @@ def check_paragraph_structure(xml: str):
     holding the contract's headers and footers loses them. Keeping the mark is
     correct there, and costs one empty paragraph on accept. Those come back as
     kind "section" so they can be reported without failing the check.
+
+    So does the last paragraph of a table cell, text box or the body (kind
+    "last"): no sibling paragraph follows it, Word cannot delete its mark, and
+    accept-all keeps it.
     """
     orphans = []
-    for p in paragraphs(xml):
+    spans = paragraph_spans(xml)
+    for k, (s, e) in enumerate(spans):
+        p = xml[s:e]
+        last = k + 1 == len(spans) or bool(xml[e:spans[k + 1][0]].strip())
         ppr = re.search(r"<w:pPr>(.*?)</w:pPr>", p, re.S)
         ppr_text = ppr.group(1) if ppr else ""
         mark_deleted = bool(
@@ -614,9 +659,27 @@ def check_paragraph_structure(xml: str):
         )
         if all_text.strip() and all_text == del_text and not mark_deleted:
             kind = ("section" if "<w:sectPr" in ppr_text
+                    else "last" if last
                     else "bullet" if "<w:numPr>" in ppr_text else "paragraph")
             orphans.append((kind, unescape(" ".join(all_text.split()))))
     return orphans
+
+
+def struck_tabs(xml: str, author=None):
+    """Accepted text of every surviving paragraph with a tab inside a deletion
+    (by `author`, or by anyone). A struck tab in a paragraph that stays is a
+    caption column run into the body text on accept; the reject-all tab count
+    cannot see it, because rejecting brings the tab back."""
+    out = []
+    for p in paragraphs(xml):
+        if any(k == "del" for k, _ in mark_changes(p)):
+            continue
+        if any(m.group("tab") and any(k == "del" and (author is None or a == author) for k, a in enc)
+               for m, enc in scan(p, TEXT_SCAN)):
+            text = render(p, "accepted")
+            if text.strip():
+                out.append(text)
+    return out
 
 
 TOGGLES = ("b", "i", "u", "strike", "caps", "smallCaps", "vertAlign", "highlight")
@@ -746,6 +809,7 @@ def change_elements(xml: str):
                 "ancestors": tuple((e["kind"], e["author"]) for e in stack),
                 "paragraph": paragraph_at(m.start()),
                 "content": "",
+                "start": m.start(),
                 "open_end": m.end(),
             }
             if el["mark"]:
@@ -787,9 +851,41 @@ def classify_change(base_el, red_el, ours: str) -> str:
     if red_el["content"] == base_el["content"]:
         return "wrapped" if wrapped else "identical"
     if content_signature(red_el["content"], ours) == content_signature(base_el["content"], ours):
-        # Only differs by our deletions inside it: acceptable by construction.
-        return "wrapped"
+        # Same text and formatting. Our deletions inside it are acceptable by
+        # construction; a run merely split around our insertion beside it is
+        # not a deletion at all, and reads as identical.
+        struck = any(e[0] == "del" and e[1] == ours for _, enc in scan(red_el["content"], RUN_SCAN)
+                     for e in enc)
+        return "wrapped" if wrapped or struck else "identical"
     return "changed"
+
+
+def without_id(tag: str) -> str:
+    return re.sub(r'\sw:id="[^"]*"', "", tag)
+
+
+def split_parts_match(base_el, first, red_elements, ours: str) -> bool:
+    """Did our edit split their element into consecutive parts that, joined,
+    are exactly theirs?
+
+    An insertion of ours may not nest inside theirs, so an edit that lands in
+    the middle of their insertion closes it before ours and reopens it after:
+    the first part keeps their w:id, the rest are copies with fresh ids.
+    Rejecting our change restores their text exactly.
+    """
+    want = content_signature(base_el["content"], ours)
+    key = without_id(base_el["tag"])
+    got, parts = [], 0
+    for r in red_elements:
+        if r["start"] < first["start"] or r["paragraph"] != first["paragraph"]:
+            continue
+        if r["mark"] or r["author"] != base_el["author"] or without_id(r["tag"]) != key:
+            continue
+        got += content_signature(r["content"], ours)
+        parts += 1
+        if len(got) >= len(want):
+            break
+    return parts > 1 and got == want
 
 
 def compare_foreign_changes(base_xml: str, xml: str, ours: str):
@@ -798,10 +894,12 @@ def compare_foreign_changes(base_xml: str, xml: str, ours: str):
     Returns {author: Counter(status)} and [(author, id, kind, status, text)]
     for the defects. Statuses: identical; wrapped (present unchanged, but now
     inside our deletion or in a paragraph whose mark we deleted — what striking
-    a paragraph that holds their suggestion looks like); changed; missing.
+    a paragraph that holds their suggestion looks like); split (divided around
+    our edit into parts that join back to exactly theirs); changed; missing.
     """
     base, red = change_elements(base_xml), change_elements(xml)
-    rank = {"identical": 0, "wrapped": 1, "changed": 2}
+    red_elements = sorted((r for rs in red.values() for r in rs), key=lambda r: r["start"])
+    rank = {"identical": 0, "wrapped": 1, "split": 2, "changed": 3}
     counts = collections.defaultdict(collections.Counter)
     defects = []
     for cid, items in base.items():
@@ -813,6 +911,9 @@ def compare_foreign_changes(base_xml: str, xml: str, ours: str):
                 status = "missing"
             else:
                 status = min((classify_change(b, r, ours) for r in cands), key=rank.get)
+                if status == "changed" and not b["mark"] and any(
+                        split_parts_match(b, r, red_elements, ours) for r in cands):
+                    status = "split"
             counts[b["author"]][status] += 1
             if status in ("changed", "missing"):
                 text = "paragraph mark" if b["mark"] else " ".join(unescape(flow_text(b["content"])).split())
@@ -890,7 +991,10 @@ LEADING_TAGS = re.compile(r"[\s|*+>-]*((?:#[\w-]+[\s|,/&]*)*)")
 
 # Must-have items in references/review-checklist.md, plus the representations
 # sweep. Nice-to-haves (#17-#22) are deliberately absent: leaving one out is a
-# commercial choice, leaving out a must-have is a review that never looked.
+# commercial choice, leaving out a must-have is a review that never looked. #23 and
+# #24 are filed with the nice-to-haves but carry must-have weight; a contract with
+# no release still needs a line saying so. #22's tag (#22a) is required below: the
+# AI limit is recorded even when it is only offered.
 MUST_HAVES = [str(n) for n in range(1, 17)] + ["23", "24", "reps"]
 ITEM_LABEL = re.compile(r"#(\d+|reps)(?:-?([a-z]))?\b", re.I)
 
@@ -1095,21 +1199,39 @@ def main() -> int:
     failures = 0
 
     found = check_paragraph_structure(xml)
-    sections = [o for o in found if o[0] == "section"]
-    orphans = [o for o in found if o[0] != "section"]
+    kept = [o for o in found if o[0] in ("section", "last")]
+    orphans = [o for o in found if o[0] not in ("section", "last")]
     print("\nStructure check — will any emptied paragraph survive acceptance?\n")
     if not orphans:
         print("  PASS — every fully struck paragraph also has its paragraph mark deleted.")
-    for _, text in sections:
-        print(f"  NOTE — mark kept on a struck paragraph carrying a section break: \"{text[:60]}…\"")
-        print("         Correct: deleting it would merge two sections. One empty paragraph")
-        print("         remains on accept.")
+    for kind, text in kept:
+        if kind == "section":
+            print(f"  NOTE — mark kept on a struck paragraph carrying a section break: \"{text[:60]}…\"")
+            print("         Correct: deleting it would merge two sections. One empty paragraph")
+            print("         remains on accept.")
+        else:
+            print(f"  NOTE — mark kept on the last paragraph of a cell, text box or the body: \"{text[:60]}…\"")
+            print("         Correct: Word cannot delete that mark. One empty paragraph remains")
+            print("         on accept.")
     if orphans:
         failures += 1
         print(f"  FAIL — {len(orphans)} paragraph(s) struck without deleting the paragraph mark.")
         print("  Accepting these removes the words and leaves an empty line or bullet behind.\n")
         for kind, text in orphans[:8]:
             print(f"    empty {kind} would remain: \"{text[:90]}…\"")
+
+    tabs_lost = struck_tabs(xml, args.author)
+    print("\nTab check — does accepting keep every tab in the paragraphs that stay?\n")
+    if not tabs_lost:
+        print("  PASS — no deletion" + (f" by {args.author}" if args.author else "")
+              + " strikes a tab inside a paragraph that survives acceptance.")
+    else:
+        failures += 1
+        print(f"  FAIL — {len(tabs_lost)} surviving paragraph(s) lose a tab on accept. A struck caption")
+        print("  tab runs the caption into the body text; the anchor crossed a tab the flat text")
+        print("  does not show. Re-anchor on one side of the tab.\n")
+        for text in tabs_lost[:8]:
+            print(f"    accepted reads: \"{' '.join(text.split())[:90]}\"")
 
     dominant, fmt_problems = check_inserted_formatting(xml, load_part(args.docx, "word/styles.xml"))
     print("\nFormatting check — does each inserted run render in the face and size of the text beside it?\n")
@@ -1260,11 +1382,13 @@ def main() -> int:
             for who in sorted(counts):
                 c = counts[who]
                 print(f"  {who}: {sum(c.values())} in baseline — {c['identical']} identical, "
-                      f"{c['wrapped']} wrapped by our deletion, {c['changed']} changed, {c['missing']} missing")
+                      f"{c['wrapped']} wrapped by our deletion, {c['split']} split around our edit, "
+                      f"{c['changed']} changed, {c['missing']} missing")
             if counts and not defects:
                 print("  PASS — every other author's change is present and unaltered. \"Wrapped by our")
                 print("  deletion\" means we struck text that contains their suggestion; rejecting")
-                print("  our deletion restores theirs exactly.")
+                print("  our deletion restores theirs exactly. \"Split around our edit\" means our change")
+                print("  sits inside their insertion, which is divided in two; rejecting ours rejoins it.")
             elif defects:
                 failures += 1
                 print(f"\n  FAIL — {len(defects)} of another author's changes altered or removed:\n")
@@ -1280,21 +1404,25 @@ def main() -> int:
         # Counted separately from `failures`, which the structure, formatting and
         # fidelity checks also increment. Folding those into this tally makes the
         # printed total disagree with the lines printed above it.
-        unresolved = absent = 0
+        unresolved = absent = counterparty_only = 0
         for label, phrase in items:
             phrase = tabs_to_spaces(phrase)
             n_acc = acc_n.count(phrase)
             n_org = org_n.count(phrase)
             if n_org == 0 and n_acc == 0:
-                # Not gating: nothing adverse survives in the accepted text.
-                # Usually the phrase existed only in the counterparty's pending
-                # text (a mid-edit fragment of theirs), or it was mistyped.
-                absent += 1
+                # A phrase in neither version proves nothing: it is a typo, or
+                # wording that never existed. Passing it would let a mistyped
+                # line "resolve" its item and satisfy --coverage with its label.
+                # The one legitimate case is a fragment of the counterparty's
+                # own pending text, which only --author can show.
                 n_cp = cp_n.count(phrase) if cp_n is not None else 0
                 if n_cp:
+                    counterparty_only += 1
                     state = f"only in the counterparty's pending text (x{n_cp}) — not gating"
                 else:
-                    state = "absent from both — not gating"
+                    absent += 1
+                    failures += 1
+                    state = "NOT FOUND in either version — check the wording"
             elif n_acc == 0:
                 state = f"resolved (was x{n_org})"
             elif n_org == 0:
@@ -1314,7 +1442,9 @@ def main() -> int:
                     state = f"STILL PRESENT (x{n_acc}) — clause untouched"
             print(f"  {label:<{width}}  {state}")
         print(f"\n  {unresolved} of {len(items)} unresolved"
-              + (f"; {absent} absent from both (not gating)" if absent else ""))
+              + (f"; {absent} not found in either version" if absent else "")
+              + (f"; {counterparty_only} only in the counterparty's pending text (not gating)"
+                 if counterparty_only else ""))
         print("\n  \"WAS edited\" is the dangerous one: something was changed in that clause")
         print("  while the adverse wording stayed. Usually a protective sentence was added")
         print("  beside the problem instead of replacing it, leaving the clause to")
@@ -1325,27 +1455,38 @@ def main() -> int:
         print("  been correctly narrowed by an insertion nearby, so read the context")
         print("  before recording a miss.")
         if absent:
-            print("\n  'Absent from both' is either a phrase that only ever existed in the")
-            print("  counterparty's pending text or a typo in the phrase list."
-                  + ("" if args.author else " Pass --author to\n  tell the two apart."))
+            print("\n  'NOT FOUND' fails because a phrase that matches nothing proves nothing —")
+            print("  usually a typo or a paraphrase. Copy the exact words from the brand's draft.")
+            if not args.author:
+                print("  If it is a fragment of the counterparty's own pending text, pass --author")
+                print("  so the audit can see that and stop gating on it.")
 
     if args.additions:
         items = parse_phrases(args.additions)
         print("\nAdditions check — is every clause we added in the accepted version, as often as intended?\n")
         width = max((len(l) for l, _ in items), default=10)
-        acc_n = tabs_to_spaces(accepted)
+        # Only occurrences that include inserted text count. A mirror edit
+        # copies the brand's own wording with the parties swapped, so the same
+        # words are often already in the draft; counting those would pass an
+        # addition that never landed.
+        marked, mask = accepted_with_insertions(xml)
+        acc_n = tabs_to_spaces(marked)
         bad = 0
         for label, text in items:
             text, want = expected_count(text)
-            n = acc_n.count(tabs_to_spaces(text))
+            total, n = count_added(acc_n, mask, tabs_to_spaces(text))
+            pre = total - n
+            already = f" (plus {pre} already in the brand's draft)" if pre else ""
             if n == want:
-                state = "PASS" if want == 1 else f"PASS (x{n})"
+                state = ("PASS" if want == 1 else f"PASS (x{n})") + already
+            elif n == 0 and pre:
+                state = f"FAIL — not added: the {pre} match(es) are the brand's own text, not an insertion"
             elif n == 0:
                 state = "FAIL — not in the accepted version"
             elif want == 1:
-                state = f"FAIL — appears {n} times — check for a duplicate"
+                state = f"FAIL — added {n} times — check for a duplicate{already}"
             else:
-                state = f"FAIL — appears {n} times, expected {want}"
+                state = f"FAIL — added {n} times, expected {want}{already}"
             if n != want:
                 bad += 1
                 failures += 1
@@ -1408,10 +1549,22 @@ def main() -> int:
         if "".join(reconstruct(prior_xml, "original").split()) != "".join(original.split()):
             print("  WARNING: the two redlines were not made on the same brand draft; expect")
             print("  false reports wherever the drafts differ.\n")
+        # An explanation names one edit: its fragment must be whole words of
+        # exactly one report. A substring test let "x :: the" excuse every drop.
+        whole = lambda frag, text: f" {frag} " in f" {norm(text)} "
+        reasons, unused, ambiguous = {}, [], []
+        for label, frag in oks:
+            hits = [k for k, (_, o, n, _) in enumerate(reports)
+                    if norm(frag) and (whole(norm(frag), o) or whole(norm(frag), n))]
+            if len(hits) == 1:
+                reasons.setdefault(hits[0], label)
+            elif hits:
+                ambiguous.append((label, frag, len(hits)))
+            else:
+                unused.append((label, frag))
         unexplained = 0
-        for state, old_w, new_w, lost in reports:
-            why = next((label for label, frag in oks
-                        if norm(frag) and (norm(frag) in old_w or norm(frag) in new_w)), None)
+        for k, (state, old_w, new_w, lost) in enumerate(reports):
+            why = reasons.get(k)
             if why is None:
                 unexplained += 1
             print(f"  {state}" + (f" — explained: {why}" if why else ""))
@@ -1422,6 +1575,11 @@ def main() -> int:
         print(f"\n  {total - len(reports)} of {total} prior edits carried; "
               f"{len(reports) - unexplained} dropped or changed with a reason; "
               f"{unexplained} unexplained")
+        for label, frag, n in ambiguous:
+            print(f"  IGNORED --prior-ok \"{label}\": \"{frag[:60]}\" matches {n} edits; quote words"
+                  f" only one of them has")
+        for label, frag in unused:
+            print(f"  UNUSED --prior-ok \"{label}\": \"{frag[:60]}\" matches no dropped or changed edit")
         if unexplained:
             failures += 1
             print("  Each unexplained drop is an edit the earlier redline made and this one lost.")

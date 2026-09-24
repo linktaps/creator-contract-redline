@@ -129,8 +129,8 @@ For example, a notices clause reading:
 
 The blank is a mailto hyperlink; the full stop after it is not. Anchoring on
 `_______@agency.__.` — blank plus period, the obvious choice — spans the
-`</w:hyperlink>` and consumes it. The resulting file passes all eight gates and
-Word will not open it.
+`</w:hyperlink>` and consumes it. Every regex check in the audit would pass the
+resulting file, and Word will not open it; only a parse catches it.
 
 Before replacing a span, assert that the gap between consecutive runs in it
 contains no markup at all:

@@ -56,10 +56,14 @@ When asking for reciprocity, reuse the brand's own wording with the parties swap
 - One-way morals: reuse their trigger language — the same standard, the same phrasing, reversed.
 - Brand-only termination: change "Brand shall have the right to terminate" to "Either party shall have the right to terminate" inside their existing sentence.
 
-There are two ways to make a one-way clause mutual: rewrite the brand's sentence so it runs both
-ways, or leave their sentence untouched and append a reversed copy of it underneath. **Prefer the
-second.** It reads as a smaller ask even when the substance is identical, because their paragraph
-shows no strikethrough at all — the diff is pure insertion. Resist tidying the mirrored copy while
+There are two ways to make a one-way clause mutual, and the clause decides which. Where the
+one-way part is a party name or two inside a sentence — confidentiality, a termination right,
+as in the examples above — **swap the parties in place**; a copy of the whole sentence to change
+one word doubles the clause for nothing. Where the clause is a whole one-way obligation that
+would need every sentence rewritten — an indemnity, a morals clause — **leave their sentence
+untouched and append a reversed copy of it underneath.** That reads as a smaller ask even when
+the substance is identical, because their paragraph shows no strikethrough at all — the diff is
+pure insertion. Resist tidying the mirrored copy while
 you write it: reproducing their phrasing verbatim, awkwardness included, is what makes the symmetry
 impossible to argue with.
 
@@ -95,8 +99,9 @@ checklist's model wording says "Brand" and "Influencer"; a contract whose partie
 not rewording, and it applies to wording the creator chose from a list of options. An undefined
 "Brand" is the first thing the other side's counsel will query.
 
-Write fresh language only where there is no counterpart to mirror — a limitation of liability clause
-where none exists, for instance.
+Write fresh language only where there is no counterpart to mirror — the exception list of a cap
+that has none, or a clause the creator has said yes to adding. A clause the contract lacks
+entirely is flagged first, not drafted (checklist, *Missing means flag*).
 
 ## 5. No bracketed commentary in the contract body
 

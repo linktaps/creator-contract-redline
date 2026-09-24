@@ -69,7 +69,7 @@ clause.
 It is built around one specific failure: **quietly dropping items.** Long
 reviews get interrupted, memory of "what's done" degrades, and the model reports
 completion while must-haves sit untouched. The tracking table, the three audit
-passes and the two gates all exist because of that.
+passes and the audit script's gates all exist because of that.
 
 ## Install
 
@@ -105,7 +105,7 @@ The skill lives under `skills/creator-contract-redline/` because that is the
 one shape every host discovers: Claude Code and Codex both look for
 `skills/<name>/SKILL.md` inside a plugin, and for `<name>/SKILL.md` inside a
 personal skills folder. Everything the skill needs at run time — the checklist,
-the editing standards and the two scripts — sits inside that directory, so it
+the editing standards and the scripts — sits inside that directory, so it
 can be copied or linked anywhere as a unit.
 
 ```
@@ -146,8 +146,8 @@ Exits non-zero when anything is unresolved, so it can hard-gate the workflow.
 
 The phrase gate proves the bad language left. It cannot see additions, and
 roughly half a mutuality redline is additions — so `--additions` asserts each
-expected new clause appears exactly once (or `:: xN` times, for wording that
-belongs in several clauses). `--baseline` also checks that every
+expected new clause was added exactly once (or `:: xN` times, for wording that
+belongs in several clauses), counting only text that is actually inserted. `--baseline` also checks that every
 other part of the package is byte-identical to the brand's draft, and with
 `--author` that the other side's pending suggestions are exactly as they left
 them. `--coverage` requires every must-have item and every tagged sub-check
@@ -170,9 +170,9 @@ d.save("redline.docx")
 ```
 
 Every anchor must match exactly once or it aborts naming the label, anchors
-crossing an element boundary are refused, and the XML is parsed before the file
-is written — because every check in the audit script is a regex, so malformed
-markup passes all of them and fails only when a human opens the file.
+crossing an element boundary or a tab are refused, and the XML is parsed before
+the file is written — the audit's other checks are regexes, and malformed markup
+passes all of them.
 
 ## License
 

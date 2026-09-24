@@ -6,7 +6,7 @@ This list is the scope of the review.
 
 For each sub-check, record: **present** (acceptable as drafted) / **partial** (exists but one-sided, undefined, or too narrow) / **adverse** (actively harmful) / **missing** (absent entirely).
 
-**Missing means flag, not draft.** Introducing a clause that was never there is a new ask, and whether to make it is the creator's commercial judgment.
+**Missing means flag, not draft.** Introducing a clause that was never there is a new ask, and whether to make it is the creator's commercial judgment. Two things are not missing, and are edited: the brand's side of a one-way clause (a brand indemnity beside the creator's is a mirror, #1), and a gap inside a clause that exists (the carve-outs of a cap the contract has, #3d). A clause with no counterpart anywhere — a liability cap in a contract with none — is missing: flag it, and draft it only once the creator says yes.
 
 **Core and elective.** A sub-check being adverse does not by itself mean edit it. Two tiers:
 
@@ -19,10 +19,11 @@ For each sub-check, record: **present** (acceptable as drafted) / **partial** (e
   that costs the brand money rather than symmetry. Executing one faithfully because the checklist
   lists it is how a redline acquires the item that makes the brand's counsel stop reading.
 
-Two things move a core box into the elective tier for a given deal, and both come from step 2
-rather than from the document: **the creator has already conceded it** in correspondence, or
-**the brand has already rejected it** in a previous round. Re-opening a settled point needs a
-reason, and the creator has it.
+Two things take a core box off the redline for a given deal, and both come from step 2 rather
+than from the document: **the creator has already conceded it** in correspondence, or **the
+brand has already rejected it** in a previous round. Neither is edited, and neither is raised as
+a question: record it in `declined.md` and move on (SKILL.md, *conceded* and *rejected* are
+terminal). Re-opening one takes an explicit instruction from the creator.
 
 **Tagged boxes.** A few boxes carry a tag such as **[#4e]**. These are the sub-checks that go
 missing while their item is still named — mutual confidentiality, the exclusivity carve-outs and
@@ -161,7 +162,9 @@ Read #4, #20 and #24 hardest on these.
 - [ ] **Grammar check after the party swap** — "Talent shall not disclose" becoming "neither party shall not disclose" is a double negative
 
 ### 3. Mutual limitation of liability, with a cap
-- [ ] A limitation-of-liability clause exists at all (frequently absent, leaving exposure uncapped)
+- [ ] A limitation-of-liability clause exists at all (frequently absent, leaving exposure uncapped).
+      Absent is *missing*: flag it with what an uncapped exposure costs, and draft a cap only on
+      the creator's yes. The boxes below then apply to the cap you draft
 - [ ] Consequential/indirect damages waived mutually — **indirect, incidental, special,
       consequential and punitive, and nothing wider.** Do not add "lost profits" or "loss of
       revenue": for a creator those are often direct damages (the fee a cancelled campaign would
@@ -175,7 +178,10 @@ Read #4, #20 and #24 hardest on these.
       number and the exception cites it — inserted as an unnumbered paragraph after the
       creator's indemnity, it is uncapped only if the brand's counsel agrees it belongs to the
       section the cap already excepts. An existing exception for "fraud, willful misconduct"
-      does not stand in for gross negligence. Record each of the four as its own line in
+      does not stand in for gross negligence. **Name the brand's indemnity, not indemnities in
+      general.** A carve-out for "each party's indemnification obligations" uncaps the creator's
+      indemnity as well, and the creator's is usually the wider one; cite the brand's section
+      and leave the creator's inside the cap. Record each of the four as its own line in
       `additions.txt`. **Confidentiality only
       where the brand is the main recipient.** A carve-out is mutual, and in most creator deals
       the creator holds the brand's information, not the reverse — uncapping breach of
@@ -329,7 +335,7 @@ its own three defects:
 - [ ] Not undercut by an exclusive license elsewhere (see #7)
 - [ ] **New Content / derivative approval gate** — check whether the creator needs brand approval to use their own material
 - [ ] If an approval gate exists, it is limited to content showing Brand Marks or products
-- [ ] If an approval gate exists, it has a deemed-approval window
+- [ ] If an approval gate exists, it has a deemed-approval window *(elective)*
 - [ ] If an approval gate exists, it sunsets with the license term rather than running forever
 - [ ] **Post-term restriction on the creator referencing the brand at all.** Check the IP and
       termination clauses, not only confidentiality. An obligation to "cease to use Brand's
@@ -407,7 +413,7 @@ its own three defects:
 
 - [ ] Rounds included in the fee are stated — **do not increase this number**
 - [ ] Turnaround window for brand notes stated
-- [ ] Deemed-approval after that window
+- [ ] Deemed-approval after that window *(elective)*
 - [ ] Rate stated for additional rounds or post-approval creative changes. **This is the
       protection on this item**, and it is the one to push on. The count caps the free work; the
       rate is what makes everything past the cap paid. Asked together with #12's reshoot
@@ -490,13 +496,17 @@ its own three defects:
       is backed by a refund clause the creator owes money for taking down their own post years
       later. Every retention obligation needs a date or a duration, not only a carve-out
 
-> **One sentence closes the no-removal and retention boxes, in both directions.** *Except in the
-> event of uncured breach of this Agreement, Brand shall have no obligation to remove the
-> Content.* It concedes the market-normal position the brand wants, and by making the exception
-> mutual it hands the creator the power to compel a takedown for non-payment or a morals breach.
-> Prefer it to separate edits: it is shorter, it reads as drafting rather than as an ask, and
-> the brand's reviewer has nothing to push back on. It does not touch the brand's own takedown
-> right, which stays as drafted.
+> **One sentence closes the no-removal boxes.** *Except in the event of Brand's uncured breach
+> of this Agreement, and provided no paid media runs behind the Content after the usage term
+> expires, Brand shall have no obligation to remove the Content.* It concedes the market-normal
+> position the brand wants and carries both conditions on it: the ad-spend condition, which is
+> the ask, and the party whose breach lifts it (editing standards §13 — an unnamed breach is
+> read by each side as the other's). It does not create a takedown duty; it takes away the
+> brand's answer to one, so a removal demand the creator makes under the cease-use terms (#5)
+> is not met by "no obligation to remove" once the brand has not paid. Prefer it to separate
+> edits: it is shorter and reads as drafting rather than as an ask. It does not touch the
+> brand's own takedown right, which stays as drafted, or the creator's retention obligation,
+> which is its own box above.
 
 ### 14. Mutual timing
 - [ ] **Who controls the posting schedule** — watch for "Brand's decision shall be final and controlling" in the schedule
@@ -662,7 +672,10 @@ Work back through the items and find each one's rep:
       disclosing that Brand paid" binds every mention of the brand for life. Bound it to "during
       the Term and the usage period in Section 3(a)" — the usage period, because the disclosure
       exists for as long as the brand may run the endorsement. Limiting rep (v) can leave
-      this one untouched behind a passing `#reps` label
+      this one untouched behind a passing `#reps` label. Tell the creator what the bound does
+      and does not do: it ends the brand's contract claim, not the legal duty. Advertising law
+      still requires disclosing the paid relationship whenever they endorse the brand after
+      the Term
 - [ ] **Reps that restrict the creator's other work.** Union membership ("Influencer is not and
       shall not be a member of…"), other client relationships, platform exclusivity. These are
       career terms wearing a warranty's clothes, and they belong in the report even when the
@@ -688,7 +701,7 @@ a fight about a paragraph the brand considers standard.
 - [ ] Separate licence and fee if the brand wants them
 
 ### 18. Late payment fees
-- [ ] Interest on undisputed overdue amounts
+- [ ] Interest on undisputed overdue amounts *(elective)*
 - [ ] Right to suspend performance after a defined period
 
 ### 19. Up-front partial payment or rolling per-deliverable payment
