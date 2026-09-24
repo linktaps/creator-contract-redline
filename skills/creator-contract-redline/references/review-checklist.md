@@ -170,7 +170,13 @@ Read #4, #20 and #24 hardest on these.
 - [ ] Aggregate cap stated, tied to the fee
 - [ ] **[#3d]** Carve-outs present for indemnity, **the brand's payment obligations**,
       out-of-scope use, gross negligence. The payment carve-out is the one that disappears:
-      without it the cap limits what the brand owes the creator in fees. **Confidentiality only
+      without it the cap limits what the brand owes the creator in fees. **All four are written
+      into the cap's own exception list, by name.** A new brand indemnity gets its own section
+      number and the exception cites it — inserted as an unnumbered paragraph after the
+      creator's indemnity, it is uncapped only if the brand's counsel agrees it belongs to the
+      section the cap already excepts. An existing exception for "fraud, willful misconduct"
+      does not stand in for gross negligence. Record each of the four as its own line in
+      `additions.txt`. **Confidentiality only
       where the brand is the main recipient.** A carve-out is mutual, and in most creator deals
       the creator holds the brand's information, not the reverse — uncapping breach of
       confidentiality then mostly uncaps the creator. Leave confidentiality inside the cap
