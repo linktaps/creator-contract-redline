@@ -815,7 +815,13 @@ a fight about a paragraph the brand considers standard.
       not actionable — which is exactly the harm #22's AI clause and #1's alteration limb are
       aimed at
 - [ ] **Right-of-publicity claims are excluded**, for the same reason: the release swallows the
-      usage limits negotiated everywhere else
+      usage limits negotiated everywhere else.
+      **Both exclusions are written in, not deleted out.** Add after the release: "other than
+      any claim for defamation or for violation of the right of publicity". Striking
+      "defamation" or "right of publicity" from an "including, without limitation" list leaves
+      both inside "any and all claims … of any kind whatsoever", so the creator still releases
+      them — and the phrase gate passes, because the words are gone. Record the exclusion in
+      `additions.txt`
 - [ ] **Injunctive relief is preserved for out-of-scope use.** Damages are an inadequate remedy
       for a likeness still running in a campaign the creator did not license; a waiver of
       equitable relief leaves nothing that can stop it. **This box reaches every waiver of
