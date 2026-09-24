@@ -87,8 +87,12 @@ id block reads as "not typed in Word". Pass date= for a fixed stamp and seed=
 for reproducible output. w16du:dateUtc is written too when the document
 already declares that namespace, as current Word does.
 """
-import random, re, zipfile
+import random, re, sys, zipfile
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from audit_suggestions import load_document_xml  # noqa: E402
 
 # Whatever name you pass shows on every suggestion in the sidebar, so use the
 # creator's or their company's — not a tool name.
@@ -214,7 +218,7 @@ class Doc:
     def __init__(self, path, author=DEFAULT_AUTHOR, date=None, start=None, seed=None):
         self.path = path
         self.author = author
-        self.xml = zipfile.ZipFile(path).read("word/document.xml").decode("utf8")
+        self.xml = load_document_xml(path)
         self.applied = []
         self._rng = random.Random(seed)
         self._fixed_date = date
@@ -782,9 +786,8 @@ class Doc:
 
     # ---------------------------------------------------------------- save
     def save(self, dst):
-        # Parse before writing. Every check in audit_suggestions.py is a regex,
-        # so malformed XML sails through all of them and only fails when a human
-        # opens the file. This is the cheapest possible gate and it belongs here.
+        # Parse before writing. The audit parses too, but only after the damaged
+        # file exists; this is the cheapest possible gate and it belongs here.
         from xml.etree import ElementTree as ET
         try:
             ET.fromstring(self.xml)

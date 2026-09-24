@@ -65,6 +65,10 @@ as spaces.
 usually a real tab), so any external diff of those files must normalise
 whitespace first or it reports false differences in every captioned paragraph.
 
+Every XML part of the .docx (and of --baseline and --prior) is parsed first. The
+checks after that are regexes a malformed file passes, so PARSE: FAIL stops the
+audit there.
+
 Exit code is 1 if any gating check fails, 2 if an input file is missing.
 """
 
@@ -76,6 +80,7 @@ import re
 import sys
 import zipfile
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 # Paired <w:ins>/<w:del> only. A paragraph-mark change is self-closing
 # (<w:del .../>); read as an open tag it swallowed everything up to the next
@@ -149,18 +154,76 @@ def tabs_to_spaces(s: str) -> str:
     return s.replace("\t", " ")
 
 
+def author_of(tag: str) -> str:
+    """The w:author of a change tag, unescaped ("A &amp; B" is "A & B")."""
+    a = AUTHOR.search(tag)
+    return unescape(a.group(1)) if a else ""
+
+
+# XML requires "<" and "&" escaped inside an attribute value, but not ">".
+# Word and Google Docs escape it anyway; other tools may not. Every regex here
+# ends a tag at the first ">", so a raw one in a value ends the tag early and
+# reads the rest of the attribute as text. Escaping it on load gives every
+# check the markup it assumes. Text content cannot hold a raw "<", so every "<"
+# opens markup; comments, CDATA and processing instructions are passed through.
+MARKUP = re.compile(r"<!--.*?-->|<!\[CDATA\[.*?\]\]>|<\?.*?\?>|<(?:[^<>\"']|\"[^\"]*\"|'[^']*')*>", re.S)
+QUOTED = re.compile(r"\"[^\"]*\"|'[^']*'")
+RAW_GT = re.compile(r"=\s*(?:\"[^\"<]*>|'[^'<]*>)")
+
+
+def canonical(xml: str) -> str:
+    """`xml` with every ">" inside an attribute value written as "&gt;"."""
+    if not RAW_GT.search(xml):
+        return xml
+
+    def fix(m):
+        tag = m.group(0)
+        if tag.startswith(("<!", "<?")):
+            return tag
+        return QUOTED.sub(lambda q: q.group(0).replace(">", "&gt;"), tag)
+
+    return MARKUP.sub(fix, xml)
+
+
+def open_docx(docx_path: Path) -> zipfile.ZipFile:
+    try:
+        return zipfile.ZipFile(docx_path)
+    except zipfile.BadZipFile:
+        raise SystemExit(f"ABORT: {docx_path} is not a .docx (not a zip archive)")
+
+
 def load_document_xml(docx_path: Path) -> str:
-    with zipfile.ZipFile(docx_path) as z:
-        return z.read("word/document.xml").decode("utf-8")
+    with open_docx(docx_path) as z:
+        try:
+            return canonical(z.read("word/document.xml").decode("utf-8"))
+        except KeyError:
+            raise SystemExit(f"ABORT: {docx_path} has no word/document.xml")
 
 
 def load_part(docx_path: Path, name: str):
     """A zip part as text, or None if the package does not have it."""
-    with zipfile.ZipFile(docx_path) as z:
+    with open_docx(docx_path) as z:
         try:
-            return z.read(name).decode("utf-8")
+            return canonical(z.read(name).decode("utf-8"))
         except KeyError:
             return None
+
+
+def malformed_parts(docx_path: Path):
+    """[(part, error)] for every XML part of the package that does not parse.
+
+    Every other check here reads the markup with regexes, and an unclosed
+    element passes all of them: a perfect report on a file Word refuses to open.
+    """
+    bad = []
+    with open_docx(docx_path) as z:
+        for name in z.namelist():
+            if name.endswith((".xml", ".rels")):
+                try:
+                    ET.fromstring(z.read(name))
+                except ET.ParseError as e:
+                    bad.append((name, str(e)))
+    return bad
 
 
 def segment(paragraph: str):
@@ -212,8 +275,7 @@ def scan(fragment: str, pattern):
     for m in pattern.finditer(fragment):
         if m.group("open"):
             if not m.group("selfclose"):
-                a = AUTHOR.search(m.group("attrs"))
-                stack.append((m.group("open"), a.group(1) if a else ""))
+                stack.append((m.group("open"), author_of(m.group("attrs"))))
         elif m.group("close"):
             if stack:
                 stack.pop()
@@ -271,8 +333,7 @@ def mark_changes(paragraph: str):
         return []
     out = []
     for m in re.finditer(r"<w:(ins|del)\b[^>]*>", rpr.group(1).split("<w:rPrChange")[0]):
-        a = AUTHOR.search(m.group(0))
-        out.append((m.group(1), a.group(1) if a else ""))
+        out.append((m.group(1), author_of(m.group(0))))
     return out
 
 
@@ -321,11 +382,26 @@ def reconstruct(xml: str, mode: str, author=None) -> str:
 
 
 def suggestions(xml: str):
-    """Yield (author, kind, text) for every tracked change, in document order."""
-    for m in INS_DEL.finditer(xml):
-        text = unescape(flow_text(m.group(3)))
+    """Yield (author, kind, text) for every tracked change, in document order.
+
+    Text belongs to the innermost change around it, so our deletion inside
+    another author's insertion lists as our deletion, not as their inserted text.
+    """
+    found, stack = [], []
+    for m in TEXT_SCAN.finditer(xml):
+        if m.group("open"):
+            if not m.group("selfclose"):
+                stack.append([author_of(m.group("attrs")), m.group("open"), ""])
+                found.append(stack[-1])
+        elif m.group("close"):
+            if stack:
+                stack.pop()
+        elif stack:
+            stack[-1][2] += "\t" if m.group("tab") else m.group("text")
+    for author, kind, text in found:
+        text = unescape(text)
         if text.strip():
-            yield m.group(2), m.group(1), text
+            yield author, kind, text
 
 
 # ---------------------------------------------------------------------------
@@ -660,12 +736,11 @@ def change_elements(xml: str):
     for m in CHANGE_TAG_RE.finditer(xml):
         if m.group("open"):
             attrs = m.group("attrs")
-            a = AUTHOR.search(attrs)
             i = re.search(r'w:id="([^"]*)"', attrs)
             el = {
                 "kind": m.group("open"),
                 "tag": m.group(0),
-                "author": a.group(1) if a else "",
+                "author": author_of(attrs),
                 "id": i.group(1) if i else "",
                 "mark": bool(m.group("selfclose")),
                 "ancestors": tuple((e["kind"], e["author"]) for e in stack),
@@ -800,8 +875,17 @@ def parse_phrases(path: Path):
         if sep:
             items.append((label.strip(), phrase.strip()))
         else:
-            items.append((line[:48], line))
+            items.append((BareLabel(line[:48]), line))
     return items
+
+
+class BareLabel(str):
+    """The display label of a line with no "label ::". Only the item tags that
+    open the line name an item: "- #9 takedown — rejected" does, while the
+    phrase "the fee in Exhibit #4" names nothing."""
+
+
+LEADING_TAGS = re.compile(r"[\s|*+>-]*((?:#[\w-]+[\s|,/&]*)*)")
 
 
 # Must-have items in references/review-checklist.md, plus the representations
@@ -853,7 +937,8 @@ def coverage(sources):
     subs = {sub: [] for sub in SUBCHECKS}
     for source, items in sources:
         for label, text in items:
-            for m in ITEM_LABEL.finditer(label):
+            named = LEADING_TAGS.match(text).group(1) if isinstance(label, BareLabel) else label
+            for m in ITEM_LABEL.finditer(named):
                 item = m.group(1).lower()
                 if item in found:
                     found[item].append((source, label, text))
@@ -956,13 +1041,24 @@ def main() -> int:
             print(f"error: {p} not found", file=sys.stderr)
             return 2
 
+    # Before any check: every other one is a regex, and a file that does not
+    # parse passes them all and then refuses to open.
+    unparsed = [(p, part, err) for p in (args.docx, args.baseline, args.prior) if p is not None
+                for part, err in malformed_parts(p)]
+    if unparsed:
+        print("PARSE: FAIL — not well-formed XML; no other check can be trusted until it parses.\n")
+        for p, part, err in unparsed:
+            print(f"  {p.name}: {part}: {err}")
+        return 1
+    print("PARSE: PASS — every XML part is well-formed.\n")
+
     xml = load_document_xml(args.docx)
     accepted = reconstruct(xml, "accepted")
     original_paras = reconstruct_paragraphs(xml, "original")
     original = "\n".join(original_paras)
     counterparty = reconstruct(xml, "original", args.author) if args.author else None
     sugg = list(suggestions(xml))
-    authors = sorted(set(AUTHOR.findall(xml)))
+    authors = sorted({unescape(a) for a in AUTHOR.findall(xml)})
 
     print(f"{args.docx.name}")
     print(f"  suggestions : {len(sugg)}  ({sum(1 for a,k,t in sugg if k=='ins')} insertions, "

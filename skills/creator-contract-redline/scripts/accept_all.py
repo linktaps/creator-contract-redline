@@ -32,7 +32,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from audit_suggestions import paragraph_spans, reconstruct  # noqa: E402
+from audit_suggestions import load_document_xml, open_docx, paragraph_spans, reconstruct  # noqa: E402
 
 # Paragraphs come from paragraph_spans, which counts a self-closing <w:p/> (a
 # struck paragraph followed by a spacer written that way must merge into it, or
@@ -202,8 +202,8 @@ def verify(out_xml, resolved_xml, mode):
 
 
 def build(src, dst, mode):
-    with zipfile.ZipFile(src) as zin:
-        xml = zin.read("word/document.xml").decode("utf-8")
+    xml = load_document_xml(src)
+    with open_docx(src) as zin:
         out, resolved, merges = transform(xml, mode)
         # The merge step is ours, so it is applied to the reference too; what
         # reconstruct() independently checks is every run-level change.

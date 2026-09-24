@@ -400,8 +400,8 @@ Run against the finished redline:
 - [ ] Marked-up clauses read as coherent prose; defined terms exist and resolve
 - [ ] Where a duplicated paragraph was fixed, both copies were handled
 - [ ] **The file parses.** Every part of the `.docx` is well-formed XML and a
-      document library opens it. No regex check in the audit script can see this,
-      and a corrupt file passes all of them
+      document library opens it. The audit's `PARSE` line checks the first; a corrupt file
+      passes every regex check after it
 - [ ] **No edit spanned an element boundary** — a `<w:hyperlink>`, a table cell, a
       paragraph mark. The flat text hides these, and replacing across one deletes
       the markup in between

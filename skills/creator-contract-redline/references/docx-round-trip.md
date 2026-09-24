@@ -98,12 +98,13 @@ That is correct markup displayed mid-review, not damage: on accept the deleted b
 
 ## Parse the XML before you ship it
 
-**Every check in `audit_suggestions.py` is a regex.** Fidelity, structure,
+**Every content check in `audit_suggestions.py` is a regex.** Fidelity, structure,
 formatting, layout, type, the phrase gate and the additions gate all read the
-markup as text. None of them parses it. A `document.xml` with an unclosed element
-therefore passes the entire audit — perfect reject-all, tabs intact, every phrase
-resolved — and then fails the only test that matters, which is a human
-double-clicking the file.
+markup as text. A `document.xml` with an unclosed element passes every one of them
+— perfect reject-all, tabs intact, every phrase resolved — and then fails the only
+test that matters, which is a human double-clicking the file. The audit parses every
+part first and stops on `PARSE: FAIL`, but by then the file is already written;
+parse your own output before that.
 
 ```python
 from xml.etree import ElementTree as ET

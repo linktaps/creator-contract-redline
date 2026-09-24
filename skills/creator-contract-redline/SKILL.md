@@ -574,12 +574,13 @@ own pending suggestions are untouched.* A foreign suggestion reported as *wrappe
 is acceptable — it happens when a paragraph the brand had edited is struck whole — and worth
 naming in the cover note if the brand will notice it.
 
-**Parse the XML first — before any of the checks below.** Every check in
-`audit_suggestions.py` is a regex over the markup; not one of them parses it. A
-`.docx` whose `document.xml` has an unclosed element passes the whole audit and
-then refuses to open. If edits were authored as XML, run `ET.fromstring()` on
-each part and open the finished file with a document library before showing
-anyone a green report. See `references/docx-round-trip.md`.
+**The XML is parsed first — before any of the checks below.** Every other check in
+`audit_suggestions.py` is a regex over the markup, and a `.docx` whose `document.xml` has an
+unclosed element would pass them all and then refuse to open. So the audit parses every XML
+part of the redline (and of `--baseline` and `--prior`) before anything else, and on
+`PARSE: FAIL` it stops: no other result means anything until the file parses. Still open the
+finished file with a document library before showing anyone a green report — well-formed is
+not the same as a file Word accepts. See `references/docx-round-trip.md`.
 
 **Run the fidelity check first.** It reconstructs the document with every suggestion rejected and compares it word for word against the brand's draft. They should be identical. If they are not, text was changed outside a suggestion — an edit made in Editing mode, or an undo that overshot and got repaired by retyping. That is the worst defect a redline can carry, because the other side's ability to reject cleanly is the thing that makes a redline safe to send, and nothing about the document looks wrong until they try.
 
