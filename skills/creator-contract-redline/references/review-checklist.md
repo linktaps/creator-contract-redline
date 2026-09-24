@@ -278,7 +278,11 @@ its own three defects:
 
 - [ ] **Non-disparagement is bounded in time** — watch for a bare "will not make any statements
       that…" with no "During the Term". Unbounded, it binds the creator for life
-- [ ] **Non-disparagement runs both directions**
+- [ ] **Non-disparagement runs both directions** — and **the brand's half copies the brand's
+      original standard**, "disparage or reflect unfavorably on", not the narrowed one. The
+      narrowing below is for the covenant pointed at the creator; mirroring it onto the brand
+      hands the creator only a defamation promise the law already gives them (editing standards
+      §4: mirror their words)
 - [ ] **The standard is objective.** "Disparage **or reflect unfavorably on**" is unbounded by
       construction: an honest negative word about a product the creator has stopped liking
       breaches it. "Are defamatory of" is the fix, and brands accept it
@@ -349,6 +353,12 @@ its own three defects:
 - [ ] Not "for no additional consideration"
 - [ ] Runs with the license term
 - [ ] Limited to use within the approved materials, not standalone use of name or face
+- [ ] **"Trade" goes; "archival" stays, defined.** In "for trade and archival purposes", strike
+      "trade" only. Archival use is what lets the brand leave organic posts up after the licence
+      ends — the market-normal no-removal position (#13). Striking it leaves those posts using
+      the creator's likeness with no licence, contradicts the brand's no-removal sentence, and
+      gets the whole edit rejected. Define it instead (#13): the continued display of Content as
+      originally posted, without paid amplification
 - [ ] AI/digital-replica carve-out present
 
 ### 11. Number of revisions

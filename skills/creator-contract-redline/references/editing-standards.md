@@ -135,7 +135,11 @@ make it.
 A new definition belongs beside the first clause that uses it, as a parenthetical — "a period of
 sixty (60) consecutive calendar days commencing on the date Influencer first publishes the
 Content on Influencer's own channel (the "Live Date")" in the usage grant. Where the contract has
-a definitions section or a defined-terms table, it goes there instead. It does not go at the end
+a definitions section written as paragraphs, it goes there instead. **Where the defined terms are
+a table, the definition goes inside the row that first uses the term, as the parenthetical above
+— never as a new row.** A tracked row insertion is table-structure markup that
+`apply_tracked_changes.py` cannot write and `accept_all.py` / `reject_all.py` cannot build a
+clean copy from, so a hand-written row bypasses every guard the scripts carry. It does not go at the end
 of whichever clause happens to come first: a "Live Date" definition appended to the Services
 paragraph reads to the creator and to the brand's counsel alike as text dropped in rather than
 drafted. §3 still applies: a
