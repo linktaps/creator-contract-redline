@@ -263,6 +263,10 @@ The same applies to insertions near punctuation. Dropping a rate into "...additi
 
 **Deletions strand punctuation too.** A phrase set off by a pair of commas, or joined by "or" to a neighbour, leaves one comma behind when only part of it is struck: deleting "or incidental" from "any direct, or incidental, damages" yields "any direct, damages". Include the stranded mark in the deletion, or strike the matching one beside it, and read the sentence as accepted.
 
+**Striking a caption strands what it heads.** A caption often names more than the clause being struck — "Release, Agreement Not to Sue, Indemnity, Survival, and Release:" heads the survival and entire-agreement paragraphs as well. Strike only the words for what goes, so the caption still names what stays ("Survival:").
+
+**A new condition names whose conduct triggers it.** "Except in the event of uncured breach of this Agreement, Brand shall have no obligation to remove the Posts" does not say whose breach, and each side will read it as the other's. Write the party in: "Except in the event of Brand's uncured breach". The brand's own clauses often leave the party implicit; an inserted condition never does.
+
 ## 14. Amending a clause's tail does not fix its head
 
 A clause can contain two separate problems. Appending a sentence that solves the second one leaves the first untouched while creating the impression the clause was handled.

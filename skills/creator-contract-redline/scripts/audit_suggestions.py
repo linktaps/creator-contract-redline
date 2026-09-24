@@ -77,8 +77,11 @@ import sys
 import zipfile
 from pathlib import Path
 
+# Paired <w:ins>/<w:del> only. A paragraph-mark change is self-closing
+# (<w:del .../>); read as an open tag it swallowed everything up to the next
+# </w:del>, mislabelling that text and hiding the insertions in between.
 INS_DEL = re.compile(
-    r'<w:(ins|del)\s[^>]*?w:author="([^"]*)"[^>]*?>(.*?)</w:\1>', re.S
+    r'<w:(ins|del)\s[^>]*?w:author="([^"]*)"(?:[^>/]|/(?!>))*>(.*?)</w:\1>', re.S
 )
 TEXT_RUN = re.compile(
     r"<w:(?:t|delText)(?:\s[^>]*)?>(.*?)</w:(?:t|delText)>", re.S
@@ -283,10 +286,19 @@ def reconstruct_paragraphs(xml: str, mode: str, author=None):
     """The paragraphs of a view, as a list; see reconstruct()."""
     accepts = acceptor(mode, author)
     out = []
+    carry = ""
     for p in paragraphs(xml):
+        text = render(p, mode, author)
         if not all((kind == "ins") == accepts(who) for kind, who in mark_changes(p)):
+            # The mark goes, not necessarily the text: Word joins whatever text
+            # survives onto the next paragraph. Usually that is nothing, since
+            # the runs were struck with the mark.
+            carry += text
             continue
-        out.append(render(p, mode, author))
+        out.append(carry + text)
+        carry = ""
+    if carry:
+        out.append(carry)
     return out
 
 

@@ -141,7 +141,15 @@ Read #4, #20 and #24 hardest on these.
       never plain "negligence". The brand's side may stay at "negligence". Narrowing the
       creator's trigger means **replacing** it — "the Services or any breach" becomes "any
       material breach, gross negligence or willful misconduct" — not appending a new fault limb
-      beside what is there
+      beside what is there. **Every no-fault trigger is replaced**, whatever its wording: "the
+      Services", "the Content", "the production … distribution … exploitation of any Posts",
+      "acts or omissions", "any acts done or words spoken by Talent". Replace the trigger and
+      keep the heads the limb lists — "Talent's gross negligence or willful misconduct in the
+      production (including … personal injury claims …)" — per the box above; striking the whole
+      limb removes the heads too. An exception such as "unless requested, supplied or approved
+      by Brand" does not make a trigger fault-based — it still reaches everything the creator
+      says unprompted, careful or not — so narrowing the exception leaves the trigger as broad
+      as before
 
 ### 2. Mutual confidentiality
 - [ ] **[#2a]** Obligation runs both directions, not just against the creator
@@ -810,7 +818,12 @@ a fight about a paragraph the brand considers standard.
       usage limits negotiated everywhere else
 - [ ] **Injunctive relief is preserved for out-of-scope use.** Damages are an inadequate remedy
       for a likeness still running in a campaign the creator did not license; a waiver of
-      equitable relief leaves nothing that can stop it
+      equitable relief leaves nothing that can stop it. **This box reaches every waiver of
+      equitable relief, wherever it sits** — a standalone "Remedies" clause, a no-injunction
+      sentence in the grant, or the release — and it applies even where the contract has no
+      release or the release is struck. It is a core edit, never a question: carve out "any use
+      of the Materials or of Talent's name or likeness that is not authorized under this
+      Agreement" and leave the rest of the waiver as drafted
 - [ ] **The released parties are a defined term.** "Brand and its affiliates, agents, licensees
       and assigns" with no definition releases people neither side can name
 - [ ] Any §1542-style waiver of unknown claims is checked against all of the above — it extends
@@ -873,7 +886,9 @@ Flag these to the creator and let them decide.
 - **Releases that indemnify the brand for its own negligence.** Look for "regardless of whether caused by the negligence or willful or reckless misconduct" combined with a duty to defend and indemnify for those same claims. Usually paired with a §1542 waiver extending it to unknown claims. The release clause itself is on the list now — see #23; this bullet is only the indemnity-shaped corner of it.
 - **Production and safety provisions that do not match the facts.** COVID-era assumption-of-risk language and cast-and-crew release requirements in a contract for self-shot content at home. Many such contracts contain their own instruction that these be removed when the work is self-produced — quote it back.
 - **Personal guarantees and inducement riders** making an individual liable for their company's monetary obligations.
-- **Remedies waivers** barring injunctive relief where damages would plainly be inadequate.
+- **Remedies waivers** barring injunctive relief where damages would plainly be inadequate — for
+  anything other than use of the creator's likeness or content outside the grant, which #23's
+  injunctive-relief box already carves out as a core edit.
 - **Forum and process asymmetry.** A binding-arbitration clause qualified by "unless otherwise
   indicated by Company" binds only the creator — the brand keeps the courts and the creator does
   not. Check who may elect, where the seat is (a clause seated in the brand's home city is a real
