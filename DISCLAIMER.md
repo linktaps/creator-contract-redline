@@ -37,6 +37,30 @@ depending on where you are and what you are doing. This skill applies a general
 checklist. It does not research your jurisdiction, and it does not know facts
 about your business that are not in the documents you gave it.
 
+## Sharing your contract with an AI service
+
+To use this skill you upload your contract, and anything else you include about
+the deal, to an AI service. Whether you are allowed to do that is for you to
+check. This skill cannot check it for you.
+
+- **Confidentiality obligations.** Many agreements, and many NDAs signed
+  before an agreement, restrict disclosing their terms to third parties or
+  allow it only to named advisers. An AI provider may count as a third party.
+  Read the clause before you upload, and where it is strict, get the other
+  side's consent or remove identifying details first.
+- **The provider's terms.** How your data is stored, how long it is kept,
+  whether people can review it and whether it is used to train models depend
+  on the service and plan you use, not on this skill. Read those terms.
+- **Other people's personal data.** Emails, DMs and signature blocks contain
+  names and contact details of people who did not agree to have them uploaded.
+  Data protection law where you or they are located may apply.
+- **Privilege.** Uploading advice you got from your own lawyer to a third-party
+  service may affect whether it stays privileged.
+
+The skill itself sends nothing anywhere. Its scripts make no network calls and
+work only on the files given to them. Everything the AI service receives, you
+or your assistant sent it.
+
 ## Commercial judgment is yours
 
 Which asks to make, which to trade away, what your rates are, and whether to

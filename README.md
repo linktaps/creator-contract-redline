@@ -1,12 +1,18 @@
 # creator-contract-redline
 
-A Claude Skill for redlining creator/influencer contracts against a fixed
-mutuality checklist, applying every edit as a tracked (Suggested) change in the
-document so the creator never has to touch it.
+A Claude Skill for redlining creator/influencer contracts on the creator's
+behalf, applying every edit as a tracked (Suggested) change in the document so
+the creator never has to touch it.
 
-The result is a redlined `.docx` file that works fully in Google Docs and Word. The
-skill only adds tracked suggestions and never silently rewrites the brand's
-text, so every change shows up as a suggestion to accept or reject.
+Brand-drafted influencer agreements are written to protect the brand, and most
+of the one-sidedness is not malice — it is a template nobody rebalanced. The
+skill reads the whole agreement including schedules, compares it against a
+fixed checklist of terms that are commonly one-sided, and checks its own work
+so no item is quietly dropped.
+
+The result is a redlined `.docx` file that works fully in Google Docs and Word.
+The skill only adds tracked suggestions and never silently rewrites the brand's
+text, so the brand can accept or reject every change clause by clause.
 
 The cheapest way is to upload a `.docx`. If the contract is a Google Doc, choose
 **File → Download → Microsoft Word (.docx)** and upload that file. Claude can
@@ -35,6 +41,43 @@ Optional but helpful: also include anything you've already agreed with the
 brand, such as the brief, the deliverables or rate, or emails and DMs about the
 deal.
 
+## Is this safe?
+
+Don't take our word for it. Before you use it, have your AI look it over.
+Paste this into a new chat:
+
+> Before I use it, review the skill at
+> https://github.com/linktaps/creator-contract-redline. Read the instructions
+> and every script, and tell me in plain language what it does with my
+> contract, whether it sends anything anywhere, and whether anything in it
+> looks unsafe.
+
+What it should find: the skill is plain-text instructions plus a few Python
+scripts. The scripts use only Python's standard library, make no network
+calls, and read and write only the files you give them. The skill doesn't
+send your contract anywhere. The AI service you use does see it, though, which
+is the next section.
+
+## Is it legal to run my contract through an AI?
+
+Usually yes, but check two things first. This isn't legal advice (see
+[DISCLAIMER.md](DISCLAIMER.md#sharing-your-contract-with-an-ai-service)).
+
+- **The contract's confidentiality clause.** Many brand deals say the terms
+  are confidential, or that you can share them only with advisers such as a
+  lawyer, agent or accountant. Uploading the contract to an AI service may
+  count as sharing it with a third party. If the clause is strict, ask the
+  brand, or remove the brand's name, the fee and other identifying details
+  before you upload.
+- **Your AI service's data terms.** Find out whether your chats are kept, for
+  how long, and whether they're used to train models. Business and team plans
+  often have stricter terms than personal ones. Turn off training on your
+  chats if you can.
+
+Also think before you upload other people's personal details, such as the
+brand contact's email address or phone number in the emails and DMs you
+include.
+
 ## Add it to the Claude desktop app
 
 No coding needed. Takes about a minute, and after that Claude uses the skill
@@ -54,22 +97,6 @@ whenever you share a contract, without needing the link.
 Claude sends back a marked-up copy with every change as a suggestion the brand
 can accept or reject. To get newer versions later, click **Update** on the same
 Settings → Plugins screen.
-
-Using the command line or Codex instead? See [Install](#install) below.
-
-## What it does
-
-Brand-drafted influencer agreements are written to protect the brand, and most
-of the one-sidedness is not malice — it is a template nobody rebalanced. This
-skill reads the whole agreement including schedules, compares it against a fixed
-list of items that are commonly adverse, and writes suggested changes into the
-document as native tracked changes that the brand can accept or reject clause by
-clause.
-
-It is built around one specific failure: **quietly dropping items.** Long
-reviews get interrupted, memory of "what's done" degrades, and the model reports
-completion while must-haves sit untouched. The tracking table, the three audit
-passes and the audit script's gates all exist because of that.
 
 ## Install
 
@@ -99,80 +126,14 @@ git clone https://github.com/linktaps/creator-contract-redline.git
 ln -s "$PWD/creator-contract-redline/skills/creator-contract-redline" ~/.agents/skills/
 ```
 
-## Layout
+## How it works
 
-The skill lives under `skills/creator-contract-redline/` because that is the
-one shape every host discovers: Claude Code and Codex both look for
-`skills/<name>/SKILL.md` inside a plugin, and for `<name>/SKILL.md` inside a
-personal skills folder. Everything the skill needs at run time — the checklist,
-the editing standards and the scripts — sits inside that directory, so it
-can be copied or linked anywhere as a unit.
-
-```
-.claude-plugin/
-  marketplace.json                  marketplace definition
-  plugin.json                       plugin manifest
-skills/creator-contract-redline/
-  SKILL.md                          workflow, tracking, the three audit passes
-  references/review-checklist.md    the scope of the review — 20+ compound items
-  references/editing-standards.md   what a clean, surgical suggestion looks like
-  references/docx-round-trip.md     authoring tracked changes in XML
-  scripts/audit_suggestions.py      the Pass 1 gate
-  scripts/apply_tracked_changes.py  author suggestions into a .docx, with guards
-  scripts/accept_all.py             clean copy (every suggestion accepted), self-verified
-  scripts/reject_all.py             the mirror: every suggestion rejected
-```
-
-## The audit script
-
-Google Docs suggestions and Word tracked changes are the same thing on disk, so
-a redline can be reconstructed two ways — with every suggestion accepted, and
-with every one rejected. Auditing from a plain-text export cannot do this:
-insertions and deletions run together, so struck language reads identically to
-untouched language.
-
-```bash
-# fidelity: would rejecting the whole redline restore the brand's draft?
-python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --baseline brand-draft.docx --author "Creator Name"
-
-# completeness: are the adverse phrases gone, and did the new wording land?
-python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --check phrases.txt --additions additions.txt
-
-# what's in the document and who authored it
-python skills/creator-contract-redline/scripts/audit_suggestions.py redline.docx --list
-```
-
-Exits non-zero when anything is unresolved, so it can hard-gate the workflow.
-
-The phrase gate proves the bad language left. It cannot see additions, and
-roughly half a mutuality redline is additions — so `--additions` asserts each
-expected new clause was added exactly once (or `:: xN` times, for wording that
-belongs in several clauses), counting only text that is actually inserted. `--baseline` also checks that every
-other part of the package is byte-identical to the brand's draft, and with
-`--author` that the other side's pending suggestions are exactly as they left
-them. `--coverage` requires every must-have item and every tagged sub-check
-(`#2a`, `#4e`, …) to be named somewhere, and `--prior earlier-redline.docx`
-lists every edit an earlier redline of the same contract made that this one
-dropped, so a re-run cannot lose work silently.
-
-## The applier
-
-`skills/creator-contract-redline/scripts/apply_tracked_changes.py` writes suggestions into a `.docx` directly.
-Express the redline as a list of edits and re-run it from the pristine brand
-draft each time; the edit list stays the source of truth.
-
-```python
-from apply_tracked_changes import Doc
-
-d = Doc("brand-draft.docx", author="Creator Name")
-d.edit("rep", "sixty (60) days", "thirty (30) days", label="net-30")
-d.save("redline.docx")
-```
-
-Every anchor must match exactly once or it aborts naming the label, anchors
-crossing an element boundary or a tab are refused, and the XML is parsed before
-the file is written — the audit's other checks are regexes, and malformed markup
-passes all of them.
+Everything the skill uses lives in
+[`skills/creator-contract-redline/`](skills/creator-contract-redline/): the
+workflow in [`SKILL.md`](skills/creator-contract-redline/SKILL.md), the
+checklist and editing standards in `references/`, and in `scripts/` the tools
+that write the tracked changes and audit the finished redline. Each script
+documents its own usage at the top of the file.
 
 ## License
 
