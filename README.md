@@ -18,9 +18,27 @@ Claude usage.
 > lawyer. It will be wrong sometimes. Read the redline before you send it and
 > the contract before you sign it. See [DISCLAIMER.md](DISCLAIMER.md).
 
-## Quick start: add it to the Claude desktop app
+## Quick start
 
-No coding needed. Takes about a minute.
+Nothing to install. Give an AI agent the link to this repository along with
+the contract:
+
+```
+https://github.com/linktaps/creator-contract-redline
+```
+
+Attach the contract (a `.docx` works best) and ask something like *"Use the
+skill at https://github.com/linktaps/creator-contract-redline to redline this
+brand deal for me."*
+
+Optional but helpful: also include anything you've already agreed with the
+brand, such as the brief, the deliverables or rate, or emails and DMs about the
+deal.
+
+## Add it to the Claude desktop app
+
+No coding needed. Takes about a minute, and after that Claude uses the skill
+whenever you share a contract, without needing the link.
 
 1. Open the Claude desktop app and go to **Settings → Plugins**.
 2. Choose to add a marketplace, and paste this:
@@ -30,10 +48,8 @@ No coding needed. Takes about a minute.
 3. Find **creator-contract-redline** in the list and click **Install**.
 4. Start a new chat, attach the contract as a `.docx` (for a Google Doc, use
    **File → Download → Microsoft Word**), and ask
-   something like *"Can you redline this brand deal for me?"*
-   Optional but helpful: also paste anything you've already agreed with the
-   brand, such as the brief, the deliverables or rate, or emails and DMs about
-   the deal.
+   something like *"Can you redline this brand deal for me?"*, adding any
+   brief, deliverables, rate, emails or DMs about the deal.
 
 Claude sends back a marked-up copy with every change as a suggestion the brand
 can accept or reject. To get newer versions later, click **Update** on the same
