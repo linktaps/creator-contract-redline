@@ -205,7 +205,12 @@ Read #4, #20 and #24 hardest on these.
       within forty-eight (48) hours of termination" hands over the work in the one situation
       where the brand has stopped paying for it. Item 4 checks that the creator gets paid on
       termination; this box checks what the creator has to give up
-- [ ] Brand's termination-for-cause trigger is limited to uncured material breach, not any failure
+- [ ] Brand's termination-for-cause trigger is limited to uncured material breach, not any failure.
+      **Watch for a clause that deems any failure material** — "a material breach of any provision
+      of this Agreement, including failing to fulfill their obligations hereunder" makes every
+      missed obligation a material breach, so the trigger is "any failure" again. Strike the
+      "including…" phrase. A cure period does not fix it: lateness cannot be cured, so a post one
+      day late still becomes grounds to terminate
 - [ ] **[#4g]** **Every termination route has a payment consequence.** A mutual for-cause sentence and a paid
       for-convenience sentence can sit beside a third route with no payment attached at all —
       "Company may terminate immediately at any time if instructed to do so by Client" is the
@@ -307,7 +312,11 @@ its own three defects:
       #2 with it — the confidentiality clause can grant that right and this clause silently
       overrides it. The two boxes are checked together or not at all. Bound the restriction to
       use that implies a continuing endorsement or a live campaign, and carve out factual
-      reference to past work
+      reference to past work. **This box is for standing bans, not takedowns on notice.** A
+      sentence letting the brand demand, on notice, that the creator "take down any Content …
+      and remove all references to Client" — in the ownership clause or on termination — is the
+      brand's takedown right (#13), including its "remove all references" words, and is left as
+      drafted: a reference outside the campaign is exactly what a brand needs pulled in a scandal
 - [ ] **The creator's own marks are reserved as the brand's are.** Where the brand reserves its
       Brand Marks, mirror it: the creator (and any loan-out company or agent) retains all names,
       marks, handles and channel names **owned or controlled by** them; the brand's use is limited
