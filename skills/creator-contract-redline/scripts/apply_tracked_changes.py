@@ -187,8 +187,16 @@ def esc(s):
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+CHARREF = re.compile(r"&#(?:x([0-9A-Fa-f]+)|([0-9]+));")
+
+
 def unesc(s):
-    return s.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+    # Every entity Word may write, numeric references first and &amp; last, so that
+    # text split out of an existing <w:r> is not re-escaped from "&quot;" to "&amp;quot;". Same rule as
+    # audit_suggestions.unescape(), which the fidelity check compares against.
+    s = CHARREF.sub(lambda m: chr(int(m.group(1), 16) if m.group(1) else int(m.group(2))), s)
+    return (s.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", '"')
+             .replace("&apos;", "'").replace("&amp;", "&"))
 
 
 def _t_xml(tattr, text):

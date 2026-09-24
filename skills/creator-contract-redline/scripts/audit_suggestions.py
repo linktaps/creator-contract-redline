@@ -125,9 +125,12 @@ def paragraphs(xml: str):
 AUTHOR = re.compile(r'w:author="([^"]*)"')
 
 UNESCAPE = [("&lt;", "<"), ("&gt;", ">"), ("&quot;", '"'), ("&apos;", "'"), ("&amp;", "&")]
+CHARREF = re.compile(r"&#(?:x([0-9A-Fa-f]+)|([0-9]+));")
 
 
 def unescape(s: str) -> str:
+    # Numeric references first, &amp; last: "&amp;#8220;" is the literal text "&#8220;".
+    s = CHARREF.sub(lambda m: chr(int(m.group(1), 16) if m.group(1) else int(m.group(2))), s)
     for a, b in UNESCAPE:
         s = s.replace(a, b)
     return s

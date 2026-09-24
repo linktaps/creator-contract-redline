@@ -9,7 +9,7 @@
       "name": "creator-contract-redline",
       "source": "./",
       "description": "Redline an influencer, creator or talent contract against a fixed mutuality checklist — indemnity, liability, termination, usage, exclusivity, payment terms — applying every edit as a tracked change so the creator never has to open the document. Includes a completeness gate that reconstructs the accept-all and reject-all versions to prove nothing was dropped. Not legal advice; no attorney-client relationship.",
-      "version": "0.20.0",
+      "version": "0.21.0",
       "category": "productivity",
       "author": {
         "name": "LinkTaps LLC"

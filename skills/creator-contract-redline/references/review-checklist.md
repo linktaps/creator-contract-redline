@@ -765,6 +765,14 @@ a fight about a paragraph the brand considers standard.
 > agreement and among the least read, because it is written as boilerplate and sits near the
 > signature block. A release given away here cannot be recovered by any edit made above it.
 
+> **First check who gives the release and who it protects.** This item is for a release the
+> *creator* gives. Contracts also attach waivers that *other people* sign — participation,
+> publicity or location releases from anyone who appears in the Content — and those usually name
+> the creator among the released parties ("Authorized Persons", "Released Parties"). Narrowing one
+> of those strips the creator's own protection against claims from the people in their videos.
+> Leave it as drafted; fill its blanks if the creator asks. Record the #23 boxes as *n/a — release
+> given by third parties, creator is a releasee*.
+
 - [ ] **[#23a]** **The release is limited to authorized use.** A release covering all use of
       the creator's likeness releases the out-of-scope use that #10 and #1 exist to control.
       **Write "authorized use"** — "arising out of the authorized use of such Content by Brand" —
