@@ -18,7 +18,8 @@ Whole-paragraph and multi-paragraph deletions no longer need the browser: `apply
 
 Export with `exportMimeType` set to
 `application/vnd.openxmlformats-officedocument.wordprocessingml.document`,
-then unzip and work on `word/document.xml`. Rezip and upload with the same MIME type, letting the service convert to a Google Doc.
+then unzip and work on `word/document.xml`. Rezip and — once the creator has said yes to the
+upload — upload with the same MIME type, letting the service convert to a Google Doc.
 
 An insertion and a deletion look like this. `w:id` must be unique across the document; author and date are yours to set.
 
@@ -235,5 +236,8 @@ value, and treat `"0"`, `"false"` and `"none"` as off.
 - **Escape XML entities** in text you insert — `&`, `<`, `>`.
 - **Round-trip the original first and diff it** against the source before trusting the import on a real contract. Confirm the brand's existing suggestions survived, the label-column layout and tab stops held, and headers and footers are intact. Drift reads as carelessness to the other side's reviewer.
 - **Comments probably do not survive.** Check whether any matter before relying on this.
-- **Upload as a new file, or update the existing file id deliberately.** Creating a new doc breaks any link already shared with the brand.
+- **Upload only on the creator's explicit yes, for that upload.** A Doc the brand can see shows
+  every imported suggestion at once, before the creator has reviewed it. Then upload as a new
+  file, or update the existing file id deliberately — creating a new doc breaks any link already
+  shared with the brand.
 - **Payload size.** Some connectors pass file content inline and cap out well below a full contract's base64 size. If the upload leg is unavailable for that reason, the export leg and the audit script still work, and the fallback is to author and verify the edit list locally, then apply it through the browser from a list already proven complete.

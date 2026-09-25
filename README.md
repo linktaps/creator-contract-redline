@@ -54,8 +54,10 @@ Paste this into a new chat:
 
 What it should find: the skill is plain-text instructions plus a few Python
 scripts. The scripts use only Python's standard library, make no network
-calls, and read and write only the files you give them. The skill doesn't
-send your contract anywhere. The AI service you use does see it, though, which
+calls, and read and write only the files you give them. The skill tells the AI
+never to send, email or share anything with the brand — it hands you the redline
+and the cover note to send yourself — and never to upload the contract anywhere,
+Google Docs included, without asking you first. The AI service you use does see it, though, which
 is the next section.
 
 ## Is it legal to run my contract through an AI?

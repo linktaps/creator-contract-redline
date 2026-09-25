@@ -223,9 +223,12 @@ def unesc(s):
 
 
 def _t_xml(tattr, text):
-    """<w:t> for text, with each "\\t" as a real <w:tab/> between <w:t> pieces."""
-    x = f"<w:t{tattr}>" + esc(text).replace(
-        "\t", '</w:t><w:tab/><w:t xml:space="preserve">') + "</w:t>"
+    """<w:t> for text, with each "\\t" as a real <w:tab/> and each line break as
+    a real <w:br/> between <w:t> pieces. A raw newline inside <w:t> is shown by
+    Word as a space, so a line break written that way silently disappears."""
+    x = f"<w:t{tattr}>" + esc(text.replace("\r\n", "\n").replace("\r", "\n")).replace(
+        "\t", '</w:t><w:tab/><w:t xml:space="preserve">').replace(
+        "\n", '</w:t><w:br/><w:t xml:space="preserve">') + "</w:t>"
     return re.sub(r"<w:t(?:\s[^>]*)?></w:t>", "", x)
 
 
@@ -245,7 +248,11 @@ class Doc:
         self.date = date or datetime.now(timezone.utc).strftime(DATE_FMT)
         # Ids above everything already present, bookmarks and comments included:
         # a collision makes Word merge or drop one of the two elements.
-        ids = [int(x) for x in W_ID.findall(self.xml)]
+        # Every part, not just the body: headers, footnotes and comments hold
+        # tracked changes and annotations of their own under the same id space.
+        with zipfile.ZipFile(path) as z:
+            ids = [int(x) for n in z.namelist() if n.endswith(".xml")
+                   for x in W_ID.findall(z.read(n).decode("utf-8", "replace"))]
         self._id = max(ids, default=0)
         root = re.search(r"<w:document\b[^>]*>", self.xml)
         self._w16du = bool(root and "xmlns:w16du=" in root.group(0))
@@ -391,7 +398,7 @@ class Doc:
         # record the brand's pending formatting change on our words, under
         # their change id.
         rpr = RPR_CHANGE.sub("", rpr)
-        return f"<w:ins{self._attrs()}>{self._run_xml(rpr, tattr, text, lead)}</w:ins>"
+        return f"<w:ins{self._attrs()}><w:r>{rpr}{lead}{_t_xml(tattr, text)}</w:r></w:ins>"
 
     def _fresh_change_ids(self, pieces, seen):
         """A run split into pieces copies its <w:rPrChange> into each; the first
@@ -540,7 +547,7 @@ class Doc:
         """Delete anchor as one <w:del> per run, so bookmarks/proofErr between
         the runs survive. `after` is unique text immediately following anchor."""
         runs, flat = self._index()
-        if flat.count(after) != 1 or not flat[: flat.index(after)].endswith(anchor):
+        if _count(flat, after) != 1 or not flat[: flat.index(after)].endswith(anchor):
             raise SystemExit(
                 f"ABORT [{label}] anchor is not immediately before a unique `after`:\n"
                 f"  anchor {anchor!r}\n  after  {after!r}"

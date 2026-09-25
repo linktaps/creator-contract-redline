@@ -59,7 +59,7 @@ On a short form, these absences are still real exposure and still get reported:
 
 - no limitation of liability or cap (#3)
 - no brand-side indemnity (#1)
-- no creator termination right (#4)
+- no creator termination right (#4), and none of #5b's consequences for it
 - no defined total fee or bounded scope (#24)
 - no AI or digital-replica limit (#22), offered as a recommended addition
 
@@ -102,7 +102,8 @@ Read #4, #20 and #24 hardest on these.
       enforce a promise someone made, and a client that did not sign made none. **Never tell the
       creator they can enforce against the client directly** unless the client signs; say the
       claim runs against the agency, and that the creator's ownership of the Content and
-      right of publicity reach the client's unlicensed use without any contract
+      right of publicity (a US concept; elsewhere, whatever image or personality right local
+      law gives) reach the client's unlicensed use without any contract
       (editing standards §4)
 - [ ] **[#1a]** Brand's obligation includes a duty to **defend**, not only "indemnify and hold
       harmless" — **even where the brand's own indemnity has no "defend" to mirror.** Without
@@ -239,7 +240,10 @@ Read #4, #20 and #24 hardest on these.
 - [ ] **[#4g]** **Every termination route has a payment consequence.** A mutual for-cause sentence and a paid
       for-convenience sentence can sit beside a third route with no payment attached at all —
       "Company may terminate immediately at any time if instructed to do so by Client" is the
-      common form. Count the routes, then check each one separately; the unpaid route is the one
+      common form. Count the routes **across the whole document** — search every "terminat" in the body,
+      the exhibits and any policy the creator signs with it; a policy's closing "Brand reserves the
+      right … to terminate Influencer's participation in the Program in the event of any
+      noncompliance" is a route, with no cure and no payment — then check each one separately; the unpaid route is the one
       the brand will use. **The payment follows who caused the termination:**
       - Routes the creator did not cause — the brand's breach or non-payment, convenience, a
         client instruction, the creator's own morals exit — pay the #4d work-performed phrase
@@ -284,7 +288,7 @@ Read #4, #20 and #24 hardest on these.
       themselves. The same goes for "reduce" → "materially reduces" and
       "disparaging" → "defamatory": edit the creator-facing standard only
 - [ ] **[#5b]** Reciprocal termination right exists for the creator, **with its consequences
-      written out** — the five boxes below. A reciprocal trigger with no consequences leaves the
+      written out** — the consequence boxes below. A reciprocal trigger with no consequences leaves the
       creator free to leave and nothing else, and a rework that keeps the trigger can drop the
       consequence sentence without anyone noticing. **Attach them to every route the creator
       terminates on other than convenience** — the brand's uncured breach and the morals trigger
@@ -371,6 +375,14 @@ its own three defects:
 - [ ] **Channel list** checked for media-buy language — "shopper", "retail media", "new media", "online video" reach far beyond organic reposting
 - [ ] If paid usage is contracted separately, it is struck here rather than drafted
 - [ ] Grant does not extend to placement from the creator's own handle absent a separate allowlisting agreement
+- [ ] **Where the deal is brand handle only, the permissions sentence says so.** "Influencer agrees
+      to provide Brand with any applicable permissions" survives a brand-handle-only edit and
+      reaches the creator's account anyway: partnership ads and Spark Ads run from the brand's
+      account but need the creator's authorization or ad code, and that is allowlisting in all
+      but name. Write the limit into the grant — "from Brand's own accounts and handles only;
+      Brand shall not run paid media through, or require any authorization, access or ad code
+      for, Influencer's accounts" — or strike the permissions sentence. A report that promises
+      "no partnership ads" and a redline that leaves the permissions sentence standing disagree
 
 ### 9. Usage runs from first publication on the creator's feed
 - [ ] A usage term exists at all (absence makes the grant perpetual by omission)
@@ -401,7 +413,8 @@ its own three defects:
       the creator's likeness with no licence, contradicts the brand's no-removal sentence, and
       gets the whole edit rejected. Define it instead (#13): the continued display of Content as
       originally posted, without paid amplification
-- [ ] AI/digital-replica carve-out present
+- [ ] AI/digital-replica carve-out present. Where there is none, it is #22's recommended
+      addition — offered, not drafted here — and recorded under **[#22a]**
 
 ### 11. Number of revisions
 
@@ -630,7 +643,7 @@ The first five are the terms that are usually capitalized, and "live" is on the 
       neither restarts the clock nor triggers another installment. A payment restructure the
       creator asked for can create this ambiguity on its own — check it after changing #19
 - [ ] **Disclosure hashtags agree everywhere.** Schedules commonly disagree (#ad in one, #BrandPartner
-      in another). Harmonise on "#ad and #[Brand]Partner (or such other FTC-compliant disclosure as
+      in another). Harmonise (FTC wording; outside the US, the local rules') on "#ad and #[Brand]Partner (or such other FTC-compliant disclosure as
       Brand may request)" in every place. A partner tag alone may not read as advertising to
       every viewer, so "both" is the safe answer, not a concession — and it is a pure consistency fix
 - [ ] **A duration with no stated start.** "must remain on the Influencer's primary feed for at least (1) year" — from when? Deliverable-level and exhibit-level obligations are where this hides, because exhibits are written as scoping notes rather than as contract language
@@ -674,9 +687,10 @@ Work back through the items and find each one's rep:
       the Term and the usage period in Section 3(a)" — the usage period, because the disclosure
       exists for as long as the brand may run the endorsement. Limiting rep (v) can leave
       this one untouched behind a passing `#reps` label. Tell the creator what the bound does
-      and does not do: it ends the brand's contract claim, not the legal duty. Advertising law
-      still requires disclosing the paid relationship whenever they endorse the brand after
-      the Term
+      and does not do: it ends the brand's contract claim, not the legal duty. In the US the
+      duty to disclose follows a material connection to the brand, not the contract's dates,
+      so it continues while that connection does (future deals, free product, an ongoing
+      relationship) — outside the US, the local advertising rules decide
 - [ ] **Reps that restrict the creator's other work.** Union membership ("Influencer is not and
       shall not be a member of…"), other client relationships, platform exclusivity. These are
       career terms wearing a warranty's clothes, and they belong in the report even when the
@@ -852,8 +866,9 @@ a fight about a paragraph the brand considers standard.
       Agreement" and leave the rest of the waiver as drafted
 - [ ] **The released parties are a defined term.** "Brand and its affiliates, agents, licensees
       and assigns" with no definition releases people neither side can name
-- [ ] Any §1542-style waiver of unknown claims is checked against all of the above — it extends
-      each one to claims that do not exist yet
+- [ ] Any §1542-style waiver of unknown claims (California law; other US states have
+      counterparts) is checked against all of the above — it extends each one to claims that
+      already exist but that the creator does not know or suspect when signing
 
 > **Where the contract's own drafter's note says release, COVID or assumption-of-risk provisions
 > "should be removed" for self-produced content, report the note to the creator, and on their yes
