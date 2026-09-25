@@ -312,7 +312,9 @@ Read #4, #20 and #24 hardest on these.
       has said posts must come down does the no-removal exception name termination by the
       creator instead. Either way, #13's ad-spend condition and uncured-breach exception on the
       no-removal sentence are core edits and go in
-- [ ] Creator is released from exclusivity
+- [ ] Creator is released from exclusivity **everywhere it is imposed** — the body's exclusivity
+      section and every exhibit or policy that restates it, each named ("Section 10 and
+      Exhibits A and B"). Releasing the body section alone leaves the exhibit's copy binding
 
 The non-disparagement covenant is almost always a separate bullet sitting immediately above the
 morals clause, and it gets skipped because the eye is on the termination language below it. It has
@@ -643,9 +645,13 @@ The first five are the terms that are usually capitalized, and "live" is on the 
       neither restarts the clock nor triggers another installment. A payment restructure the
       creator asked for can create this ambiguity on its own — check it after changing #19
 - [ ] **Disclosure hashtags agree everywhere.** Schedules commonly disagree (#ad in one, #BrandPartner
-      in another). Harmonise (FTC wording; outside the US, the local rules') on "#ad and #[Brand]Partner (or such other FTC-compliant disclosure as
-      Brand may request)" in every place. A partner tag alone may not read as advertising to
-      every viewer, so "both" is the safe answer, not a concession — and it is a pure consistency fix
+      in another, an on-screen tag in a third). Harmonise on "#ad and #[Brand]Partner (or such
+      other compliant disclosure as Brand may reasonably request)" in every place that names a
+      tag, the caption included. A partner tag alone may not read as advertising to every
+      viewer, so "both" is the safe answer, not a concession — and it is a pure consistency fix
+      that is edited wherever the creator lives. Outside the US, also check the wording against
+      the local disclosure rules and say so in the report. Advising the creator to use both tags
+      while the caption line still requires one is the report and the redline disagreeing
 - [ ] **A duration with no stated start.** "must remain on the Influencer's primary feed for at least (1) year" — from when? Deliverable-level and exhibit-level obligations are where this hides, because exhibits are written as scoping notes rather than as contract language
 - [ ] Where a term is defined in the body and used in an exhibit (or the reverse), the exhibit is actually incorporated so the definition reaches it
 
