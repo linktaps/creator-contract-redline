@@ -315,6 +315,11 @@ Read #4, #20 and #24 hardest on these.
 - [ ] Creator is released from exclusivity **everywhere it is imposed** — the body's exclusivity
       section and every exhibit or policy that restates it, each named ("Section 10 and
       Exhibits A and B"). Releasing the body section alone leaves the exhibit's copy binding
+- [ ] **The consequences survive termination.** They are obligations that bind after the
+      agreement ends — cease use, removal, payment for work performed — and a survival clause that
+      lists sections ("Sections 3, 5-7, 9 and 12 will survive") without the termination section
+      invites the argument that they do not. Add it to the list: "11(b) (as to rights and
+      obligations arising on termination)"
 
 The non-disparagement covenant is almost always a separate bullet sitting immediately above the
 morals clause, and it gets skipped because the eye is on the termination language below it. It has

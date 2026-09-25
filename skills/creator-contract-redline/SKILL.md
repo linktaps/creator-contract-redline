@@ -773,7 +773,9 @@ When editing through the browser, these prevent the failures that actually occur
 
 ## Reporting
 
-Tell the creator what changed, what you flagged instead of changing, and what remains open. Where you made a judgment call for them, say so and name the alternative.
+Tell the creator what changed, what you flagged instead of changing, and what remains open.
+Cite every provision by the contract's own numbering — "Exhibit A, section E", not "Exhibit E"
+for a lettered part of an exhibit: the creator will quote the report to the brand. Where you made a judgment call for them, say so and name the alternative.
 
 **Say which asks are cheap and which are expensive.** Presenting forty items at one volume
 misrepresents what is likely to move. Mutuality items and missing definitions land: they are cheap
